@@ -7,7 +7,7 @@ fi
 
 gclient config --name v8 --unmanaged "https://chromium.googlesource.com/v8/v8.git"
 # gclient sync --deps=android --reset --with_branch_head
-gclient sync --deps=android --reset --with_branch_head --revision 7.4.288.21
+gclient sync --deps=android --reset --with_branch_head --revision 7.4.288.21 --no-history
 sudo bash -c 'v8/build/install-build-deps-android.sh'
 
 # Workaround to install missing sysroot

@@ -20,6 +20,13 @@ jobs:
             apt-get install -y apt-utils sudo lsb-core git python
 
       - run:
+          name: Setup non-root environment
+          command: |
+            useradd -rm -d /home/ubuntu -s /bin/bash -g root -G sudo -u 1000 ubuntu
+            echo "ubuntu ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+            su ubuntu
+
+      - run:
           name: Setup V8 build environment
           command: |
             scripts/setup.sh
