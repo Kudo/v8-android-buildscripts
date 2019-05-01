@@ -1,0 +1,42 @@
+version: 2
+
+jobs:
+  build:
+    docker:
+      - image: ubuntu:18.04
+        environment:
+          DEBIAN_FRONTEND: noninteractive
+          TZ: UTC
+
+    working_directory: ~/v8-android-buildscripts
+    steps:
+      - checkout
+      - run:
+          name: Setup Ubuntu environment
+          command: |
+            ln -fs /usr/share/zoneinfo/UTC /etc/localtime
+            apt-get install -y apt-utils sudo lsb-core git python
+
+      - run:
+          name: Setup V8 build environment
+          command: |
+            scripts/setup.sh
+
+      - run:
+          name: Patch V8
+          command: |
+            scripts/patch.sh
+
+      - run:
+          name: Build V8
+          command: |
+            scripts/build.sh
+
+      - store_artifacts:
+          path: dist/
+
+workflows:
+  version: 2
+  build-deploy:
+    jobs:
+      - build
