@@ -14,8 +14,10 @@ jobs:
       - run:
           name: Setup Ubuntu environment
           command: |
-            sudo ln -fs /usr/share/zoneinfo/UTC /etc/localtime
-            sudo apt-get install -y apt-utils sudo lsb-core git python
+            ln -fs /usr/share/zoneinfo/UTC /etc/localtime
+            apt-get update
+            apt-get upgrade -y
+            apt-get install -y apt-utils sudo lsb-core git python
 
       - run:
           name: Setup V8 build environment
