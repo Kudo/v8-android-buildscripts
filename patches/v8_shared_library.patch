@@ -1,13 +1,12 @@
 diff --git a/BUILD.gn b/BUILD.gn
-index a8aa8d8..0d53984 100644
+index fddd525297..d1a2abfe8d 100644
 --- a/BUILD.gn
 +++ b/BUILD.gn
-@@ -3637,6 +3637,28 @@ if (v8_monolithic) {
+@@ -3491,6 +3491,23 @@ if (v8_monolithic) {
    }
  }
- 
-+#shared_library("v8_shared") {
-+v8_loadable_module("v8_shared") {
+
++v8_loadable_module("libv8") {
 +  defines = [ "BUILDING_V8_SHARED" ]
 +
 +  sources = [
@@ -15,53 +14,23 @@ index a8aa8d8..0d53984 100644
 +  ]
 +
 +  deps = [
-+    ":v8_base_without_compiler",
-+    ":v8_compiler",
++    ":v8",
 +    ":v8_libbase",
 +    ":v8_libplatform",
 +    ":v8_maybe_snapshot",
 +  ]
 +
-+  # configs -= [ "//build/config/clang:find_bad_constructs" ]
-+  # configs += [ ":internal_config" ]
-+  # public_configs = [ ":external_config" ]
 +  configs = [ ":internal_config" ]
 +}
 +
  ###############################################################################
  # Executables
  #
-@@ -4489,3 +4511,25 @@ if (!build_with_chromium && v8_use_perfetto) {
-     }
-   }  # host_toolchain
- }  # if (!build_with_chromium && v8_use_perfetto)
-+
-+v8_executable("hello_world") {
-+  defines = [ "USING_V8_SHARED" ]
-+  sources = [
-+    "hello-world.cc",
-+  ]
-+  include_dirs = [
-+    "/home/kudo/v8/v8",
-+    "/home/kudo/v8/v8/include",
-+  ]
-+
-+  lib_dirs = [
-+    "/home/kudo/v8/v8/out.v8",
-+  ]
-+
-+  libs = [
-+    "/home/kudo/v8/v8/out.v8/libv8_shared.so",
-+  ]
-+  deps = [
-+  ]
-+  configs = [ ":external_config" ]
-+}
 diff --git a/gni/v8.gni b/gni/v8.gni
-index 0a120df..b5adb11 100644
+index 2a691dfa60..bad875becc 100644
 --- a/gni/v8.gni
 +++ b/gni/v8.gni
-@@ -226,3 +226,15 @@ template("v8_static_library") {
+@@ -207,3 +207,12 @@ template("v8_static_library") {
      configs += invoker.configs
    }
  }
@@ -72,8 +41,5 @@ index 0a120df..b5adb11 100644
 +    configs -= v8_remove_configs
 +    configs += v8_add_configs
 +    configs += invoker.configs
-+    ldflags = [
-+      "-Wl,--whole-archive",
-+    ]
 +  }
 +}
