@@ -19,6 +19,20 @@ jobs:
             apt-get upgrade -y
             apt-get install -y apt-utils sudo lsb-core git python
 
+      - run:
+          name: Setup V8 build environment
+          command: |
+            scripts/setup.sh
+
+      - run:
+          name: Patch V8
+          command: |
+            scripts/patch.sh
+
+      - run:
+          name: Build V8
+          command: |
+            scripts/build.sh
 
       - store_artifacts:
           path: dist/
