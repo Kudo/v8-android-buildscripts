@@ -21,3 +21,8 @@ function copyHeaders() {
   printf "\n\n\t\t===================== adding headers to $DIST_DIR/include =====================\n\n"
   cp -Rf $V8_DIR/include $DIST_DIR/include
 }
+
+mkdir -p $DIST_DIR
+createAAR
+createUnstrippedLibs
+copyHeaders
