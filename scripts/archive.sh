@@ -22,6 +22,9 @@ function copyHeaders() {
   cp -Rf $V8_DIR/include $DIST_DIR/include
 }
 
+export ANDROID_HOME="$V8_DIR/third_party/android_tools/sdk"
+export ANDROID_NDK="$V8_DIR/third_party/android_ndk"
+
 mkdir -p $DIST_DIR
 createAAR
 createUnstrippedLibs
