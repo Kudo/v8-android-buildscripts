@@ -22,22 +22,28 @@ jobs:
       - checkout
 
       - run:
-          name: Setup V8 build environment and sync V8 code
+          name: Export settings from npm package
           command: |
-            npm run export_npm_env
+            npm run export_npm_env >> $BASH_ENV
+
+      - run:
+          name: Setup V8 build environment
+          command: |
             scripts/setup.sh -s -r ${VERSION}
+
+      - run:
+          name: Patch V8
+          command: |
+            scripts/patch.sh
 
       - run:
           name: Build V8
           command: |
-            npm run export_npm_env
-            scripts/patch.sh
             scripts/build.sh
 
       - run:
           name: Archive
           command: |
-            npm run export_npm_env
             scripts/archive.sh
 
       - store_artifacts:
