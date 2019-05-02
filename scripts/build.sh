@@ -38,7 +38,7 @@ function build_arch()
     mkdir -p $BUILD_DIR/lib/$arch
     cp -f out.v8.$arch/libv8.so $BUILD_DIR/lib/$arch/libv8.so
     mkdir -p $BUILD_DIR/lib.unstripped/$arch
-    cp -f out.v8.$arch/lib.unstripped/libv8.so $BUILD_DIR/lub.unstripped/$arch/libv8.so
+    cp -f out.v8.$arch/lib.unstripped/libv8.so $BUILD_DIR/lib.unstripped/$arch/libv8.so
     unset arch
 }
 
