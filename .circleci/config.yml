@@ -11,19 +11,25 @@ jobs:
 
     working_directory: ~/v8-android-buildscripts
     steps:
-      - checkout
       - run:
           name: Setup Ubuntu environment
           command: |
             sudo ln -fs /usr/share/zoneinfo/UTC /etc/localtime
             sudo apt-get update
             sudo apt-get upgrade -y
-            sudo apt-get install -y apt-utils sudo lsb-core git python
+            sudo apt-get install -y apt-utils sudo lsb-core git python nodejs npm
+
+      - checkout
+
+      - run:
+          name: Export settings from npm package
+          command: |
+            npm run export_npm_env
 
       - run:
           name: Setup V8 build environment
           command: |
-            scripts/setup.sh
+            scripts/setup.sh -s -r ${VERSION}
 
       - run:
           name: Patch V8
@@ -32,9 +38,13 @@ jobs:
 
       - run:
           name: Build V8
-          no_output_timeout: 20m
           command: |
             scripts/build.sh
+
+      - run:
+          name: Archive
+          command: |
+            scripts/archive.sh
 
       - store_artifacts:
           path: dist/

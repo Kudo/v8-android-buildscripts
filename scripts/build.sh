@@ -35,9 +35,10 @@ function build_arch()
         gn gen --args="$GN_ARGS_BASE $GN_ARGS_BUILD_TYPE target_cpu=\"$arch\" v8_enable_lite_mode=true" out.v8.$arch
     fi
     date ; ninja -C out.v8.arm libv8 ; date
-    mkdir -p $DIST_DIR/$arch
-    cp -f out.v8.$arch/libv8.so $DIST_DIR/$arch/libv8.so
-    cp -f out.v8.$arch/lib.unstripped/libv8.so $DIST_DIR/$arch/libv8.unstripped.so
+    mkdir -p $BUILD_DIR/lib/$arch
+    cp -f out.v8.$arch/libv8.so $BUILD_DIR/lib/$arch/libv8.so
+    mkdir -p $BUILD_DIR/lib.unstripped/$arch
+    cp -f out.v8.$arch/lib.unstripped/libv8.so $BUILD_DIR/lub.unstripped/$arch/libv8.so
     unset arch
 }
 

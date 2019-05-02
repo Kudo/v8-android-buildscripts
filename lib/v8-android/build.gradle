@@ -1,0 +1,45 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion 28
+
+    defaultConfig {
+        minSdkVersion 16
+        targetSdkVersion 28
+        versionCode 1
+        versionName "1.0"
+    }
+
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ["${rootDir}/../build/lib"]
+        }
+    }
+}
+
+dependencies {}
+
+apply plugin: 'maven'
+
+task createAAR(type: Upload) {
+    def distDir = project.findProperty("distDir")
+    def version = project.findProperty("version") ?: "".replaceAll("\\s", "")
+
+    doFirst {
+        if (!distDir) throw new RuntimeException("expecting --project-prop distDir=??? but was empty")
+        if (!version) throw new RuntimeException("expecting --project-prop version=??? but was empty")
+    }
+
+    project.group = "org.chromium"
+    project.version = "${version}"
+
+    configuration = configurations.archives
+    repositories.mavenDeployer {
+        repository url: "file://${distDir}"
+        pom.project {
+            name "v8-android"
+            artifactId "v8-android"
+            packaging "aar"
+        }
+    }
+}

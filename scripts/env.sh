@@ -19,6 +19,7 @@ ROOT_DIR=$(dirname $CURR_DIR)
 unset CURR_DIR
 
 DEPOT_TOOLS_DIR=$ROOT_DIR/scripts/depot_tools
+BUILD_DIR=$ROOT_DIR/build
 V8_DIR=$ROOT_DIR/v8
 DIST_DIR=$ROOT_DIR/dist
 PATCHES_DIR=$ROOT_DIR/patches

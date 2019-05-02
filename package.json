@@ -1,0 +1,29 @@
+{
+  "name": "v8-android",
+  "version": "7.4.0",
+  "description": "Pre-build version of V8 to be used by React Native apps",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Kudo/v8-android-buildscripts.git"
+  },
+  "keywords": [
+    "react-native",
+    "android",
+    "v8"
+  ],
+  "license": "BSD-2-Clause",
+  "bugs": {
+    "url": "https://github.com/Kudo/v8-android-buildscripts/issues"
+  },
+  "homepage": "https://github.com/Kudo/v8-android-buildscripts#readme",
+  "files": [
+    "/dist"
+  ],
+  "scripts": {
+    "clean": "rm -rf dist; rm -rf build; rm -rf v8/out.v8.*",
+    "export_npm_env": "./scripts/export_npm_env.sh"
+  },
+  "config": {
+    "V8": "7.4.288.21"
+  }
+}
