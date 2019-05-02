@@ -45,9 +45,10 @@ jobs:
           name: Archive
           command: |
             scripts/archive.sh
+            tar cvfz dist.tgz dist
 
       - store_artifacts:
-          path: dist/
+          path: dist.tgz
 
 workflows:
   version: 2

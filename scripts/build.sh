@@ -43,3 +43,6 @@ function build_arch()
 }
 
 build_arch "arm"
+build_arch "x86"
+build_arch "arm64"
+build_arch "x64"
