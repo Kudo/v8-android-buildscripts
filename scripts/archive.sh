@@ -2,10 +2,10 @@
 source $(dirname $0)/env.sh
 
 function createAAR() {
-  printf "\n\n\t\t===================== create aar :$TARGET: =====================\n\n"
+  printf "\n\n\t\t===================== create aar =====================\n\n"
   pushd .
   cd $ROOT_DIR/lib
-  ./gradlew clean :v8-android:createAAR --project-prop distDist="$DIST_DIR" --project-prop version="$VERSION"
+  ./gradlew clean :v8-android:createAAR --project-prop distDir="$DIST_DIR" --project-prop version="$VERSION"
   popd
 }
 
@@ -22,8 +22,10 @@ function copyHeaders() {
   cp -Rf $V8_DIR/include $DIST_DIR/include
 }
 
-export ANDROID_HOME="$V8_DIR/third_party/android_tools/sdk"
-export ANDROID_NDK="$V8_DIR/third_party/android_ndk"
+export ANDROID_HOME=${V8_DIR}/third_party/android_tools/sdk
+export ANDROID_NDK=${V8_DIR}/third_party/android_ndk
+export PATH=${ANDROID_HOME}/emulator:${ANDROID_HOME}/tools:${ANDROID_HOME}/tools/bin:${ANDROID_HOME}/platform-tools:${PATH}
+yes | sdkmanager --licenses
 
 mkdir -p $DIST_DIR
 createAAR
