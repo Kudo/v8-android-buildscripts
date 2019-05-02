@@ -34,7 +34,7 @@ function build_arch()
     else
         gn gen --args="$GN_ARGS_BASE $GN_ARGS_BUILD_TYPE target_cpu=\"$arch\" v8_enable_lite_mode=true" out.v8.$arch
     fi
-    date ; ninja -j4 -C out.v8.arm libv8 ; date
+    date ; ninja -j4 -C out.v8.$arch libv8 ; date
     mkdir -p $BUILD_DIR/lib/$arch
     cp -f out.v8.$arch/libv8.so $BUILD_DIR/lib/$arch/libv8.so
     mkdir -p $BUILD_DIR/lib.unstripped/$arch
