@@ -22,8 +22,8 @@
   "scripts": {
     "clean": "rm -rf dist; rm -rf build; rm -rf v8/out.v8.*",
     "export_npm_env": "./scripts/export_npm_env.sh",
-    "setup": "./scripts/export_npm_env.sh && ./scripts/setup.sh",
-    "start": "./scripts/export_npm_env.sh && ./scripts/start.sh"
+    "setup": "bash -c '. ./scripts/export_npm_env.sh && ./scripts/setup.sh'",
+    "start": "bash -c '. ./scripts/export_npm_env.sh && ./scripts/start.sh'"
   },
   "config": {
     "V8": "7.4.288.21"
