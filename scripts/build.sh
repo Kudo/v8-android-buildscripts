@@ -10,6 +10,7 @@ GN_ARGS_BASE='
   v8_expose_symbols=true
   use_custom_libcxx=false
   use_sysroot=false
+  use_glib=false
 '
 
 if [[ "$BUILD_TYPE" = "Debug" ]]
