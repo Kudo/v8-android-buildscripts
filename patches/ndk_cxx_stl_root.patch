@@ -8,7 +8,7 @@ index b69d42b..a47ee1b 100644
                  rebase_path("$android_ndk_root/sources/android/support/include",
 -                            root_build_dir) ]
 +                            root_build_dir),
-+                "-isystem" +
++                "-I" +
 +                rebase_path("$android_ndk_root/sources/cxx-stl/llvm-libc++/include",
 +                            root_build_dir),
 +                ]
