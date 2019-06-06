@@ -8,6 +8,7 @@ GN_ARGS_BASE='
   is_component_build=false
   use_debug_fission=false
   v8_expose_symbols=true
+  use_custom_libcxx=false
 '
 
 if [[ "$BUILD_TYPE" = "Debug" ]]
