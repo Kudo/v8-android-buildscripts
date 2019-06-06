@@ -1,0 +1,25 @@
+diff --git a/config/android/BUILD.gn b/config/android/BUILD.gn
+index b69d42b..a47ee1b 100644
+--- a/config/android/BUILD.gn
++++ b/config/android/BUILD.gn
+@@ -107,7 +107,11 @@ config("runtime_library") {
+   # caution.
+   cflags_cc = [ "-isystem" +
+                 rebase_path("$android_ndk_root/sources/android/support/include",
+-                            root_build_dir) ]
++                            root_build_dir),
++                "-isystem" +
++                rebase_path("$android_ndk_root/sources/cxx-stl/llvm-libc++/include",
++                            root_build_dir),
++                ]
+
+   defines = [
+     "__GNU_SOURCE=1",  # Necessary for clone().
+@@ -118,6 +122,7 @@ config("runtime_library") {
+
+   libs = []
+   libs += [ "android_support" ]
++  libs += [ "c++_shared" ]
+
+   # arm builds of libc++ starting in NDK r12 depend on unwind.
+   if (current_cpu == "arm") {
