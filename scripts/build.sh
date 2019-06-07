@@ -9,6 +9,8 @@ GN_ARGS_BASE='
   use_debug_fission=false
   v8_expose_symbols=true
   use_custom_libcxx=false
+  v8_use_snapshot = true
+  v8_use_external_startup_data = false
 '
 
 if [[ "$BUILD_TYPE" = "Debug" ]]
