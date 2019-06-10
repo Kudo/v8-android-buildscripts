@@ -24,3 +24,24 @@ sudo bash -c 'v8/build/install-build-deps-android.sh'
 
 # Workaround to install missing sysroot
 gclient sync
+
+# Install NDK
+function installNDK() {
+  version=$1
+  pushd .
+  cd $V8_DIR
+  wget -q https://dl.google.com/android/repository/android-ndk-${version}-linux-x86_64.zip
+  unzip -q android-ndk-${version}-linux-x86_64.zip
+  rm -f android-ndk-${version}-linux-x86_64.zip
+
+  echo "default_android_ndk_root = \"//android-ndk-${version}\"" >> $V8_DIR/build_overrides/build.gni
+  echo "default_android_ndk_version = \"${version}\"" >> $V8_DIR/build_overrides/build.gni
+  ndk_major_version=`echo "${version//[^0-9.]/}"`
+  echo "default_android_ndk_major_version = ${ndk_major_version}" >> $V8_DIR/build_overrides/build.gni
+
+  unset ndk_major_version
+  unset version
+  popd
+}
+
+installNDK "r17c"

@@ -15,10 +15,15 @@ index b69d42b..a47ee1b 100644
 
    defines = [
      "__GNU_SOURCE=1",  # Necessary for clone().
-@@ -118,6 +122,7 @@ config("runtime_library") {
+@@ -117,7 +121,11 @@ config("runtime_library") {
 
    libs = []
    libs += [ "android_support" ]
+-  libs += [ "android_support" ]
++  # libs += [ "android_support" ]
++  if (target_cpu == "arm" || target_cpu == "x86") {
++    libs += [ "android_support" ]
++  }
 +  libs += [ "c++_shared" ]
 
    # arm builds of libc++ starting in NDK r12 depend on unwind.

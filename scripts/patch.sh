@@ -9,7 +9,8 @@ V8_PATCHSET=(
   "v8_shared_library.patch"
 
   # Fix cxx includes not found for use_custom_libcxx=false
-  "ndk_cxx_stl_root.patch"
+  # and NDK r17c only provide support lib for arm/x86
+  "ndk.patch"
 )
 
 ######################################################################################
