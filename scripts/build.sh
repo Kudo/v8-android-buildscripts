@@ -11,6 +11,7 @@ GN_ARGS_BASE='
   use_custom_libcxx=false
   v8_use_snapshot = true
   v8_use_external_startup_data = false
+  icu_use_data_file=false
 '
 
 if [[ "$BUILD_TYPE" = "Debug" ]]
