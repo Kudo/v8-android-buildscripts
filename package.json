@@ -1,6 +1,6 @@
 {
   "name": "v8-android",
-  "version": "7.4.6",
+  "version": "7.5.0",
   "description": "Pre-build version of V8 to be used by React Native apps",
   "repository": {
     "type": "git",
@@ -26,6 +26,6 @@
     "start": "bash -c '. ./scripts/export_npm_env.sh && ./scripts/start.sh'"
   },
   "config": {
-    "V8": "7.4.288.21"
+    "V8": "7.5.288.23"
   }
 }
