@@ -7,8 +7,9 @@ index fddd525297..d1a2abfe8d 100644
    ]
 
 -  if (is_component_build) {
-     defines += [ "BUILDING_V8_SHARED" ]
+-    defines += [ "BUILDING_V8_SHARED" ]
 -  }
++  defines += [ "BUILDING_V8_SHARED" ]
  }
 
  # This config should be applied to code using the libplatform.
@@ -21,6 +22,19 @@ index fddd525297..d1a2abfe8d 100644
    sources = [
      "src/base/adapters.h",
      "src/base/address-region.h",
+@@ -3455,11 +3453,7 @@ v8_component("v8_libbase") {
+
+   data_deps = []
+
+-  defines = []
+-
+-  if (is_component_build) {
+-    defines = [ "BUILDING_V8_BASE_SHARED" ]
+-  }
++  defines = [ "BUILDING_V8_BASE_SHARED" ]
+
+   if (is_posix || is_fuchsia) {
+     sources += [
 @@ -3561,7 +3559,7 @@ v8_component("v8_libbase") {
    # TODO(jochen): Add support for qnx, freebsd, openbsd, netbsd, and solaris.
  }
@@ -30,6 +44,17 @@ index fddd525297..d1a2abfe8d 100644
    sources = [
      "//base/trace_event/common/trace_event_common.h",
      "include/libplatform/libplatform-export.h",
+@@ -3590,9 +3584,7 @@ v8_component("v8_libplatform") {
+
+   configs = [ ":internal_config_base" ]
+
+-  if (is_component_build) {
+-    defines = [ "BUILDING_V8_PLATFORM_SHARED" ]
+-  }
++  defines = [ "BUILDING_V8_PLATFORM_SHARED" ]
+
+   public_configs = [ ":libplatform_config" ]
+
 @@ -3685,6 +3683,23 @@ v8_static_library("wee8") {
    }
  }
