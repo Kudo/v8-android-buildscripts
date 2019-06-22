@@ -2,7 +2,17 @@ diff --git a/BUILD.gn b/BUILD.gn
 index fddd525297..d1a2abfe8d 100644
 --- a/BUILD.gn
 +++ b/BUILD.gn
-@@ -3491,6 +3491,23 @@ if (v8_monolithic) {
+@@ -262,9 +262,7 @@ config("internal_config") {
+     ":v8_header_features",
+   ]
+
+-  if (is_component_build) {
+     defines += [ "BUILDING_V8_SHARED" ]
+-  }
+ }
+
+ # This config should be applied to code using the libplatform.
+@@ -3685,6 +3683,23 @@ v8_static_library("wee8") {
    }
  }
 
@@ -30,7 +40,7 @@ diff --git a/gni/v8.gni b/gni/v8.gni
 index 2a691dfa60..bad875becc 100644
 --- a/gni/v8.gni
 +++ b/gni/v8.gni
-@@ -207,3 +207,12 @@ template("v8_static_library") {
+@@ -226,3 +226,12 @@ template("v8_static_library") {
      configs += invoker.configs
    }
  }
