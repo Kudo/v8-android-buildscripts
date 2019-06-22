@@ -443,3 +443,8 @@ gradle-app.setting
 
 
 # End of https://www.gitignore.io/api/node,android,reactnative,intellij+all,androidstudio,visualstudiocode
+
+# gclient stuffs
+.cipd/*
+.gclient
+.gclient_entries
