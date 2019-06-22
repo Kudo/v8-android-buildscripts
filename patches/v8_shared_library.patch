@@ -12,6 +12,24 @@ index fddd525297..d1a2abfe8d 100644
  }
 
  # This config should be applied to code using the libplatform.
+@@ -3367,7 +3365,7 @@ v8_source_set("torque_ls_base") {
+   }
+ }
+
+-v8_component("v8_libbase") {
++v8_source_set("v8_libbase") {
+   sources = [
+     "src/base/adapters.h",
+     "src/base/address-region.h",
+@@ -3561,7 +3559,7 @@ v8_component("v8_libbase") {
+   # TODO(jochen): Add support for qnx, freebsd, openbsd, netbsd, and solaris.
+ }
+
+-v8_component("v8_libplatform") {
++v8_source_set("v8_libplatform") {
+   sources = [
+     "//base/trace_event/common/trace_event_common.h",
+     "include/libplatform/libplatform-export.h",
 @@ -3685,6 +3683,23 @@ v8_static_library("wee8") {
    }
  }
