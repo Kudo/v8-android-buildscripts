@@ -22,6 +22,11 @@ function copyHeaders() {
   cp -Rf $V8_DIR/include $DIST_DIR/include
 }
 
+function copyTools() {
+  printf "\n\n\t\t===================== adding tools to $DIST_DIR/tools =====================\n\n"
+  cp -Rf $BUILD_DIR/tools $DIST_DIR/tools
+}
+
 export ANDROID_HOME=${V8_DIR}/third_party/android_tools/sdk
 export ANDROID_NDK=${V8_DIR}/third_party/android_ndk
 export PATH=${ANDROID_HOME}/emulator:${ANDROID_HOME}/tools:${ANDROID_HOME}/tools/bin:${ANDROID_HOME}/platform-tools:${PATH}
@@ -31,3 +36,4 @@ mkdir -p $DIST_DIR
 createAAR
 createUnstrippedLibs
 copyHeaders
+copyTools

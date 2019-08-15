@@ -2,7 +2,12 @@
 source $(dirname $0)/env.sh
 
 cd $V8_DIR
-gclient sync --deps=android --reset --with_branch_head --revision ${V8_VERSION}
+
+if [[ ${MKSNAPSHOT_ONLY} -eq "1" ]]; then
+  gclient sync --reset --with_branch_head --revision ${V8_VERSION}
+else
+  gclient sync --deps=android --reset --with_branch_head --revision ${V8_VERSION}
+fi
 
 cd $ROOT_DIR
 scripts/patch.sh
