@@ -40,11 +40,17 @@ jobs:
           name: Build V8
           command: |
             scripts/build.sh
+            scripts/archive.sh
+
+      - run:
+          name: Build V8 No Intl
+          command: |
+            NO_INTL=1 scripts/build.sh
+            NO_INTL=1 scripts/archive.sh
 
       - run:
           name: Archive
           command: |
-            scripts/archive.sh
             tar cvfz dist.tgz dist
 
       - store_artifacts:

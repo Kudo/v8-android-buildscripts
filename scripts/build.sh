@@ -13,6 +13,10 @@ GN_ARGS_BASE='
   icu_use_data_file=false
 '
 
+if [[ ${NO_INTL} -eq "1" ]]; then
+  GN_ARGS_BASE="${GN_ARGS_BASE} v8_enable_i18n_support=false"
+fi
+
 if [[ "$BUILD_TYPE" = "Debug" ]]
 then
   GN_ARGS_BUILD_TYPE='
@@ -61,7 +65,7 @@ function build_arch()
     local arch=$1
     local arch_for_android=$(normalize_arch_for_android $arch)
 
-    echo "Build v8 $arch variant"
+    echo "Build v8 $arch variant NO_INTL=${NO_INTL}"
     if [[ "$arch" = "arm64" ]]; then
       # V8 mksnapshot will have alignment exception for lite mode, workaround to turn it off.
       gn gen --args="$GN_ARGS_BASE $GN_ARGS_BUILD_TYPE target_cpu=\"$arch\" v8_enable_lite_mode=false" out.v8.$arch
