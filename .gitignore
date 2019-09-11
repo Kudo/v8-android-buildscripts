@@ -1,6 +1,6 @@
 package-lock.json
 /build
-/dist
+dist/
 
 scripts/depot_tools
 v8
