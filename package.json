@@ -1,5 +1,6 @@
 {
   "private": true,
+  "version": "7.5.1",
   "workspaces": [
     "packages/*"
   ],
