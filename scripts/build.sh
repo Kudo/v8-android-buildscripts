@@ -11,6 +11,7 @@ GN_ARGS_BASE='
   v8_use_snapshot = true
   v8_use_external_startup_data = false
   icu_use_data_file=false
+  v8_enable_lite_mode=true
 '
 
 if [[ ${NO_INTL} -eq "1" ]]; then
@@ -66,12 +67,7 @@ function build_arch()
     local arch_for_android=$(normalize_arch_for_android $arch)
 
     echo "Build v8 $arch variant NO_INTL=${NO_INTL}"
-    if [[ "$arch" = "arm64" ]]; then
-      # V8 mksnapshot will have alignment exception for lite mode, workaround to turn it off.
-      gn gen --args="$GN_ARGS_BASE $GN_ARGS_BUILD_TYPE target_cpu=\"$arch\" v8_enable_lite_mode=false" out.v8.$arch
-    else
-      gn gen --args="$GN_ARGS_BASE $GN_ARGS_BUILD_TYPE target_cpu=\"$arch\" v8_enable_lite_mode=true" out.v8.$arch
-    fi
+    gn gen --args="$GN_ARGS_BASE $GN_ARGS_BUILD_TYPE target_cpu=\"$arch\"" out.v8.$arch
 
     if [[ ${MKSNAPSHOT_ONLY} -eq "1" ]]; then
       date ; ninja ${NINJA_PARAMS} -C out.v8.$arch run_mksnapshot_default ; date
