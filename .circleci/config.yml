@@ -29,7 +29,7 @@ jobs:
       - run:
           name: Setup V8 build environment
           command: |
-            scripts/setup.sh -s -r ${V8_VERSION}
+            scripts/setup.sh -r ${V8_VERSION}
 
       - run:
           name: Patch V8

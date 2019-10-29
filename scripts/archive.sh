@@ -40,7 +40,7 @@ if [[ ${MKSNAPSHOT_ONLY} -eq "1" ]]; then
   mkdir -p $DIST_PACKAGE_DIR
   copyTools
 else
-  export ANDROID_HOME=${V8_DIR}/third_party/android_tools/sdk
+  export ANDROID_HOME=${V8_DIR}/third_party/android_sdk/public
   export ANDROID_NDK=${V8_DIR}/third_party/android_ndk
   export PATH=${ANDROID_HOME}/emulator:${ANDROID_HOME}/tools:${ANDROID_HOME}/tools/bin:${ANDROID_HOME}/platform-tools:${PATH}
   yes | sdkmanager --licenses

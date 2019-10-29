@@ -38,5 +38,8 @@ else
   # Workaround to install missing sysroot
   gclient sync
 
+  # Workaround to install missing android_sdk tools
+  gclient sync --deps=android $GCLIENT_SYNC_ARGS
+
   installNDK
 fi
