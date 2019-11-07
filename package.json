@@ -13,6 +13,6 @@
     "start_mksnapshot": "bash -c '. ./scripts/export_npm_env.sh && MKSNAPSHOT_ONLY=1 ./scripts/start.sh'"
   },
   "config": {
-    "V8": "7.8.279.17"
+    "V8": "7.8.279.23"
   }
 }
