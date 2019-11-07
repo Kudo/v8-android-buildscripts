@@ -58,8 +58,8 @@ index c486f1a..6aeb762 100644
 @@ -3813,6 +3805,23 @@ v8_static_library("wee8") {
    ]
  }
- 
-+v8_loadable_module("libv8") {
+
++v8_loadable_module("libv8android") {
 +  defines = [ "BUILDING_V8_SHARED" ]
 +
 +  sources = [

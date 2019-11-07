@@ -72,12 +72,12 @@ function build_arch()
     if [[ ${MKSNAPSHOT_ONLY} -eq "1" ]]; then
       date ; ninja ${NINJA_PARAMS} -C out.v8.$arch run_mksnapshot_default ; date
     else
-      date ; ninja ${NINJA_PARAMS} -C out.v8.$arch libv8 ; date
+      date ; ninja ${NINJA_PARAMS} -C out.v8.$arch libv8android ; date
 
       mkdir -p $BUILD_DIR/lib/$arch_for_android
-      cp -f out.v8.$arch/libv8.so $BUILD_DIR/lib/$arch_for_android/libv8.so
+      cp -f out.v8.$arch/libv8android.so $BUILD_DIR/lib/$arch_for_android/libv8android.so
       mkdir -p $BUILD_DIR/lib.unstripped/$arch_for_android
-      cp -f out.v8.$arch/lib.unstripped/libv8.so $BUILD_DIR/lib.unstripped/$arch_for_android/libv8.so
+      cp -f out.v8.$arch/lib.unstripped/libv8android.so $BUILD_DIR/lib.unstripped/$arch_for_android/libv8android.so
     fi
 
     mkdir -p $BUILD_DIR/tools/$arch_for_android
