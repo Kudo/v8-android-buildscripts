@@ -7,12 +7,12 @@
   "scripts": {
     "clean": "rm -rf dist; rm -rf build; rm -rf v8/out.v8.*",
     "export_npm_env": "./scripts/export_npm_env.sh",
-    "setup": "bash -c '. ./scripts/export_npm_env.sh && ./scripts/setup.sh'",
-    "start": "bash -c '. ./scripts/export_npm_env.sh && ./scripts/start.sh'",
-    "setup_mksnapshot": "bash -c '. ./scripts/export_npm_env.sh && MKSNAPSHOT_ONLY=1 ./scripts/setup.sh'",
-    "start_mksnapshot": "bash -c '. ./scripts/export_npm_env.sh && MKSNAPSHOT_ONLY=1 ./scripts/start.sh'",
-    "setup_ios": "bash -c '. ./scripts/export_npm_env.sh && ./scripts/setup_ios.sh'",
-    "start_ios": "bash -c '. ./scripts/export_npm_env.sh && ./scripts/start_ios.sh'"
+    "setup": "bash -c '. ./scripts/export_npm_env.sh && ./scripts/setup.sh android'",
+    "start": "bash -c '. ./scripts/export_npm_env.sh && ./scripts/start.sh android'",
+    "setup_mksnapshot": "bash -c '. ./scripts/export_npm_env.sh && MKSNAPSHOT_ONLY=1 ./scripts/setup.sh android'",
+    "start_mksnapshot": "bash -c '. ./scripts/export_npm_env.sh && MKSNAPSHOT_ONLY=1 ./scripts/start.sh android'",
+    "setup_ios": "bash -c '. ./scripts/export_npm_env.sh && ./scripts/setup.sh ios'",
+    "start_ios": "bash -c '. ./scripts/export_npm_env.sh && ./scripts/start.sh ios'"
   },
   "config": {
     "V8": "7.8.279.23"
