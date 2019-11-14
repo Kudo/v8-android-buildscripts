@@ -27,11 +27,7 @@ jobs:
         scripts/build.sh ios
         scripts/archive.sh ios
 
-    - name: Archive
-      run: |
-        tar cvfz dist.tgz dist
-
     - uses: actions/upload-artifact@master
       with:
-        name: dist.tgz
-        path: dist.tgz
+        name: dist.zip
+        path: dist
