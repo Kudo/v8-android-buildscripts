@@ -1,5 +1,4 @@
 #!/bin/bash -e
-source $(dirname $0)/env.sh
 
 GCLIENT_SYNC_ARGS="--reset --with_branch_head"
 while getopts 'r:s' opt; do
@@ -12,6 +11,9 @@ while getopts 'r:s' opt; do
       ;;
   esac
 done
+shift $(expr ${OPTIND} - 1)
+
+source $(dirname $0)/env.sh
 
 # Install NDK
 function installNDK() {
