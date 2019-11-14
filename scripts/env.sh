@@ -5,7 +5,7 @@ function abs_path()
   readlink="readlink -f"
   if [[ "$(uname)" == "Darwin" ]]; then
     if [[ ! "$(command -v greadlink)" ]]; then
-      echo "greadlink not found. Please install greadlink by \`brew install coreutils\`"
+      echo "greadlink not found. Please install greadlink by \`brew install coreutils\`" >&2
       exit 1
     fi
     readlink="greadlink -f"

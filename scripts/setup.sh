@@ -1,6 +1,5 @@
 #!/bin/bash -e
 
-export
 GCLIENT_SYNC_ARGS="--reset --with_branch_head"
 while getopts 'r:s' opt; do
   case ${opt} in
@@ -14,8 +13,6 @@ while getopts 'r:s' opt; do
 done
 shift $(expr ${OPTIND} - 1)
 
-echo "arg0 $0"
-echo "arg1 $1"
 source $(dirname $0)/env.sh
 
 # Install NDK
