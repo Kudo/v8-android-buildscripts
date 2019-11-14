@@ -15,7 +15,7 @@ GN_ARGS_BASE="
 "
 
 if [[ ${PLATFORM} = "ios" ]]; then
-  GN_ARGS_BASE="${GN_ARGS_BASE} enable_ios_bitcode=false use_xcode_clang=true ios_deployment_target=${IOS_DEPLOYMENT_TARGET}"
+  GN_ARGS_BASE="${GN_ARGS_BASE} enable_ios_bitcode=false use_xcode_clang=true ios_enable_code_signing=false ios_deployment_target=${IOS_DEPLOYMENT_TARGET}"
 fi
 
 if [[ ${NO_INTL} -eq "1" ]]; then
