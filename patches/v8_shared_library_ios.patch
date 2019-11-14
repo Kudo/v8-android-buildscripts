@@ -1,0 +1,116 @@
+diff --git a/BUILD.gn b/BUILD.gn
+index c486f1a..6aeb762 100644
+--- a/BUILD.gn
++++ b/BUILD.gn
+@@ -284,9 +284,7 @@ config("internal_config") {
+     ":v8_header_features",
+   ]
+
+-  if (is_component_build) {
+-    defines += [ "BUILDING_V8_SHARED" ]
+-  }
++  defines += [ "BUILDING_V8_SHARED" ]
+ }
+
+ # This config should be applied to code using the libplatform.
+@@ -3480,7 +3478,7 @@ v8_source_set("torque_ls_base") {
+   }
+ }
+
+-v8_component("v8_libbase") {
++v8_source_set("v8_libbase") {
+   sources = [
+     "src/base/adapters.h",
+     "src/base/address-region.h",
+@@ -3569,11 +3567,7 @@ v8_component("v8_libbase") {
+
+   data_deps = []
+
+-  defines = []
+-
+-  if (is_component_build) {
+-    defines = [ "BUILDING_V8_BASE_SHARED" ]
+-  }
++  defines = [ "BUILDING_V8_BASE_SHARED" ]
+
+   if (is_posix || is_fuchsia) {
+     sources += [
+@@ -3675,7 +3669,7 @@ v8_component("v8_libbase") {
+   # TODO(jochen): Add support for qnx, freebsd, openbsd, netbsd, and solaris.
+ }
+
+-v8_component("v8_libplatform") {
++v8_source_set("v8_libplatform") {
+   sources = [
+     "//base/trace_event/common/trace_event_common.h",
+     "include/libplatform/libplatform-export.h",
+@@ -3704,9 +3698,7 @@ v8_component("v8_libplatform") {
+
+   configs = [ ":internal_config_base" ]
+
+-  if (is_component_build) {
+-    defines = [ "BUILDING_V8_PLATFORM_SHARED" ]
+-  }
++  defines = [ "BUILDING_V8_PLATFORM_SHARED" ]
+
+   public_configs = [ ":libplatform_config" ]
+
+@@ -3813,6 +3805,23 @@ v8_static_library("wee8") {
+   ]
+ }
+
++v8_shared_library("libv8") {
++  defines = [ "BUILDING_V8_SHARED" ]
++
++  sources = [
++    "src/utils/v8dll-main.cc",
++  ]
++
++  deps = [
++    ":v8",
++    ":v8_libbase",
++    ":v8_libplatform",
++    ":v8_maybe_snapshot",
++  ]
++
++  configs = [ ":internal_config" ]
++}
++
+ ###############################################################################
+ # Executables
+ #
+diff --git a/gni/v8.gni b/gni/v8.gni
+index e55c4cf..a97111b 100644
+--- a/gni/v8.gni
++++ b/gni/v8.gni
+@@ -230,3 +230,12 @@ template("v8_static_library") {
+     configs += invoker.configs
+   }
+ }
++
++template("v8_shared_library") {
++  shared_library(target_name) {
++    forward_variables_from(invoker, "*", [ "configs" ])
++    configs -= v8_remove_configs
++    configs += v8_add_configs
++    configs += invoker.configs
++  }
++}
+diff --git a/build/config/compiler/BUILD.gn b/build/config/compiler/BUILD.gn
+index 66c2c43a6..bc01c3e14 100644
+--- a/build/config/compiler/BUILD.gn
++++ b/build/config/compiler/BUILD.gn
+@@ -1493,6 +1493,13 @@ config("default_warnings") {
+         cflags += [ "-Wno-nonportable-include-path" ]
+       }
+
++      if (clang_base_path == default_clang_base_path) {
++        cflags += [
++          "-Wno-implicit-int-float-conversion",
++          "-Wno-unknown-warning-option",
++        ]
++      }
++
+       if (current_toolchain == host_toolchain || !use_xcode_clang) {
+         # Flags NaCl (Clang 3.7) and Xcode 9.2 (Clang clang-900.0.39.2) do not
+         # recognize.

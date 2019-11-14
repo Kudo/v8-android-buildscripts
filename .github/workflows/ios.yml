@@ -1,0 +1,33 @@
+name: iOS build
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: macOS-latest
+
+    steps:
+    - uses: actions/checkout@v1
+
+    - name: Export settings from npm package
+      run: |
+        npm run export_npm_env
+
+    - name: Setup V8 build environment
+      run: |
+        brew install coreutils
+        scripts/setup.sh -r ${V8_VERSION} ios
+
+    - name: Patch V8
+      run: |
+        scripts/patch.sh ios
+
+    - name: Build V8
+      run: |
+        scripts/build.sh ios
+        scripts/archive.sh ios
+
+    - uses: actions/upload-artifact@master
+      with:
+        name: dist.zip
+        path: dist

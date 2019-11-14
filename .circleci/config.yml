@@ -29,24 +29,24 @@ jobs:
       - run:
           name: Setup V8 build environment
           command: |
-            scripts/setup.sh -r ${V8_VERSION}
+            scripts/setup.sh -r ${V8_VERSION} android
 
       - run:
           name: Patch V8
           command: |
-            scripts/patch.sh
+            scripts/patch.sh android
 
       - run:
           name: Build V8
           command: |
-            scripts/build.sh
-            scripts/archive.sh
+            scripts/build.sh android
+            scripts/archive.sh android
 
       - run:
           name: Build V8 No Intl
           command: |
-            NO_INTL=1 scripts/build.sh
-            NO_INTL=1 scripts/archive.sh
+            NO_INTL=1 scripts/build.sh android
+            NO_INTL=1 scripts/archive.sh android
 
       - run:
           name: Archive

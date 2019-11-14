@@ -3,16 +3,20 @@ source $(dirname $0)/env.sh
 BUILD_TYPE="Release"
 # BUILD_TYPE="Debug"
 
-GN_ARGS_BASE='
-  target_os="android"
+GN_ARGS_BASE="
+  target_os=\"${PLATFORM}\"
   is_component_build=false
   use_debug_fission=false
   use_custom_libcxx=false
-  v8_use_snapshot = true
-  v8_use_external_startup_data = false
+  v8_use_snapshot=true
+  v8_use_external_startup_data=false
   icu_use_data_file=false
   v8_enable_lite_mode=true
-'
+"
+
+if [[ ${PLATFORM} = "ios" ]]; then
+  GN_ARGS_BASE="${GN_ARGS_BASE} enable_ios_bitcode=false use_xcode_clang=true ios_enable_code_signing=false ios_deployment_target=${IOS_DEPLOYMENT_TARGET}"
+fi
 
 if [[ ${NO_INTL} -eq "1" ]]; then
   GN_ARGS_BASE="${GN_ARGS_BASE} v8_enable_i18n_support=false"
@@ -36,11 +40,17 @@ if [[ ${CIRCLECI} ]]; then
   NINJA_PARAMS="-j4"
 fi
 
-cd $V8_DIR
+cd ${V8_DIR}
 
-function normalize_arch_for_android()
+function normalize_arch_for_platform()
 {
   local arch=$1
+
+  if [[ ${PLATFORM} = "ios" ]]; then
+    echo ${arch}
+    return
+  fi
+
   case "$1" in
     arm)
       echo "armeabi-v7a"
@@ -55,7 +65,7 @@ function normalize_arch_for_android()
       echo "x86_64"
       ;;
     *)
-      echo "Invalid arch - $arch" >&2
+      echo "Invalid arch - ${arch}" >&2
       exit 1
       ;;
   esac
@@ -63,28 +73,48 @@ function normalize_arch_for_android()
 
 function build_arch()
 {
-    local arch=$1
-    local arch_for_android=$(normalize_arch_for_android $arch)
+  local arch=$1
+  local platform_arch=$(normalize_arch_for_platform $arch)
 
-    echo "Build v8 $arch variant NO_INTL=${NO_INTL}"
-    gn gen --args="$GN_ARGS_BASE $GN_ARGS_BUILD_TYPE target_cpu=\"$arch\"" out.v8.$arch
+  local target=''
+  local target_ext=''
+  if [[ ${PLATFORM} = "android" ]]; then
+    target="libv8android"
+    target_ext=".so"
+  elif [[ ${PLATFORM} = "ios" ]]; then
+    target="libv8"
+    target_ext=".dylib"
+  else
+    exit 1
+  fi
 
-    if [[ ${MKSNAPSHOT_ONLY} -eq "1" ]]; then
-      date ; ninja ${NINJA_PARAMS} -C out.v8.$arch run_mksnapshot_default ; date
-    else
-      date ; ninja ${NINJA_PARAMS} -C out.v8.$arch libv8android ; date
+  echo "Build v8 ${arch} variant NO_INTL=${NO_INTL}"
+  gn gen --args="${GN_ARGS_BASE} ${GN_ARGS_BUILD_TYPE} target_cpu=\"${arch}\"" "out.v8.${arch}"
 
-      mkdir -p $BUILD_DIR/lib/$arch_for_android
-      cp -f out.v8.$arch/libv8android.so $BUILD_DIR/lib/$arch_for_android/libv8android.so
-      mkdir -p $BUILD_DIR/lib.unstripped/$arch_for_android
-      cp -f out.v8.$arch/lib.unstripped/libv8android.so $BUILD_DIR/lib.unstripped/$arch_for_android/libv8android.so
+  if [[ ${MKSNAPSHOT_ONLY} -eq "1" ]]; then
+    date ; ninja ${NINJA_PARAMS} -C "out.v8.${arch}" run_mksnapshot_default ; date
+  else
+    date ; ninja ${NINJA_PARAMS} -C "out.v8.${arch}" ${target} ; date
+
+    mkdir -p "${BUILD_DIR}/lib/${platform_arch}"
+    cp -f "out.v8.${arch}/${target}${target_ext}" "${BUILD_DIR}/lib/${platform_arch}/${target}${target_ext}"
+
+    if [[ -d "out.v8.${arch}/lib.unstripped" ]]; then
+      mkdir -p "${BUILD_DIR}/lib.unstripped/${platform_arch}"
+      cp -f "out.v8.${arch}/lib.unstripped/${target}${target_ext}" "${BUILD_DIR}/lib.unstripped/${platform_arch}/${target}${target_ext}"
     fi
+  fi
 
-    mkdir -p $BUILD_DIR/tools/$arch_for_android
-    cp -f out.v8.$arch/clang_*/mksnapshot $BUILD_DIR/tools/$arch_for_android/mksnapshot
+  mkdir -p "${BUILD_DIR}/tools/${platform_arch}"
+  cp -f out.v8.${arch}/clang_*/mksnapshot "${BUILD_DIR}/tools/${platform_arch}/mksnapshot"
 }
 
-build_arch "arm"
-build_arch "x86"
-build_arch "arm64"
-build_arch "x64"
+if [[ ${PLATFORM} = "android" ]]; then
+  build_arch "arm"
+  build_arch "x86"
+  build_arch "arm64"
+  build_arch "x64"
+elif [[ ${PLATFORM} = "ios" ]]; then
+  build_arch "arm64"
+  build_arch "x64"
+fi
