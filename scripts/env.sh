@@ -17,6 +17,7 @@ function abs_path()
 function verify_platform()
 {
   local arg=$1
+  echo "verify_platform arg $0 $1"
   SUPPORTED_PLATFORMS=(android ios)
   local valid_platform=
   for platform in ${SUPPORTED_PLATFORMS[@]}
