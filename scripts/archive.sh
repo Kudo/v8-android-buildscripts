@@ -17,6 +17,12 @@ function createAAR() {
   popd
 }
 
+function createUniversalDylib() {
+  printf "\n\n\t\t===================== create universal dylib =====================\n\n"
+  mkdir -p "${BUILD_DIR}/lib/universal"
+  lipo "${BUILD_DIR}/lib/arm64/libv8.dylib" "${BUILD_DIR}/lib/x64/libv8.dylib" -output "${BUILD_DIR}/lib/universal/libv8.dylib" -create
+}
+
 function copyDylib() {
   printf "\n\n\t\t===================== copy dylib =====================\n\n"
   mkdir -p "${DIST_PACKAGE_DIR}"
@@ -60,6 +66,7 @@ if [[ ${PLATFORM} = "android" ]]; then
   copyHeaders
   copyTools
 elif [[ ${PLATFORM} = "ios" ]]; then
+  createUniversalDylib
   copyDylib
   copyHeaders
   copyTools
