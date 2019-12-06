@@ -29,5 +29,5 @@ jobs:
 
     - uses: actions/upload-artifact@master
       with:
-        name: dist.zip
+        name: dist
         path: dist
