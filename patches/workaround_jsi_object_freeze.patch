@@ -1,0 +1,48 @@
+diff --git a/src/objects/js-objects.cc b/src/objects/js-objects.cc
+index 3666f5a..d17dba4 100644
+--- a/src/objects/js-objects.cc
++++ b/src/objects/js-objects.cc
+@@ -3815,24 +3815,25 @@ Maybe<bool> JSObject::PreventExtensionsWithTransition(
+         PrototypeIterator::GetCurrent<JSObject>(iter), should_throw);
+   }
+
+-  if (object->map().has_named_interceptor() ||
+-      object->map().has_indexed_interceptor()) {
+-    MessageTemplate message = MessageTemplate::kNone;
+-    switch (attrs) {
+-      case NONE:
+-        message = MessageTemplate::kCannotPreventExt;
+-        break;
+-
+-      case SEALED:
+-        message = MessageTemplate::kCannotSeal;
+-        break;
+-
+-      case FROZEN:
+-        message = MessageTemplate::kCannotFreeze;
+-        break;
+-    }
+-    RETURN_FAILURE(isolate, should_throw, NewTypeError(message));
+-  }
++  // Workaround Object.freeze() for JSI hosted object - https://github.com/Kudo/react-native-v8/issues/27
++  // if (object->map().has_named_interceptor() ||
++  //     object->map().has_indexed_interceptor()) {
++  //   MessageTemplate message = MessageTemplate::kNone;
++  //   switch (attrs) {
++  //     case NONE:
++  //       message = MessageTemplate::kCannotPreventExt;
++  //       break;
++  //
++  //     case SEALED:
++  //       message = MessageTemplate::kCannotSeal;
++  //       break;
++  //
++  //     case FROZEN:
++  //       message = MessageTemplate::kCannotFreeze;
++  //       break;
++  //   }
++  //   RETURN_FAILURE(isolate, should_throw, NewTypeError(message));
++  // }
+
+   Handle<Symbol> transition_marker;
+   if (attrs == NONE) {
