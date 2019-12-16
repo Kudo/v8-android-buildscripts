@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+from __future__ import unicode_literals
 import argparse
 import io
 import os
@@ -30,12 +31,19 @@ class PackageConfigPatcher:
             f.write(new_content)
 
     def patch(self):
-        self._replace_file_content(self._config_path, r'("version": )("[^"]+")(,)', '\\1"' + self._version + '"\\3')
+        self._replace_file_content(self._config_path,
+                                   r'("version": )("[^"]+")(,)',
+                                   '\\1"' + self._version + '"\\3')
+
 
 def parse_args():
     arg_parser = argparse.ArgumentParser()
 
-    arg_parser.add_argument('--version', '-V', type=str, required=True, help='Bump packages version')
+    arg_parser.add_argument('--version',
+                            '-V',
+                            type=str,
+                            required=True,
+                            help='Bump packages version')
 
     args = arg_parser.parse_args()
     return args
@@ -51,6 +59,7 @@ def main():
         print('\nBump {} package to version {}'.format(package, version))
         package_root = os.path.join(ROOT_DIR, 'packages', package)
         PackageConfigPatcher(package_root, version).patch()
+
 
 if __name__ == '__main__':
     main()
