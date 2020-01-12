@@ -11,7 +11,7 @@ GN_ARGS_BASE="
   v8_use_snapshot=true
   v8_use_external_startup_data=false
   icu_use_data_file=false
-  v8_enable_lite_mode=\"${DISABLE_JIT}\"
+  v8_enable_lite_mode=${DISABLE_JIT}
 "
 
 if [[ ${PLATFORM} = "ios" ]]; then
