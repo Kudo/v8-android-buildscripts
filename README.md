@@ -1,5 +1,7 @@
 [![npm version](https://badge.fury.io/js/v8-android.svg)](https://badge.fury.io/js/v8-android)
-[![CircleCI](https://circleci.com/gh/Kudo/v8-android-buildscripts.svg?style=svg)](https://circleci.com/gh/Kudo/v8-android-buildscripts)
+[![CircleCI](https://circleci.com/gh/GoodDollar/v8-android-buildscripts.svg?style=svg)](https://circleci.com/gh/GoodDollar/v8-android-buildscripts)
+
+# cloned from Kudo, added support for JIT
 
 # V8 build scripts for React Native Android
 
