@@ -8,6 +8,7 @@ jobs:
         environment:
           DEBIAN_FRONTEND: noninteractive
           TZ: UTC
+          DISABLE_JIT: true
 
     working_directory: ~/v8-android-buildscripts
     steps:
