@@ -204,4 +204,4 @@ workflows:
       - v8
       - v8-nointl
       - v8-jit
-      - v8-nointl
+      - v8-jit-nointl
