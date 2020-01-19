@@ -11,7 +11,6 @@ GN_ARGS_BASE="
   v8_use_snapshot=true
   v8_use_external_startup_data=false
   icu_use_data_file=false
-  v8_enable_lite_mode=${DISABLE_JIT}
 "
 
 if [[ ${PLATFORM} = "ios" ]]; then
@@ -20,6 +19,10 @@ fi
 
 if [[ ${NO_INTL} -eq "1" ]]; then
   GN_ARGS_BASE="${GN_ARGS_BASE} v8_enable_i18n_support=false"
+fi
+
+if [[ ${DISABLE_JIT} -ne "false" ]]; then
+  GN_ARGS_BASE="${GN_ARGS_BASE} v8_enable_lite_mode=true"
 fi
 
 if [[ "$BUILD_TYPE" = "Debug" ]]
