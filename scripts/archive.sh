@@ -1,13 +1,26 @@
 #!/bin/bash -e
 source $(dirname $0)/env.sh
 
-DIST_PACKAGE_DIR="${DIST_DIR}/packages/v8-${PLATFORM}"
-if [[ ${NO_INTL} -eq "1" ]]; then
-  DIST_PACKAGE_DIR="${DIST_DIR}/packages/v8-${PLATFORM}-nointl"
-elif [[ ${MKSNAPSHOT_ONLY} -eq "1" ]]; then
-  DIST_PACKAGE_DIR="${DIST_DIR}/packages/v8-${PLATFORM}-tools"
-fi
+function makeDistPackageDir() {
+  if [[ ${MKSNAPSHOT_ONLY} = "1" ]]; then
+    echo "${DIST_DIR}/packages/v8-${PLATFORM}-tools"
+    return 0
+  fi
 
+  local jit_suffix=""
+  local intl_suffix=""
+  if [[ ${DISABLE_JIT} = "false" ]]; then
+    jit_suffix="-jit"
+  fi
+
+  if [[ ${NO_INTL} = "1" ]]; then
+    intl_suffix="-nointl"
+  fi
+
+  echo "${DIST_DIR}/packages/v8-${PLATFORM}${jit_suffix}${intl_suffix}"
+}
+
+DIST_PACKAGE_DIR=$(makeDistPackageDir)
 
 function createAAR() {
   printf "\n\n\t\t===================== create aar =====================\n\n"
@@ -48,7 +61,7 @@ function copyTools() {
 }
 
 
-if [[ ${MKSNAPSHOT_ONLY} -eq "1" ]]; then
+if [[ ${MKSNAPSHOT_ONLY} = "1" ]]; then
   mkdir -p "$DIST_PACKAGE_DIR"
   copyTools
   exit 0

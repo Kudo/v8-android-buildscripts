@@ -31,7 +31,7 @@ fi
 
 gclient config --name v8 --unmanaged "https://chromium.googlesource.com/v8/v8.git"
 
-if [[ ${MKSNAPSHOT_ONLY} -eq "1" ]]; then
+if [[ ${MKSNAPSHOT_ONLY} = "1" ]]; then
   gclient sync ${GCLIENT_SYNC_ARGS}
   exit 0
 fi
