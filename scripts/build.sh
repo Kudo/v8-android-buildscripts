@@ -17,11 +17,11 @@ if [[ ${PLATFORM} = "ios" ]]; then
   GN_ARGS_BASE="${GN_ARGS_BASE} enable_ios_bitcode=false use_xcode_clang=true ios_enable_code_signing=false ios_deployment_target=${IOS_DEPLOYMENT_TARGET}"
 fi
 
-if [[ ${NO_INTL} -eq "1" ]]; then
+if [[ ${NO_INTL} = "1" ]]; then
   GN_ARGS_BASE="${GN_ARGS_BASE} v8_enable_i18n_support=false"
 fi
 
-if [[ ${DISABLE_JIT} -ne "false" ]]; then
+if [[ ${DISABLE_JIT} != "false" ]]; then
   GN_ARGS_BASE="${GN_ARGS_BASE} v8_enable_lite_mode=true"
 fi
 
@@ -94,7 +94,7 @@ function build_arch()
   echo "Build v8 ${arch} variant NO_INTL=${NO_INTL}"
   gn gen --args="${GN_ARGS_BASE} ${GN_ARGS_BUILD_TYPE} target_cpu=\"${arch}\"" "out.v8.${arch}"
 
-  if [[ ${MKSNAPSHOT_ONLY} -eq "1" ]]; then
+  if [[ ${MKSNAPSHOT_ONLY} = "1" ]]; then
     date ; ninja ${NINJA_PARAMS} -C "out.v8.${arch}" run_mksnapshot_default ; date
   else
     date ; ninja ${NINJA_PARAMS} -C "out.v8.${arch}" ${target} ; date

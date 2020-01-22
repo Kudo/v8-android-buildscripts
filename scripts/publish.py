@@ -6,7 +6,12 @@ import subprocess
 import sys
 
 ROOT_DIR = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
-PACKAGES = ('v8-android', 'v8-android-nointl')
+PACKAGE_MAP = {
+    'v8-android': 'dist.tgz',
+    'v8-android-nointl': 'dist-nointl.tgz',
+    'v8-android-jit': 'dist-jit.tgz',
+    'v8-android-jit-nointl': 'dist-jit-nointl.tgz',
+}
 
 
 def parse_args():
@@ -20,12 +25,12 @@ def parse_args():
                             type=str,
                             required=True,
                             help='NPM published tag')
-    arg_parser.add_argument('dist_tar_file',
+    arg_parser.add_argument('distdir',
                             action='store',
-                            help='dist.tgz created from CI')
+                            help='dir to dist*.tgz files created from CI')
 
     args = arg_parser.parse_args()
-    if not args.dist_tar_file:
+    if not args.distdir:
         arg_parser.print_help()
         sys.exit(1)
     return args
@@ -35,15 +40,22 @@ def main():
     args = parse_args()
 
     workdir = os.path.join(ROOT_DIR, 'build', 'publish')
-    if not os.path.exists(workdir):
-        os.makedirs(workdir)
-    subprocess.run(
-        ['tar', '-xf', args.dist_tar_file, '-C', workdir])
 
-    for package in PACKAGES:
+    for (package, distfile) in PACKAGE_MAP.items():
         print('\n\n========== Publish {} package =========='.format(package))
+        if os.path.exists(workdir):
+            shutil.rmtree(workdir)
+        os.makedirs(workdir)
+
+        distfile_path = os.path.join(args.distdir, distfile)
+        if not os.path.exists(distfile_path):
+            raise FileNotFoundError(
+                'dist file not found: {}'.format(distfile_path))
+        subprocess.run(['tar', '-xf', distfile_path, '-C', workdir])
+
         cwd = os.path.join(ROOT_DIR, 'packages', package)
-        source_dir_in_tar_file = os.path.join(workdir, 'dist', 'packages', package)
+        source_dir_in_tar_file = os.path.join(workdir, 'dist', 'packages',
+                                              package)
         distdir = os.path.join(cwd, 'dist')
         if os.path.exists(distdir):
             shutil.rmtree(distdir)
