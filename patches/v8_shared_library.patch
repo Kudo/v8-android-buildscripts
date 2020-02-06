@@ -70,7 +70,7 @@ index c486f1a..6aeb762 100644
 +    ":v8",
 +    ":v8_libbase",
 +    ":v8_libplatform",
-+    ":v8_maybe_snapshot",
++    ":v8_snapshot",
 +  ]
 +
 +  configs = [ ":internal_config" ]
