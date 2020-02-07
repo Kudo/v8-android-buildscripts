@@ -17,7 +17,7 @@ jobs:
             sudo ln -fs /usr/share/zoneinfo/UTC /etc/localtime
             sudo apt-get update
             sudo apt-get upgrade -y
-            sudo apt-get install -y apt-utils sudo lsb-core git python nodejs npm wget
+            sudo apt-get install -y apt-utils sudo lsb-core git python nodejs npm wget openjdk-8-jre openjdk-8-jdk
 
       - checkout
 
@@ -30,6 +30,7 @@ jobs:
           name: Setup V8 build environment
           command: |
             scripts/setup.sh -r ${V8_VERSION} android
+            sudo apt-get install -y libatomic1-i386-cross && sudo sh -c 'echo "/usr/i686-linux-gnu/lib" >> /etc/ld.so.conf.d/i386-linux-gnu.conf' && sudo ldconfig
 
       - run:
           name: Patch V8
@@ -66,7 +67,7 @@ jobs:
             sudo ln -fs /usr/share/zoneinfo/UTC /etc/localtime
             sudo apt-get update
             sudo apt-get upgrade -y
-            sudo apt-get install -y apt-utils sudo lsb-core git python nodejs npm wget
+            sudo apt-get install -y apt-utils sudo lsb-core git python nodejs npm wget openjdk-8-jre openjdk-8-jdk
 
       - checkout
 
@@ -79,6 +80,7 @@ jobs:
           name: Setup V8 build environment
           command: |
             scripts/setup.sh -r ${V8_VERSION} android
+            sudo apt-get install -y libatomic1-i386-cross && sudo sh -c 'echo "/usr/i686-linux-gnu/lib" >> /etc/ld.so.conf.d/i386-linux-gnu.conf' && sudo ldconfig
 
       - run:
           name: Patch V8
@@ -115,7 +117,7 @@ jobs:
             sudo ln -fs /usr/share/zoneinfo/UTC /etc/localtime
             sudo apt-get update
             sudo apt-get upgrade -y
-            sudo apt-get install -y apt-utils sudo lsb-core git python nodejs npm wget
+            sudo apt-get install -y apt-utils sudo lsb-core git python nodejs npm wget openjdk-8-jre openjdk-8-jdk
 
       - checkout
 
@@ -128,6 +130,7 @@ jobs:
           name: Setup V8 build environment
           command: |
             scripts/setup.sh -r ${V8_VERSION} android
+            sudo apt-get install -y libatomic1-i386-cross && sudo sh -c 'echo "/usr/i686-linux-gnu/lib" >> /etc/ld.so.conf.d/i386-linux-gnu.conf' && sudo ldconfig
 
       - run:
           name: Patch V8
@@ -164,7 +167,7 @@ jobs:
             sudo ln -fs /usr/share/zoneinfo/UTC /etc/localtime
             sudo apt-get update
             sudo apt-get upgrade -y
-            sudo apt-get install -y apt-utils sudo lsb-core git python nodejs npm wget
+            sudo apt-get install -y apt-utils sudo lsb-core git python nodejs npm wget openjdk-8-jre openjdk-8-jdk
 
       - checkout
 
@@ -177,6 +180,7 @@ jobs:
           name: Setup V8 build environment
           command: |
             scripts/setup.sh -r ${V8_VERSION} android
+            sudo apt-get install -y libatomic1-i386-cross && sudo sh -c 'echo "/usr/i686-linux-gnu/lib" >> /etc/ld.so.conf.d/i386-linux-gnu.conf' && sudo ldconfig
 
       - run:
           name: Patch V8
