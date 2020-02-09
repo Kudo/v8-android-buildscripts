@@ -97,10 +97,10 @@ index e55c4cf..a97111b 100644
 +  }
 +}
 diff --git a/build/config/compiler/BUILD.gn b/build/config/compiler/BUILD.gn
-index 66c2c43a6..bc01c3e14 100644
+index cba0602f8..1e4ae504f 100644
 --- a/build/config/compiler/BUILD.gn
 +++ b/build/config/compiler/BUILD.gn
-@@ -1493,6 +1493,13 @@ config("default_warnings") {
+@@ -1513,6 +1513,13 @@ config("default_warnings") {
          cflags += [ "-Wno-nonportable-include-path" ]
        }
 
@@ -114,3 +114,16 @@ index 66c2c43a6..bc01c3e14 100644
        if (current_toolchain == host_toolchain || !use_xcode_clang) {
          # Flags NaCl (Clang 3.7) and Xcode 9.2 (Clang clang-900.0.39.2) do not
          # recognize.
+@@ -1557,6 +1564,12 @@ config("default_warnings") {
+       }
+     }
+   }
++  if (use_xcode_clang) {
++    cflags_cc += [
++      "-Wno-deprecated-copy",
++      "-Wno-final-dtor-non-final-class",
++    ]
++  }
+ }
+
+ # chromium_code ---------------------------------------------------------------
