@@ -7,7 +7,7 @@ import re
 import sys
 
 ROOT_DIR = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
-PACKAGES = ('v8-android', 'v8-android-nointl')
+PACKAGES = ('v8-android', 'v8-android-nointl', 'v8-android-jit', 'v8-android-jit-nointl')
 
 
 class PackageConfigPatcher:
