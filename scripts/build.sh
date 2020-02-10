@@ -8,13 +8,12 @@ GN_ARGS_BASE="
   is_component_build=false
   use_debug_fission=false
   use_custom_libcxx=false
-  v8_use_snapshot=true
   v8_use_external_startup_data=false
   icu_use_data_file=false
 "
 
 if [[ ${PLATFORM} = "ios" ]]; then
-  GN_ARGS_BASE="${GN_ARGS_BASE} enable_ios_bitcode=false use_xcode_clang=true ios_enable_code_signing=false ios_deployment_target=${IOS_DEPLOYMENT_TARGET}"
+  GN_ARGS_BASE="${GN_ARGS_BASE} enable_ios_bitcode=false use_xcode_clang=true ios_enable_code_signing=false v8_enable_pointer_compression=false ios_deployment_target=${IOS_DEPLOYMENT_TARGET}"
 fi
 
 if [[ ${NO_INTL} = "1" ]]; then
