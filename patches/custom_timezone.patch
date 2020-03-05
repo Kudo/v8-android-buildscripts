@@ -1,0 +1,198 @@
+diff --git a/include/v8.h b/include/v8.h
+index 692e53b809..935db182de 100644
+--- a/include/v8.h
++++ b/include/v8.h
+@@ -9207,7 +9207,7 @@ class V8_EXPORT Isolate {
+    * sandbox, the host time zone has to be detected outside the sandbox before
+    * calling DateTimeConfigurationChangeNotification function.
+    */
+-  enum class TimeZoneDetection { kSkip, kRedetect };
++  enum class TimeZoneDetection { kSkip, kRedetect, kCustom };
+ 
+   /**
+    * Notification that the embedder has changed the time zone, daylight savings
+@@ -9220,7 +9220,8 @@ class V8_EXPORT Isolate {
+    * the performance of date operations.
+    */
+   void DateTimeConfigurationChangeNotification(
+-      TimeZoneDetection time_zone_detection = TimeZoneDetection::kSkip);
++      TimeZoneDetection time_zone_detection = TimeZoneDetection::kSkip,
++      const char* custom_timezone_id = nullptr);
+ 
+   /**
+    * Notification that the embedder has changed the locale. V8 keeps a cache of
+diff --git a/src/api/api.cc b/src/api/api.cc
+index f64538ec1c..8460c610c6 100644
+--- a/src/api/api.cc
++++ b/src/api/api.cc
+@@ -6660,6 +6660,7 @@ double v8::Date::ValueOf() const {
+       static_cast<int>(base::TimezoneCache::TimeZoneDetection::value));
+ TIME_ZONE_DETECTION_ASSERT_EQ(kSkip)
+ TIME_ZONE_DETECTION_ASSERT_EQ(kRedetect)
++TIME_ZONE_DETECTION_ASSERT_EQ(kCustom)
+ #undef TIME_ZONE_DETECTION_ASSERT_EQ
+ 
+ MaybeLocal<v8::RegExp> v8::RegExp::New(Local<Context> context,
+@@ -9046,12 +9047,13 @@ void Isolate::SetAllowAtomicsWait(bool allow) {
+ }
+ 
+ void v8::Isolate::DateTimeConfigurationChangeNotification(
+-    TimeZoneDetection time_zone_detection) {
++    TimeZoneDetection time_zone_detection, const char* custom_timezone_id) {
+   i::Isolate* i_isolate = reinterpret_cast<i::Isolate*>(this);
+   LOG_API(i_isolate, Isolate, DateTimeConfigurationChangeNotification);
+   ENTER_V8_NO_SCRIPT_NO_EXCEPTION(i_isolate);
+   i_isolate->date_cache()->ResetDateCache(
+-      static_cast<base::TimezoneCache::TimeZoneDetection>(time_zone_detection));
++      static_cast<base::TimezoneCache::TimeZoneDetection>(time_zone_detection),
++      custom_timezone_id);
+ #ifdef V8_INTL_SUPPORT
+   i_isolate->clear_cached_icu_object(
+       i::Isolate::ICUObjectCacheType::kDefaultSimpleDateFormat);
+diff --git a/src/base/platform/platform-posix.h b/src/base/platform/platform-posix.h
+index 7d732b4a8f..8ed588f60e 100644
+--- a/src/base/platform/platform-posix.h
++++ b/src/base/platform/platform-posix.h
+@@ -14,7 +14,7 @@ namespace base {
+ class PosixTimezoneCache : public TimezoneCache {
+  public:
+   double DaylightSavingsOffset(double time_ms) override;
+-  void Clear(TimeZoneDetection) override {}
++  void Clear(TimeZoneDetection, const char*) override {}
+   ~PosixTimezoneCache() override = default;
+ 
+  protected:
+diff --git a/src/base/platform/platform-win32.cc b/src/base/platform/platform-win32.cc
+index 04ef8a30f2..baac802ce6 100644
+--- a/src/base/platform/platform-win32.cc
++++ b/src/base/platform/platform-win32.cc
+@@ -113,7 +113,7 @@ class WindowsTimezoneCache : public TimezoneCache {
+ 
+   ~WindowsTimezoneCache() override {}
+ 
+-  void Clear(TimeZoneDetection) override { initialized_ = false; }
++  void Clear(TimeZoneDetection, const char*) override { initialized_ = false; }
+ 
+   const char* LocalTimezone(double time) override;
+ 
+diff --git a/src/base/timezone-cache.h b/src/base/timezone-cache.h
+index 5b8e5a20da..c6a264f2b5 100644
+--- a/src/base/timezone-cache.h
++++ b/src/base/timezone-cache.h
+@@ -35,10 +35,11 @@ class TimezoneCache {
+    * sandbox, the host time zone has to be detected outside the sandbox
+    * separately.
+    */
+-  enum class TimeZoneDetection { kSkip, kRedetect };
++  enum class TimeZoneDetection { kSkip, kRedetect, kCustom };
+ 
+   // Called when the local timezone changes
+-  virtual void Clear(TimeZoneDetection time_zone_detection) = 0;
++  virtual void Clear(TimeZoneDetection time_zone_detection,
++                     const char* custom_timezone_id) = 0;
+ 
+   // Called when tearing down the isolate
+   virtual ~TimezoneCache() = default;
+diff --git a/src/date/date.cc b/src/date/date.cc
+index 825c5040d3..c78cd6cbfa 100644
+--- a/src/date/date.cc
++++ b/src/date/date.cc
+@@ -33,11 +33,12 @@ DateCache::DateCache()
+           base::OS::CreateTimezoneCache()
+ #endif
+       ) {
+-  ResetDateCache(base::TimezoneCache::TimeZoneDetection::kSkip);
++  ResetDateCache(base::TimezoneCache::TimeZoneDetection::kSkip, nullptr);
+ }
+ 
+ void DateCache::ResetDateCache(
+-    base::TimezoneCache::TimeZoneDetection time_zone_detection) {
++    base::TimezoneCache::TimeZoneDetection time_zone_detection,
++    const char* custom_timezone_id) {
+   if (stamp_.value() >= Smi::kMaxValue) {
+     stamp_ = Smi::zero();
+   } else {
+@@ -58,7 +59,7 @@ void DateCache::ResetDateCache(
+ #ifdef V8_INTL_SUPPORT
+   }
+ #endif
+-  tz_cache_->Clear(time_zone_detection);
++  tz_cache_->Clear(time_zone_detection, custom_timezone_id);
+   tz_name_ = nullptr;
+   dst_tz_name_ = nullptr;
+ }
+diff --git a/src/date/date.h b/src/date/date.h
+index 1f6c79c5d4..078224103c 100644
+--- a/src/date/date.h
++++ b/src/date/date.h
+@@ -46,7 +46,8 @@ class V8_EXPORT_PRIVATE DateCache {
+ 
+   // Clears cached timezone information and increments the cache stamp.
+   void ResetDateCache(
+-      base::TimezoneCache::TimeZoneDetection time_zone_detection);
++      base::TimezoneCache::TimeZoneDetection time_zone_detection,
++      const char* custom_timezone_id);
+ 
+   // Computes floor(time_ms / kMsPerDay).
+   static int DaysFromTime(int64_t time_ms) {
+diff --git a/src/objects/intl-objects.cc b/src/objects/intl-objects.cc
+index 9b8ad9fc95..5ee2c71936 100644
+--- a/src/objects/intl-objects.cc
++++ b/src/objects/intl-objects.cc
+@@ -14,6 +14,7 @@
+ #include <vector>
+ 
+ #include "src/api/api-inl.h"
++#include "src/api/api.h"
+ #include "src/execution/isolate.h"
+ #include "src/handles/global-handles.h"
+ #include "src/heap/factory.h"
+@@ -1859,9 +1860,11 @@ MaybeHandle<String> Intl::Normalize(Isolate* isolate, Handle<String> string,
+ // functionality in a straightforward way.
+ class ICUTimezoneCache : public base::TimezoneCache {
+  public:
+-  ICUTimezoneCache() : timezone_(nullptr) { Clear(TimeZoneDetection::kSkip); }
++  ICUTimezoneCache() : timezone_(nullptr) {
++    Clear(TimeZoneDetection::kSkip, nullptr);
++  }
+ 
+-  ~ICUTimezoneCache() override { Clear(TimeZoneDetection::kSkip); }
++  ~ICUTimezoneCache() override { Clear(TimeZoneDetection::kSkip, nullptr); }
+ 
+   const char* LocalTimezone(double time_ms) override;
+ 
+@@ -1869,7 +1872,8 @@ class ICUTimezoneCache : public base::TimezoneCache {
+ 
+   double LocalTimeOffset(double time_ms, bool is_utc) override;
+ 
+-  void Clear(TimeZoneDetection time_zone_detection) override;
++  void Clear(TimeZoneDetection time_zone_detection,
++             const char* custom_timezone_id) override;
+ 
+  private:
+   icu::TimeZone* GetTimeZone();
+@@ -1942,13 +1946,23 @@ double ICUTimezoneCache::LocalTimeOffset(double time_ms, bool is_utc) {
+   return raw_offset + dst_offset;
+ }
+ 
+-void ICUTimezoneCache::Clear(TimeZoneDetection time_zone_detection) {
++void ICUTimezoneCache::Clear(TimeZoneDetection time_zone_detection,
++                             const char* custom_timezone_id) {
+   delete timezone_;
+   timezone_ = nullptr;
+   timezone_name_.clear();
+   dst_timezone_name_.clear();
+   if (time_zone_detection == TimeZoneDetection::kRedetect) {
+     icu::TimeZone::adoptDefault(icu::TimeZone::detectHostTimeZone());
++  } else if (time_zone_detection == TimeZoneDetection::kCustom) {
++    std::unique_ptr<icu::TimeZone> new_zone(icu::TimeZone::createTimeZone(
++        icu::UnicodeString::fromUTF8(custom_timezone_id)));
++    if (*new_zone == icu::TimeZone::getUnknown()) {
++      Utils::ApiCheck(false, "DateTimeConfigurationChangeNotification",
++                      "Invalid timezone id");
++      new_zone.reset(icu::TimeZone::detectHostTimeZone());
++    }
++    icu::TimeZone::adoptDefault(new_zone.release());
+   }
+ }
+ 

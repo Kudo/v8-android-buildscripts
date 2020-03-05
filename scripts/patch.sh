@@ -10,6 +10,10 @@ V8_PATCHSET_ANDROID=(
 
   # https://github.com/Kudo/react-native-v8/issues/27
   "workaround_jsi_object_freeze.patch"
+
+  # Support to specify custom timezone
+  # https://github.com/Kudo/react-native-v8/issues/37
+  "custom_timezone.patch"
 )
 
 V8_PATCHSET_IOS=(
