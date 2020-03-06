@@ -136,7 +136,7 @@ index 1f6c79c5d4..078224103c 100644
    // Computes floor(time_ms / kMsPerDay).
    static int DaysFromTime(int64_t time_ms) {
 diff --git a/src/objects/intl-objects.cc b/src/objects/intl-objects.cc
-index 9b8ad9fc95..997de3515b 100644
+index 9b8ad9fc95..4778408edd 100644
 --- a/src/objects/intl-objects.cc
 +++ b/src/objects/intl-objects.cc
 @@ -14,6 +14,7 @@
@@ -190,9 +190,9 @@ index 9b8ad9fc95..997de3515b 100644
 +    if (*new_zone == icu::TimeZone::getUnknown()) {
 +      base::OS::PrintError(
 +          "DateTimeConfigurationChangeNotification: invalid timezone id");
-+      new_zone.reset(icu::TimeZone::detectHostTimeZone());
++    } else {
++      icu::TimeZone::adoptDefault(new_zone.release());
 +    }
-+    icu::TimeZone::adoptDefault(new_zone.release());
    }
  }
  
