@@ -9,7 +9,7 @@ function makeDistPackageDir() {
 
   local jit_suffix=""
   local intl_suffix=""
-  if [[ ${DISABLE_JIT} = "false" ]]; then
+  if [[ ${NO_JIT} != "0" ]]; then
     jit_suffix="-jit"
   fi
 

@@ -1,0 +1,212 @@
+name: Build for Android
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        variant: [intl, nointl, jit-intl, jit-nointl]
+
+    container:
+      image: kudo/ubuntu-nonroot:18.04
+      env:
+        DEBIAN_FRONTEND: noninteractive
+        TZ: UTC
+        NO_INTL: ${{ contains(matrix.variant, 'nointl') && 1 }}
+        NO_JIT: ${{ !contains(matrix.variant, 'jit' && 1) }}
+
+    steps:
+      - name: Setup docker workspace
+        run: |
+            sudo sh -c "chown -R ubuntu $HOME"
+            sudo sh -c "chmod 777 $GITHUB_WORKSPACE"
+            sudo sh -c "chmod 777 $GITHUB_WORKSPACE/../../_temp"
+            sudo sh -c "chmod 777 /home"
+
+      - uses: actions/checkout@v2
+
+      - name: Setup Ubuntu environment
+        run: |
+          sudo ln -fs /usr/share/zoneinfo/UTC /etc/localtime
+          sudo apt-get update
+          sudo apt-get upgrade -y
+          sudo apt-get install -y apt-utils sudo lsb-core git python nodejs npm wget openjdk-8-jre openjdk-8-jdk
+
+      - name: Export settings from npm package
+        run: npm run export_npm_env
+
+      # - uses: actions/cache@v1
+      #   id: v8-source-cache
+      #   with:
+      #     path: v8
+      #     key: android-v8-${{ env.V8_VERSION }}-${{ env.CACHE_KEY_SUFFIX }}
+      #     restore-keys: |
+      #       android-v8-
+
+      - name: Setup V8 build environment
+        run: |
+          scripts/setup.sh -r ${{ env.V8_VERSION }} android
+          sudo apt-get install -y libatomic1-i386-cross && sudo sh -c 'echo "/usr/i686-linux-gnu/lib" >> /etc/ld.so.conf.d/i386-linux-gnu.conf' && sudo ldconfig
+
+      - name: Patch V8
+        run: scripts/patch.sh android
+
+      - name: Build V8 arm
+        run: |
+          scripts/build.sh android arm
+
+      - name: Build V8 x86
+        run: |
+          scripts/build.sh android x86
+
+      - name: Build V8 arm64
+        run: |
+          scripts/build.sh android arm64
+
+      - name: Build V8 x64
+        run: |
+          scripts/build.sh android x64
+
+      - name: Archive
+        run: |
+          scripts/archive.sh android
+
+      - uses: actions/upload-artifact@master
+        with:
+          name: dist-${{ matrix.variant }}
+          path: dist
+
+
+###############################################################
+# Backup config for triggering variant x arch matrix build
+# Archiving is not finished yet.
+# Since actions/cache unable to work well, there will be 4x4 gclient sync.
+# It's getting a little waste from network bandwidth.
+# That's the main reason not adopted.
+###############################################################
+# jobs:
+#   build-golden:
+#     runs-on: ubuntu-latest
+#
+#     container:
+#       image: kudo/ubuntu-nonroot:18.04
+#       env:
+#         DEBIAN_FRONTEND: noninteractive
+#         TZ: UTC
+#         NO_INTL: 0
+#         NO_JIT: 1
+#         CACHE_KEY_SUFFIX: v3
+#
+#     steps:
+#       - name: Setup docker workspace
+#         run: |
+#             sudo sh -c "chown -R ubuntu $HOME"
+#             sudo sh -c "chmod 777 $GITHUB_WORKSPACE"
+#             sudo sh -c "chmod 777 $GITHUB_WORKSPACE/../../_temp"
+#             sudo sh -c "chmod 777 /home"
+#
+#       - uses: actions/checkout@v2
+#
+#       - name: Setup Ubuntu environment
+#         run: |
+#           sudo ln -fs /usr/share/zoneinfo/UTC /etc/localtime
+#           sudo apt-get update
+#           sudo apt-get upgrade -y
+#           sudo apt-get install -y apt-utils sudo lsb-core git python nodejs npm wget openjdk-8-jre openjdk-8-jdk
+#
+#       - name: Export settings from npm package
+#         run: npm run export_npm_env
+#
+#       # - uses: actions/cache@v1
+#       #   id: v8-source-cache
+#       #   with:
+#       #     path: v8
+#       #     key: android-v8-${{ env.V8_VERSION }}-${{ env.CACHE_KEY_SUFFIX }}
+#       #     restore-keys: |
+#       #       android-v8-
+#
+#       - name: Setup V8 build environment
+#         run: |
+#           scripts/setup.sh -r ${{ env.V8_VERSION }} android
+#           sudo apt-get install -y libatomic1-i386-cross && sudo sh -c 'echo "/usr/i686-linux-gnu/lib" >> /etc/ld.so.conf.d/i386-linux-gnu.conf' && sudo ldconfig
+#
+#       - name: Patch V8
+#         run: scripts/patch.sh android
+#
+#       - name: Build V8 arm
+#         run: |
+#           scripts/build.sh android arm
+#
+#       - uses: actions/upload-artifact@master
+#         with:
+#           name: build-intl-arm
+#           path: build
+#
+#   build-remains:
+#     needs: build-golden
+#     runs-on: ubuntu-latest
+#
+#     strategy:
+#       matrix:
+#         variant: [intl, nointl, jit-intl, jit-nointl]
+#         arch: [arm, x86, arm64, x64]
+#         exclude:
+#           - variant: intl
+#             arch: arm
+#
+#     container:
+#       image: kudo/ubuntu-nonroot:18.04
+#       env:
+#         DEBIAN_FRONTEND: noninteractive
+#         TZ: UTC
+#         NO_INTL: ${{ contains(matrix.variant, 'nointl') && 1 }}
+#         NO_JIT: ${{ !contains(matrix.variant, 'jit' && 1) }}
+#         CACHE_KEY_SUFFIX: v3
+#
+#     steps:
+#       - name: Setup docker workspace
+#         run: |
+#             sudo sh -c "chown -R ubuntu $HOME"
+#             sudo sh -c "chmod 777 $GITHUB_WORKSPACE"
+#             sudo sh -c "chmod 777 $GITHUB_WORKSPACE/../../_temp"
+#             sudo sh -c "chmod 777 /home"
+#
+#       - uses: actions/checkout@v2
+#
+#       - name: Setup Ubuntu environment
+#         run: |
+#           sudo ln -fs /usr/share/zoneinfo/UTC /etc/localtime
+#           sudo apt-get update
+#           sudo apt-get upgrade -y
+#           sudo apt-get install -y apt-utils sudo lsb-core git python nodejs npm wget openjdk-8-jre openjdk-8-jdk
+#
+#       - name: Export settings from npm package
+#         run: npm run export_npm_env
+#
+#       # - uses: actions/cache@v1
+#       #   id: v8-source-cache
+#       #   with:
+#       #     path: v8
+#       #     key: android-v8-${{ env.V8_VERSION }}-${{ env.CACHE_KEY_SUFFIX }}
+#       #     restore-keys: |
+#       #       android-v8-
+#
+#       - name: Setup V8 build environment
+#         run: |
+#           scripts/setup.sh -r ${{ env.V8_VERSION }} android
+#           sudo apt-get install -y libatomic1-i386-cross && sudo sh -c 'echo "/usr/i686-linux-gnu/lib" >> /etc/ld.so.conf.d/i386-linux-gnu.conf' && sudo ldconfig
+#
+#       - name: Patch V8
+#         run: scripts/patch.sh android
+#
+#       - name: Build V8 arm
+#         run: |
+#           scripts/build.sh android ${{ env.arch }}
+#
+#       - uses: actions/upload-artifact@master
+#         with:
+#           name: build-${{ matrix.variant }}-${{ matrix.arch }}
+#           path: build
