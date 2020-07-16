@@ -79,23 +79,6 @@ index c486f1a..6aeb762 100644
  ###############################################################################
  # Executables
  #
-diff --git a/gni/v8.gni b/gni/v8.gni
-index e55c4cf..a97111b 100644
---- a/gni/v8.gni
-+++ b/gni/v8.gni
-@@ -230,3 +230,12 @@ template("v8_static_library") {
-     configs += invoker.configs
-   }
- }
-+
-+template("v8_shared_library") {
-+  shared_library(target_name) {
-+    forward_variables_from(invoker, "*", [ "configs" ])
-+    configs -= v8_remove_configs
-+    configs += v8_add_configs
-+    configs += invoker.configs
-+  }
-+}
 diff --git a/build/config/compiler/BUILD.gn b/build/config/compiler/BUILD.gn
 index cba0602f8..1e4ae504f 100644
 --- a/build/config/compiler/BUILD.gn
