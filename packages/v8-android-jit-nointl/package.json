@@ -1,6 +1,6 @@
 {
   "name": "v8-android-jit-nointl",
-  "version": "8.80.1",
+  "version": "8.84.0",
   "description": "Pre-build version of V8 to be used by React Native apps",
   "repository": {
     "type": "git",
