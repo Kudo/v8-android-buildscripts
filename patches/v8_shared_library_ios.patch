@@ -97,7 +97,7 @@ index cba0602f8..1e4ae504f 100644
        if (current_toolchain == host_toolchain || !use_xcode_clang) {
          # Flags NaCl (Clang 3.7) and Xcode 9.2 (Clang clang-900.0.39.2) do not
          # recognize.
-@@ -1557,6 +1564,12 @@ config("default_warnings") {
+@@ -1557,6 +1564,13 @@ config("default_warnings") {
        }
      }
    }
@@ -105,6 +105,7 @@ index cba0602f8..1e4ae504f 100644
 +    cflags_cc += [
 +      "-Wno-deprecated-copy",
 +      "-Wno-final-dtor-non-final-class",
++      "-Wno-range-loop-analysis",
 +    ]
 +  }
  }
