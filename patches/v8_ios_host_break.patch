@@ -1,0 +1,26 @@
+diff --git a/src/wasm/code-space-access.h b/src/wasm/code-space-access.h
+index 5eeb980e17..2ef5909e55 100644
+--- a/src/wasm/code-space-access.h
++++ b/src/wasm/code-space-access.h
+@@ -12,7 +12,7 @@
+ namespace v8 {
+ namespace internal {
+ 
+-#if defined(V8_OS_MACOSX) && defined(V8_HOST_ARCH_ARM64)
++#if 0
+ 
+ // Ignoring this warning is considered better than relying on
+ // __builtin_available.
+diff --git a/src/wasm/wasm-code-manager.cc b/src/wasm/wasm-code-manager.cc
+index cd90524599..c5dadfe83d 100644
+--- a/src/wasm/wasm-code-manager.cc
++++ b/src/wasm/wasm-code-manager.cc
+@@ -49,7 +49,7 @@ namespace wasm {
+ 
+ using trap_handler::ProtectedInstructionData;
+ 
+-#if defined(V8_OS_MACOSX) && defined(V8_HOST_ARCH_ARM64)
++#if 0
+ thread_local int CodeSpaceWriteScope::code_space_write_nesting_level_ = 0;
+ #endif
+ 

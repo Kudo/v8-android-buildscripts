@@ -22,6 +22,9 @@ V8_PATCHSET_IOS=(
 
   # https://github.com/Kudo/react-native-v8/issues/27
   "workaround_jsi_object_freeze.patch"
+
+  # Workaround latest Xcode12 build break on non Apple Silicon
+  "v8_ios_host_break.patch"
 )
 
 ######################################################################################
