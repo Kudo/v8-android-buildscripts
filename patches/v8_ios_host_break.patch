@@ -1,0 +1,13 @@
+diff --git a/src/wasm/code-space-access.h b/src/wasm/code-space-access.h
+index 5eeb980e17..2ef5909e55 100644
+--- a/src/wasm/code-space-access.h
++++ b/src/wasm/code-space-access.h
+@@ -12,7 +12,7 @@
+ namespace v8 {
+ namespace internal {
+ 
+-#if defined(V8_OS_MACOSX) && defined(V8_HOST_ARCH_ARM64)
++#if 0
+ 
+ // Ignoring this warning is considered better than relying on
+ // __builtin_available.
