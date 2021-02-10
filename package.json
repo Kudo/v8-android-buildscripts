@@ -15,6 +15,6 @@
     "start_ios": "bash -c '. ./scripts/export_npm_env.sh && ./scripts/start.sh ios'"
   },
   "config": {
-    "V8": "8.8.278.14"
+    "V8": "8.8.278.15"
   }
 }
