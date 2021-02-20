@@ -3,6 +3,9 @@ source $(dirname $0)/env.sh
 BUILD_TYPE="Release"
 # BUILD_TYPE="Debug"
 
+# $1 is ${PLATFORM} which parse commonly from env.sh
+ARCH=$2
+
 GN_ARGS_BASE="
   target_os=\"${PLATFORM}\"
   is_component_build=false
@@ -20,7 +23,7 @@ if [[ ${NO_INTL} = "1" ]]; then
   GN_ARGS_BASE="${GN_ARGS_BASE} v8_enable_i18n_support=false"
 fi
 
-if [[ ${DISABLE_JIT} != "false" ]]; then
+if [[ ${NO_JIT} != "0" ]]; then
   GN_ARGS_BASE="${GN_ARGS_BASE} v8_enable_lite_mode=true"
 fi
 
@@ -111,7 +114,9 @@ function build_arch()
   cp -f out.v8.${arch}/clang_*/mksnapshot "${BUILD_DIR}/tools/${platform_arch}/mksnapshot"
 }
 
-if [[ ${PLATFORM} = "android" ]]; then
+if [[ ${ARCH} ]]; then
+  build_arch "${ARCH}"
+elif [[ ${PLATFORM} = "android" ]]; then
   build_arch "arm"
   build_arch "x86"
   build_arch "arm64"

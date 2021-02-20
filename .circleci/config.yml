@@ -140,8 +140,8 @@ jobs:
       - run:
           name: Build V8 JIT
           command: |
-            DISABLE_JIT=false scripts/build.sh android
-            DISABLE_JIT=false scripts/archive.sh android
+            NO_JIT=0 scripts/build.sh android
+            NO_JIT=0 scripts/archive.sh android
 
       - run:
           name: Archive
@@ -190,8 +190,8 @@ jobs:
       - run:
           name: Build V8 JIT
           command: |
-            NO_INTL=1 DISABLE_JIT=false scripts/build.sh android
-            NO_INTL=1 DISABLE_JIT=false scripts/archive.sh android
+            NO_INTL=1 NO_JIT=0 scripts/build.sh android
+            NO_INTL=1 NO_JIT=0 scripts/archive.sh android
 
       - run:
           name: Archive
