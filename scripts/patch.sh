@@ -14,6 +14,9 @@ V8_PATCHSET_ANDROID=(
   # Support to specify custom timezone
   # https://github.com/Kudo/react-native-v8/issues/37
   "custom_timezone.patch"
+
+  # Fix build break for v91
+  "android_build_break_v91.patch"
 )
 
 V8_PATCHSET_IOS=(
