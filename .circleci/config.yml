@@ -3,7 +3,7 @@ version: 2
 jobs:
   v8:
     docker:
-      - image: kudo/ubuntu-nonroot:18.04
+      - image: kudo/ubuntu-nonroot:20.04
         user: ubuntu
         environment:
           DEBIAN_FRONTEND: noninteractive
