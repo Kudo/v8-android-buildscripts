@@ -28,6 +28,9 @@ V8_PATCHSET_IOS=(
 
   # Workaround latest Xcode12 build break on non Apple Silicon
   "v8_ios_host_break.patch"
+
+  # Disable trap handler to fix build break
+  "ios_trap_handler.patch"
 )
 
 ######################################################################################

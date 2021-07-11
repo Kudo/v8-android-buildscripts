@@ -1,0 +1,18 @@
+diff --git a/src/trap-handler/trap-handler.h b/src/trap-handler/trap-handler.h
+index fcdc256a38..7e48e8af09 100644
+--- a/src/trap-handler/trap-handler.h
++++ b/src/trap-handler/trap-handler.h
+@@ -24,11 +24,11 @@ namespace trap_handler {
+ #elif V8_TARGET_ARCH_X64 && V8_OS_WIN
+ #define V8_TRAP_HANDLER_SUPPORTED true
+ #elif V8_TARGET_ARCH_X64 && V8_OS_MACOSX
+-#define V8_TRAP_HANDLER_SUPPORTED true
++#define V8_TRAP_HANDLER_SUPPORTED false
+ #elif V8_TARGET_ARCH_X64 && V8_OS_FREEBSD
+ #define V8_TRAP_HANDLER_SUPPORTED true
+ #elif V8_HOST_ARCH_ARM64 && V8_TARGET_ARCH_ARM64 && V8_OS_MACOSX
+-#define V8_TRAP_HANDLER_SUPPORTED true
++#define V8_TRAP_HANDLER_SUPPORTED false
+ #else
+ #define V8_TRAP_HANDLER_SUPPORTED false
+ #endif
