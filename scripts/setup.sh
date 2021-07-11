@@ -49,6 +49,9 @@ if [[ ${PLATFORM} = "android" ]]; then
 
   sudo bash -c 'v8/build/install-build-deps-android.sh'
 
+  # Reset changes after installation
+  patch -d "${V8_DIR}" -p1 -R < "${PATCHES_DIR}/prebuild_no_snapd.patch"
+
   # Workaround to install missing sysroot
   gclient sync
 
