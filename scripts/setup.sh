@@ -43,6 +43,10 @@ fi
 
 if [[ ${PLATFORM} = "android" ]]; then
   gclient sync --deps=android ${GCLIENT_SYNC_ARGS}
+
+  # Patch build-deps installer for snapd not available in docker
+  patch -d "${V8_DIR}" -p1 < "${PATCHES_DIR}/prebuild_no_snapd.patch"
+
   sudo bash -c 'v8/build/install-build-deps-android.sh'
 
   # Workaround to install missing sysroot
