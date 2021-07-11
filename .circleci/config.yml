@@ -18,6 +18,9 @@ jobs:
             sudo apt-get update
             sudo apt-get upgrade -y
             sudo apt-get install -y apt-utils sudo lsb-core git python nodejs npm wget openjdk-8-jre openjdk-8-jdk
+            sudo apt-get install -y snapd
+            sudo systemctl enable snapd.service
+            sudo systemctl start snapd.service
             sudo apt-get install -y snapcraft
           environment:
             DEBIAN_FRONTEND: noninteractive
@@ -73,6 +76,9 @@ jobs:
             sudo apt-get update
             sudo apt-get upgrade -y
             sudo apt-get install -y apt-utils sudo lsb-core git python nodejs npm wget openjdk-8-jre openjdk-8-jdk
+            sudo apt-get install -y snapd
+            sudo systemctl enable snapd.service
+            sudo systemctl start snapd.service
             sudo apt-get install -y snapcraft
           environment:
             DEBIAN_FRONTEND: noninteractive
@@ -128,6 +134,9 @@ jobs:
             sudo apt-get update
             sudo apt-get upgrade -y
             sudo apt-get install -y apt-utils sudo lsb-core git python nodejs npm wget openjdk-8-jre openjdk-8-jdk
+            sudo apt-get install -y snapd
+            sudo systemctl enable snapd.service
+            sudo systemctl start snapd.service
             sudo apt-get install -y snapcraft
           environment:
             DEBIAN_FRONTEND: noninteractive
@@ -183,6 +192,9 @@ jobs:
             sudo apt-get update
             sudo apt-get upgrade -y
             sudo apt-get install -y apt-utils sudo lsb-core git python nodejs npm wget openjdk-8-jre openjdk-8-jdk
+            sudo apt-get install -y snapd
+            sudo systemctl enable snapd.service
+            sudo systemctl start snapd.service
             sudo apt-get install -y snapcraft
           environment:
             DEBIAN_FRONTEND: noninteractive
