@@ -31,6 +31,8 @@ jobs:
           command: |
             scripts/setup.sh -r ${V8_VERSION} android
             sudo apt-get install -y libatomic1-i386-cross && sudo sh -c 'echo "/usr/i686-linux-gnu/lib" >> /etc/ld.so.conf.d/i386-linux-gnu.conf' && sudo ldconfig
+        environment:
+          DEBIAN_FRONTEND: noninteractive
 
       - run:
           name: Patch V8
@@ -53,7 +55,7 @@ jobs:
 
   v8-nointl:
     docker:
-      - image: kudo/ubuntu-nonroot:18.04
+      - image: kudo/ubuntu-nonroot:20.04
         user: ubuntu
         environment:
           DEBIAN_FRONTEND: noninteractive
@@ -81,6 +83,8 @@ jobs:
           command: |
             scripts/setup.sh -r ${V8_VERSION} android
             sudo apt-get install -y libatomic1-i386-cross && sudo sh -c 'echo "/usr/i686-linux-gnu/lib" >> /etc/ld.so.conf.d/i386-linux-gnu.conf' && sudo ldconfig
+        environment:
+          DEBIAN_FRONTEND: noninteractive
 
       - run:
           name: Patch V8
@@ -103,7 +107,7 @@ jobs:
 
   v8-jit:
     docker:
-      - image: kudo/ubuntu-nonroot:18.04
+      - image: kudo/ubuntu-nonroot:20.04
         user: ubuntu
         environment:
           DEBIAN_FRONTEND: noninteractive
@@ -131,6 +135,8 @@ jobs:
           command: |
             scripts/setup.sh -r ${V8_VERSION} android
             sudo apt-get install -y libatomic1-i386-cross && sudo sh -c 'echo "/usr/i686-linux-gnu/lib" >> /etc/ld.so.conf.d/i386-linux-gnu.conf' && sudo ldconfig
+        environment:
+          DEBIAN_FRONTEND: noninteractive
 
       - run:
           name: Patch V8
@@ -153,7 +159,7 @@ jobs:
 
   v8-jit-nointl:
     docker:
-      - image: kudo/ubuntu-nonroot:18.04
+      - image: kudo/ubuntu-nonroot:20.04
         user: ubuntu
         environment:
           DEBIAN_FRONTEND: noninteractive
@@ -181,6 +187,8 @@ jobs:
           command: |
             scripts/setup.sh -r ${V8_VERSION} android
             sudo apt-get install -y libatomic1-i386-cross && sudo sh -c 'echo "/usr/i686-linux-gnu/lib" >> /etc/ld.so.conf.d/i386-linux-gnu.conf' && sudo ldconfig
+        environment:
+          DEBIAN_FRONTEND: noninteractive
 
       - run:
           name: Patch V8
