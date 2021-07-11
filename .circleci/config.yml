@@ -31,8 +31,6 @@ jobs:
           command: |
             scripts/setup.sh -r ${V8_VERSION} android
             sudo apt-get install -y libatomic1-i386-cross && sudo sh -c 'echo "/usr/i686-linux-gnu/lib" >> /etc/ld.so.conf.d/i386-linux-gnu.conf' && sudo ldconfig
-        environment:
-          DEBIAN_FRONTEND: noninteractive
 
       - run:
           name: Patch V8
@@ -83,8 +81,6 @@ jobs:
           command: |
             scripts/setup.sh -r ${V8_VERSION} android
             sudo apt-get install -y libatomic1-i386-cross && sudo sh -c 'echo "/usr/i686-linux-gnu/lib" >> /etc/ld.so.conf.d/i386-linux-gnu.conf' && sudo ldconfig
-        environment:
-          DEBIAN_FRONTEND: noninteractive
 
       - run:
           name: Patch V8
@@ -135,8 +131,6 @@ jobs:
           command: |
             scripts/setup.sh -r ${V8_VERSION} android
             sudo apt-get install -y libatomic1-i386-cross && sudo sh -c 'echo "/usr/i686-linux-gnu/lib" >> /etc/ld.so.conf.d/i386-linux-gnu.conf' && sudo ldconfig
-        environment:
-          DEBIAN_FRONTEND: noninteractive
 
       - run:
           name: Patch V8
@@ -187,8 +181,6 @@ jobs:
           command: |
             scripts/setup.sh -r ${V8_VERSION} android
             sudo apt-get install -y libatomic1-i386-cross && sudo sh -c 'echo "/usr/i686-linux-gnu/lib" >> /etc/ld.so.conf.d/i386-linux-gnu.conf' && sudo ldconfig
-        environment:
-          DEBIAN_FRONTEND: noninteractive
 
       - run:
           name: Patch V8
