@@ -20,10 +20,8 @@ jobs:
         run: |
             sudo sh -c "chown -R ubuntu $HOME"
             sudo sh -c "chmod 777 $GITHUB_WORKSPACE"
-            sudo sh -c "chmod 777 $GITHUB_WORKSPACE/../../_temp"
+            sudo sh -c "chmod -R go+rwx $GITHUB_WORKSPACE/../../_temp"
             sudo sh -c "chmod 777 /home"
-            echo "GITHUB_WORKSPACE: $GITHUB_WORKSPACE"
-            echo "GITHUB_ENV: $GITHUB_ENV"
 
       - uses: actions/checkout@v2
 
