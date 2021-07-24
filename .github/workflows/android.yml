@@ -22,7 +22,7 @@ jobs:
             sudo sh -c "chmod 777 $GITHUB_WORKSPACE"
             sudo sh -c "chmod -R go+rw $GITHUB_WORKSPACE/../.."
             sudo sh -c "chmod 777 /home"
-            "find $GITHUB_WORKSPACE/../../ -ls"
+            "find /__w -ls"
 
       - uses: actions/checkout@v2
 
