@@ -16,3 +16,16 @@ index fcdc256a38..7e48e8af09 100644
  #else
  #define V8_TRAP_HANDLER_SUPPORTED false
  #endif
+diff --git a/src/api/api.cc b/src/api/api.cc
+index a5c658a799..620c085b27 100644
+--- a/src/api/api.cc
++++ b/src/api/api.cc
+@@ -5773,7 +5773,7 @@ bool TryHandleWebAssemblyTrapPosix(int sig_code, siginfo_t* info,
+   // pad and lets the process crash. Therefore, only enable trap handlers if
+   // the host and target arch are the same.
+ #if (V8_TARGET_ARCH_X64 && !V8_OS_ANDROID) || \
+-    (V8_HOST_ARCH_ARM64 && V8_TARGET_ARCH_ARM64 && V8_OS_MACOSX)
++    (V8_HOST_ARCH_ARM64 && V8_TARGET_ARCH_ARM64 && V8_OS_MACOSX && !V8_OS_IOS)
+   return i::trap_handler::TryHandleSignal(sig_code, info, context);
+ #else
+   return false;
