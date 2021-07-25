@@ -14,6 +14,9 @@ V8_PATCHSET_ANDROID=(
   # Support to specify custom timezone
   # https://github.com/Kudo/react-native-v8/issues/37
   "custom_timezone.patch"
+
+  # Fix build break for v91
+  "android_build_break_v91.patch"
 )
 
 V8_PATCHSET_IOS=(
@@ -24,7 +27,10 @@ V8_PATCHSET_IOS=(
   "workaround_jsi_object_freeze.patch"
 
   # Workaround latest Xcode12 build break on non Apple Silicon
-  "v8_ios_host_break.patch"
+  # "v8_ios_host_break.patch"
+
+  # Disable trap handler to fix build break
+  "ios_trap_handler.patch"
 )
 
 ######################################################################################
