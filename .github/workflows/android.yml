@@ -6,52 +6,8 @@ env:
   CACHE_KEY_SUFFIX: v2
 
 jobs:
-  sync-code:
-    runs-on: ubuntu-latest
-
-    container:
-      image: kudo/ubuntu-nonroot:20.04
-      env:
-        DEBIAN_FRONTEND: noninteractive
-        TZ: UTC
-
-    steps:
-      - name: Setup docker workspace
-        run: |
-            sudo sh -c "chown -R ubuntu $HOME"
-            sudo sh -c "chmod 777 $GITHUB_WORKSPACE"
-            sudo sh -c "chmod -R go+rw $GITHUB_WORKSPACE/../.."
-            sudo sh -c "chmod 777 /home"
-            sudo sh -c "chmod 777 $GITHUB_ENV"
-
-      - uses: actions/checkout@v2
-
-      - name: Setup Ubuntu environment
-        run: |
-          sudo ln -fs /usr/share/zoneinfo/UTC /etc/localtime
-          sudo apt-get update
-          sudo apt-get upgrade -y
-          sudo apt-get install -y apt-utils sudo lsb-core git python nodejs npm wget openjdk-8-jre openjdk-8-jdk
-
-      - name: Export settings from npm package
-        run: npm run export_npm_env
-
-      - uses: actions/cache@v2
-        with:
-          path: v8
-          key: android-v8-${{ env.V8_VERSION }}-${{ env.CACHE_KEY_SUFFIX }}
-
-      - name: Setup V8 build environment
-        run: |
-          scripts/setup.sh -r ${{ env.V8_VERSION }} android
-          sudo apt-get install -y libatomic1-i386-cross && sudo sh -c 'echo "/usr/i686-linux-gnu/lib" >> /etc/ld.so.conf.d/i386-linux-gnu.conf' && sudo ldconfig
-
-      - name: Patch V8
-        run: scripts/patch.sh android
-
   build:
     runs-on: ubuntu-latest
-    needs: sync-code
 
     strategy:
       matrix:
@@ -70,7 +26,7 @@ jobs:
         run: |
             sudo sh -c "chown -R ubuntu $HOME"
             sudo sh -c "chmod 777 $GITHUB_WORKSPACE"
-            sudo sh -c "chmod 777 $GITHUB_WORKSPACE/../../_temp"
+            # sudo sh -c "chmod 777 $GITHUB_WORKSPACE/../../_temp"
             sudo sh -c "chmod 777 /home"
 
       - uses: actions/checkout@v2
@@ -85,10 +41,10 @@ jobs:
       - name: Export settings from npm package
         run: npm run export_npm_env
 
-      - uses: actions/cache@v2
-        with:
-          path: v8
-          key: android-v8-${{ env.V8_VERSION }}-${{ env.CACHE_KEY_SUFFIX }}
+      # - uses: actions/cache@v2
+      #   with:
+      #     path: v8
+      #     key: android-v8-${{ env.V8_VERSION }}-${{ env.CACHE_KEY_SUFFIX }}
 
       - name: Setup V8 build environment
         run: |
