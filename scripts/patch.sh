@@ -30,7 +30,7 @@ V8_PATCHSET_IOS=(
   # "v8_ios_host_break.patch"
 
   # Disable trap handler to fix build break
-  # "ios_trap_handler.patch"
+  "ios_trap_handler.patch"
 )
 
 ######################################################################################
