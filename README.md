@@ -1,5 +1,6 @@
 [![npm version](https://badge.fury.io/js/v8-android.svg)](https://badge.fury.io/js/v8-android)
-[![CircleCI](https://circleci.com/gh/Kudo/v8-android-buildscripts.svg?style=svg)](https://circleci.com/gh/Kudo/v8-android-buildscripts)
+[![Build for Android](https://github.com/Kudo/v8-android-buildscripts/actions/workflows/android.yml/badge.svg)](https://github.com/Kudo/v8-android-buildscripts/actions/workflows/android.yml)
+[![iOS build](https://github.com/Kudo/v8-android-buildscripts/actions/workflows/ios.yml/badge.svg)](https://github.com/Kudo/v8-android-buildscripts/actions/workflows/ios.yml)
 
 # V8 build scripts for React Native Android
 
@@ -24,7 +25,7 @@ To integrate with React Native, please check [react-native-v8](https://github.co
  - v8 JIT + no intl (performance optimized + smaller size)
 
 #### Features
-1. Single libv8.so file.
+1. Single libv8android.so (or libv8.so on iOS) file.
 2. Support i18n and JavaScript [Intl](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl).
 3. V8 Lite mode (JIT-less mode) https://v8.dev/blog/v8-lite
 4. Build by Android official NDK r19c which prevent potential ABI incompatible issue to integrate with React Native.
@@ -33,7 +34,7 @@ To integrate with React Native, please check [react-native-v8](https://github.co
 
 ### Prerequisites
 
-* Ubuntu 18.04
+* Ubuntu 20.04
 * git + python + nodejs + npm + wget + yarn
 
 ### Build steps
@@ -46,4 +47,4 @@ yarn setup
 yarn start
 ```
 
-Could further check real build steps for CircleCI from [CircleCI Config](https://github.com/Kudo/v8-android-buildscripts/blob/master/.circleci/config.yml).
+Could further check real build steps from [GitHub Actions](https://github.com/Kudo/v8-android-buildscripts/blob/master/.github/workflows/).
