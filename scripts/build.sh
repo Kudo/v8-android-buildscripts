@@ -19,11 +19,11 @@ if [[ ${PLATFORM} = "ios" ]]; then
   GN_ARGS_BASE="${GN_ARGS_BASE} enable_ios_bitcode=false use_xcode_clang=true ios_enable_code_signing=false v8_enable_pointer_compression=false ios_deployment_target=${IOS_DEPLOYMENT_TARGET}"
 fi
 
-if [[ ${NO_INTL} = "1" ]]; then
+if [[ ${NO_INTL} = "true" ]]; then
   GN_ARGS_BASE="${GN_ARGS_BASE} v8_enable_i18n_support=false"
 fi
 
-if [[ ${NO_JIT} != "0" ]]; then
+if [[ ${NO_JIT} = "true" ]]; then
   GN_ARGS_BASE="${GN_ARGS_BASE} v8_enable_lite_mode=true"
 fi
 
@@ -93,7 +93,7 @@ function build_arch()
     exit 1
   fi
 
-  echo "Build v8 ${arch} variant NO_INTL=${NO_INTL}"
+  echo "Build v8 ${arch} variant NO_INTL=${NO_INTL} NO_JIT=${NO_JIT}"
   gn gen --args="${GN_ARGS_BASE} ${GN_ARGS_BUILD_TYPE} target_cpu=\"${arch}\"" "out.v8.${arch}"
 
   if [[ ${MKSNAPSHOT_ONLY} = "1" ]]; then
