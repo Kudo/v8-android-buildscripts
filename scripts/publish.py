@@ -7,10 +7,10 @@ import sys
 
 ROOT_DIR = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
 PACKAGE_MAP = {
-    'v8-android': 'dist.tgz',
-    'v8-android-nointl': 'dist-nointl.tgz',
-    'v8-android-jit': 'dist-jit.tgz',
-    'v8-android-jit-nointl': 'dist-jit-nointl.tgz',
+    'v8-android': 'dist-intl.zip',
+    'v8-android-nointl': 'dist-nointl.zip',
+    'v8-android-jit': 'dist-jit.zip',
+    'v8-android-jit-nointl': 'dist-jit-nointl.zip',
 }
 
 
@@ -27,7 +27,7 @@ def parse_args():
                             help='NPM published tag')
     arg_parser.add_argument('distdir',
                             action='store',
-                            help='dir to dist*.tgz files created from CI')
+                            help='dir to dist*.zip files created from CI')
 
     args = arg_parser.parse_args()
     if not args.distdir:
@@ -51,15 +51,14 @@ def main():
         if not os.path.exists(distfile_path):
             raise FileNotFoundError(
                 'dist file not found: {}'.format(distfile_path))
-        subprocess.run(['tar', '-xf', distfile_path, '-C', workdir])
+        subprocess.run(['unzip', distfile_path, '-d', workdir])
 
         cwd = os.path.join(ROOT_DIR, 'packages', package)
-        source_dir_in_tar_file = os.path.join(workdir, 'dist', 'packages',
-                                              package)
+        source_dir_in_zip_file = os.path.join(workdir, 'packages', package)
         distdir = os.path.join(cwd, 'dist')
         if os.path.exists(distdir):
             shutil.rmtree(distdir)
-        shutil.move(source_dir_in_tar_file, distdir)
+        shutil.move(source_dir_in_zip_file, distdir)
         cmds = ['npm', 'publish', '--tag', args.tag]
         if args.dry_run:
             cmds.append('--dry-run')
