@@ -5,6 +5,9 @@ on: [push]
 jobs:
   build:
     runs-on: macOS-latest
+    env:
+      NO_INTL: false
+      NO_JIT: true
 
     steps:
     - uses: actions/checkout@v1
