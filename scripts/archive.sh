@@ -9,11 +9,11 @@ function makeDistPackageDir() {
 
   local jit_suffix=""
   local intl_suffix=""
-  if [[ ${NO_JIT} != "0" ]]; then
+  if [[ ${NO_JIT} != "true" ]]; then
     jit_suffix="-jit"
   fi
 
-  if [[ ${NO_INTL} = "1" ]]; then
+  if [[ ${NO_INTL} = "true" ]]; then
     intl_suffix="-nointl"
   fi
 

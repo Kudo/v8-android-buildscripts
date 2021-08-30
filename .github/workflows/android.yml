@@ -18,8 +18,8 @@ jobs:
       env:
         DEBIAN_FRONTEND: noninteractive
         TZ: UTC
-        NO_INTL: ${{ contains(matrix.variant, 'nointl') && 1 }}
-        NO_JIT: ${{ !contains(matrix.variant, 'jit' && 1) }}
+        NO_INTL: ${{ contains(matrix.variant, 'nointl') }}
+        NO_JIT: ${{ !contains(matrix.variant, 'jit') }}
 
     steps:
       - name: Setup docker workspace
