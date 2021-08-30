@@ -9,7 +9,7 @@ ROOT_DIR = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
 PACKAGE_MAP = {
     'v8-android': 'dist-intl.zip',
     'v8-android-nointl': 'dist-nointl.zip',
-    'v8-android-jit': 'dist-jit.zip',
+    'v8-android-jit': 'dist-jit-intl.zip',
     'v8-android-jit-nointl': 'dist-jit-nointl.zip',
 }
 
