@@ -1,6 +1,6 @@
 {
   "name": "v8-android-jit",
-  "version": "9.88.0",
+  "version": "9.92.0",
   "description": "Pre-build version of V8 to be used by React Native apps",
   "repository": {
     "type": "git",
