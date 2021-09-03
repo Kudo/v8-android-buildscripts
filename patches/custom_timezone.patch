@@ -144,9 +144,9 @@ index 9b8ad9fc95..4778408edd 100644
  
  #include "src/api/api-inl.h"
 +#include "src/base/platform/platform.h"
+ #include "src/base/strings.h"
  #include "src/execution/isolate.h"
  #include "src/handles/global-handles.h"
- #include "src/heap/factory.h"
 @@ -1859,9 +1860,11 @@ MaybeHandle<String> Intl::Normalize(Isolate* isolate, Handle<String> string,
  // functionality in a straightforward way.
  class ICUTimezoneCache : public base::TimezoneCache {
