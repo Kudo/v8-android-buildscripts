@@ -1,6 +1,6 @@
 {
   "name": "v8-android-nointl",
-  "version": "9.92.0",
+  "version": "9.93.0",
   "description": "Pre-build version of V8 to be used by React Native apps (Non Intl supported version)",
   "repository": {
     "type": "git",
