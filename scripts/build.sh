@@ -9,9 +9,7 @@ ARCH=$2
 GN_ARGS_BASE="
   target_os=\"${PLATFORM}\"
   is_component_build=false
-  use_debug_fission=false
   use_custom_libcxx=false
-  v8_use_external_startup_data=false
   icu_use_data_file=false
 "
 
