@@ -1,0 +1,13 @@
+diff --git a/BUILD.gn b/BUILD.gn
+index bca5b5356b..5e0147d642 100644
+--- a/BUILD.gn
++++ b/BUILD.gn
+@@ -1237,6 +1235,8 @@ config("toolchain") {
+ 
+       # TODO(v8:12245): Fix shadowing instances and remove.
+       "-Wno-shadow",
++
++      "-Wno-deprecated-copy-with-user-provided-copy",
+     ]
+ 
+     if (v8_current_cpu != "mips" && v8_current_cpu != "mipsel") {
