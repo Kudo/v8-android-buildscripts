@@ -25,9 +25,6 @@ V8_PATCHSET_IOS=(
 
   # Workaround latest Xcode12 build break on non Apple Silicon
   # "v8_ios_host_break.patch"
-
-  # Fix std::forward undefined
-  "ios_build_error_forward.patch"
 )
 
 ######################################################################################
