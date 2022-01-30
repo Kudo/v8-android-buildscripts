@@ -25,6 +25,9 @@ V8_PATCHSET_IOS=(
 
   # Workaround latest Xcode12 build break on non Apple Silicon
   # "v8_ios_host_break.patch"
+
+  # Fix use_system_xcode build error
+  "system_xcode_build_error.patch"
 )
 
 ######################################################################################
