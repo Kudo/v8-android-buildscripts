@@ -7,7 +7,7 @@ index bc3de06d0..1e96de22c 100644
      # we build same files with same compile flag.
      # Other paths are already given in relative, no need to normalize them.
 -    if (is_nacl) {
-+    if (is_nacl || (is_mac && use_system_xcode)) {
++    if (is_nacl || (is_ios && use_system_xcode)) {
        # TODO(https://crbug.com/1231236): Use -ffile-compilation-dir= here.
        cflags += [
          "-Xclang",
