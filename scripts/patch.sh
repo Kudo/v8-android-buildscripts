@@ -55,7 +55,7 @@ if [[ ${PLATFORM} = "android" ]]; then
     patch -d "${V8_DIR}" -p1 < "${PATCHES_DIR}/$patch"
   done
 
-  # setupNDK
+  setupNDK
 elif [[ ${PLATFORM} = "ios" ]]; then
   for patch in "${V8_PATCHSET_IOS[@]}"
   do
