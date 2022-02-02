@@ -1,6 +1,6 @@
 {
   "private": true,
-  "version": "9.97.0",
+  "version": "9.98.0",
   "workspaces": [
     "packages/*"
   ],
@@ -15,6 +15,6 @@
     "start_ios": "bash -c '. ./scripts/export_npm_env.sh && ./scripts/start.sh ios'"
   },
   "config": {
-    "V8": "9.7.106.19"
+    "V8": "9.8.177.9"
   }
 }
