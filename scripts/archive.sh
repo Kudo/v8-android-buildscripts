@@ -58,6 +58,8 @@ function copyHeaders() {
 function copyTools() {
   printf "\n\n\t\t===================== adding tools to ${DIST_PACKAGE_DIR}/tools =====================\n\n"
   cp -Rf "${BUILD_DIR}/tools" "${DIST_PACKAGE_DIR}/tools"
+  find "${BUILD_DIR}"
+  find "${BUILD_DIR}" -name 'snapshot_blob*' -exec cp "{}" "${DIST_PACKAGE_DIR}/tools"
 }
 
 
