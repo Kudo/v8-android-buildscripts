@@ -97,7 +97,7 @@ function build_arch()
   if [[ ${MKSNAPSHOT_ONLY} = "1" ]]; then
     date ; ninja ${NINJA_PARAMS} -C "out.v8.${arch}" run_mksnapshot_default ; date
   else
-    date ; ninja ${NINJA_PARAMS} -C "out.v8.${arch}" ${target} ; date
+    date ; ninja ${NINJA_PARAMS} -C "out.v8.${arch}" ${target} run_mksnapshot_default ; date
 
     mkdir -p "${BUILD_DIR}/lib/${platform_arch}"
     cp -f "out.v8.${arch}/${target}${target_ext}" "${BUILD_DIR}/lib/${platform_arch}/${target}${target_ext}"
