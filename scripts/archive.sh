@@ -58,8 +58,11 @@ function copyHeaders() {
 function copyTools() {
   printf "\n\n\t\t===================== adding tools to ${DIST_PACKAGE_DIR}/tools =====================\n\n"
   cp -Rf "${BUILD_DIR}/tools" "${DIST_PACKAGE_DIR}/tools"
-  find "${BUILD_DIR}"
-  find "${BUILD_DIR}" -name 'snapshot_blob*' -exec cp "{}" "${DIST_PACKAGE_DIR}/tools"
+}
+
+function copySnapshotBlob() {
+  printf "\n\n\t\t===================== adding snapshot_blob to ${DIST_PACKAGE_DIR}/snapshot_blob =====================\n\n"
+  cp -Rf "${BUILD_DIR}/snapshot_blob" "${DIST_PACKAGE_DIR}/snapshot_blob"
 }
 
 
@@ -80,9 +83,11 @@ if [[ ${PLATFORM} = "android" ]]; then
   createUnstrippedLibs
   copyHeaders
   copyTools
+  copySnapshotBlob
 elif [[ ${PLATFORM} = "ios" ]]; then
   createUniversalDylib
   copyDylib
   copyHeaders
   copyTools
+  copySnapshotBlob
 fi

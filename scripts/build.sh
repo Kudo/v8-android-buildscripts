@@ -102,6 +102,9 @@ function build_arch()
     mkdir -p "${BUILD_DIR}/lib/${platform_arch}"
     cp -f "out.v8.${arch}/${target}${target_ext}" "${BUILD_DIR}/lib/${platform_arch}/${target}${target_ext}"
 
+    echo "ooxx list out.v8.${arch}"
+    find "out.v8.${arch}"
+
     if [[ -d "out.v8.${arch}/lib.unstripped" ]]; then
       mkdir -p "${BUILD_DIR}/lib.unstripped/${platform_arch}"
       cp -f "out.v8.${arch}/lib.unstripped/${target}${target_ext}" "${BUILD_DIR}/lib.unstripped/${platform_arch}/${target}${target_ext}"
@@ -110,6 +113,9 @@ function build_arch()
 
   mkdir -p "${BUILD_DIR}/tools/${platform_arch}"
   cp -f out.v8.${arch}/clang_*/mksnapshot "${BUILD_DIR}/tools/${platform_arch}/mksnapshot"
+
+  mkdir -p "${BUILD_DIR}/snapshot_blob/${platform_arch}"
+  cp -f out.v8.${arch}/snapshot_blob.bin "${BUILD_DIR}/snapshot_blob/${platform_arch}/snapshot_blob.bin"
 }
 
 if [[ ${ARCH} ]]; then
