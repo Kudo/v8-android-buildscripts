@@ -31,11 +31,6 @@ fi
 
 gclient config --name v8 --unmanaged "https://chromium.googlesource.com/v8/v8.git"
 
-if [[ ${MKSNAPSHOT_ONLY} = "1" ]]; then
-  gclient sync ${GCLIENT_SYNC_ARGS}
-  exit 0
-fi
-
 if [[ ${PLATFORM} = "ios" ]]; then
   gclient sync --deps=ios ${GCLIENT_SYNC_ARGS}
   exit 0
@@ -59,5 +54,13 @@ if [[ ${PLATFORM} = "android" ]]; then
   gclient sync --deps=android ${GCLIENT_SYNC_ARGS}
 
   installNDK
+
+  if [[ ${MKSNAPSHOT_ONLY} = "1" ]]; then
+    sudo bash -c 'v8/build/linux/sysroot_scripts/install-sysroot.py --arch=arm'
+    sudo bash -c 'v8/build/linux/sysroot_scripts/install-sysroot.py --arch=arm64'
+    sudo bash -c 'v8/build/linux/sysroot_scripts/install-sysroot.py --arch=x86'
+    sudo bash -c 'v8/build/linux/sysroot_scripts/install-sysroot.py --arch=x64'
+  fi
+
   exit 0
 fi
