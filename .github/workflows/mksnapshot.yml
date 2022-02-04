@@ -1,0 +1,69 @@
+name: mksnapshot builder
+
+on: [push]
+
+env:
+  CACHE_KEY_SUFFIX: v2
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        variant: [intl, nointl, jit-intl, jit-nointl]
+
+    container:
+      image: kudo/ubuntu-nonroot:20.04
+      env:
+        DEBIAN_FRONTEND: noninteractive
+        TZ: UTC
+        NO_INTL: ${{ contains(matrix.variant, 'nointl') }}
+        NO_JIT: ${{ !contains(matrix.variant, 'jit') }}
+        MKSNAPSHOT_ONLY: 1
+
+    steps:
+      - name: Setup docker workspace
+        run: |
+            sudo sh -c "chown -R ubuntu $HOME"
+            sudo sh -c "chmod 777 $GITHUB_WORKSPACE"
+            # sudo sh -c "chmod 777 $GITHUB_WORKSPACE/../../_temp"
+            sudo sh -c "chmod 777 /home"
+
+      - uses: actions/checkout@v2
+
+      - name: Setup Ubuntu environment
+        run: |
+          sudo ln -fs /usr/share/zoneinfo/UTC /etc/localtime
+          sudo apt-get update
+          sudo apt-get upgrade -y
+          sudo apt-get install -y apt-utils sudo lsb-core git python nodejs npm wget openjdk-8-jre openjdk-8-jdk
+
+      - name: Export settings from npm package
+        run: npm run export_npm_env
+
+      # - uses: actions/cache@v2
+      #   with:
+      #     path: v8
+      #     key: android-v8-${{ env.V8_VERSION }}-${{ env.CACHE_KEY_SUFFIX }}
+
+      - name: Setup V8 build environment
+        run: |
+          scripts/setup.sh -r ${{ env.V8_VERSION }} android
+          sudo apt-get install -y libatomic1-i386-cross && sudo sh -c 'echo "/usr/i686-linux-gnu/lib" >> /etc/ld.so.conf.d/i386-linux-gnu.conf' && sudo ldconfig
+
+      - name: Patch V8
+        run: scripts/patch.sh android
+
+      - name: Build V8 x64
+        run: |
+          scripts/build.sh android x64
+
+      - name: Archive
+        run: |
+          scripts/archive.sh android
+
+      - uses: actions/upload-artifact@master
+        with:
+          name: dist-${{ matrix.variant }}
+          path: dist

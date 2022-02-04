@@ -26,6 +26,10 @@ if [[ ${NO_JIT} = "true" ]]; then
   GN_ARGS_BASE="${GN_ARGS_BASE} v8_enable_lite_mode=true"
 fi
 
+if [[ ${MKSNAPSHOT_ONLY} = "1" ]]; then
+  GN_ARGS_BASE="${GN_ARGS_BASE} v8_multi_arch_build=true"
+fi
+
 if [[ "$BUILD_TYPE" = "Debug" ]]
 then
   GN_ARGS_BUILD_TYPE='
