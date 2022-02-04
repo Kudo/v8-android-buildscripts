@@ -11,6 +11,7 @@ GN_ARGS_BASE="
   is_component_build=false
   use_custom_libcxx=false
   icu_use_data_file=false
+  v8_use_external_startup_data=true
 "
 
 if [[ ${PLATFORM} = "ios" ]]; then
