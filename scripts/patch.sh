@@ -21,6 +21,9 @@ V8_PATCHSET_ANDROID=(
   # Fix v8 9.7 libunwind link error
   # revert https://chromium.googlesource.com/chromium/src/build/+/7bb5f36104
   "v8_97_android_unwind_link_error.patch"
+
+  # Add mkcodecache tool
+  "mkcodecache.patch"
 )
 
 V8_PATCHSET_IOS=(
@@ -52,6 +55,11 @@ function setupNDK() {
   unset ndk_major_version
 }
 
+function setupMkCodecache() {
+  mkdir -p "${V8_DIR}/src/mkcodecache"
+  cp -f "${ROOT_DIR}/mkcodecache/mkcodecache.cc" "${V8_DIR}/src/mkcodecache/"
+}
+
 if [[ ${PLATFORM} = "android" ]]; then
   for patch in "${V8_PATCHSET_ANDROID[@]}"
   do
@@ -60,6 +68,7 @@ if [[ ${PLATFORM} = "android" ]]; then
   done
 
   setupNDK
+  setupMkCodecache
 elif [[ ${PLATFORM} = "ios" ]]; then
   for patch in "${V8_PATCHSET_IOS[@]}"
   do

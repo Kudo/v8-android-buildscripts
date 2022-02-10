@@ -1,0 +1,36 @@
+diff --git a/BUILD.gn b/BUILD.gn
+index 19731feebe..66f28d7313 100644
+--- a/BUILD.gn
++++ b/BUILD.gn
+@@ -5670,6 +5681,31 @@ if (current_toolchain == v8_generator_toolchain) {
+   }
+ }
+ 
++
++group("mkcodecache_group") {
++  deps = [ ":mkcodecache($v8_generator_toolchain)" ]
++}
++
++if (current_toolchain == v8_generator_toolchain) {
++  v8_executable("mkcodecache") {
++    visibility = [ ":*" ]  # Only targets in this file can depend on this.
++
++    sources = [
++      "src/mkcodecache/mkcodecache.cc",
++    ]
++
++    configs = [ ":internal_config" ]
++
++    deps = [
++      ":v8",
++      ":v8_libbase",
++      ":v8_libplatform",
++      ":v8_tracing",
++      "//build/win:default_exe_manifest",
++    ]
++  }
++}
++
+ if (current_toolchain == v8_snapshot_toolchain) {
+   v8_executable("mksnapshot") {
+     visibility = [ ":*" ]  # Only targets in this file can depend on this.

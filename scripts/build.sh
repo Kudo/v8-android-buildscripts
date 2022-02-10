@@ -100,7 +100,7 @@ function build_arch()
   gn gen --args="${GN_ARGS_BASE} ${GN_ARGS_BUILD_TYPE} target_cpu=\"${arch}\"" "out.v8.${arch}"
 
   if [[ ${MKSNAPSHOT_ONLY} = "1" ]]; then
-    date ; ninja ${NINJA_PARAMS} -C "out.v8.${arch}" run_mksnapshot_default ; date
+    date ; ninja ${NINJA_PARAMS} -C "out.v8.${arch}" run_mksnapshot_default mkcodecache ; date
   else
     date ; ninja ${NINJA_PARAMS} -C "out.v8.${arch}" ${target} run_mksnapshot_default ; date
 
@@ -118,6 +118,7 @@ function build_arch()
 
   mkdir -p "${BUILD_DIR}/tools/${platform_arch}"
   cp -f out.v8.${arch}/clang_*/mksnapshot "${BUILD_DIR}/tools/${platform_arch}/mksnapshot"
+  cp -f out.v8.${arch}/clang_*/mkcodecache "${BUILD_DIR}/tools/${platform_arch}/mkcodecache"
 
   mkdir -p "${BUILD_DIR}/snapshot_blob/${platform_arch}"
   cp -f out.v8.${arch}/snapshot_blob.bin "${BUILD_DIR}/snapshot_blob/${platform_arch}/snapshot_blob.bin"
