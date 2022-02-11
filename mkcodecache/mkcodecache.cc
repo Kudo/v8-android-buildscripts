@@ -124,7 +124,7 @@ int main(int argc, char** argv) {
 
     auto end = std::chrono::high_resolution_clock::now();
     auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - begin);
-    ::printf("ooxx compile time: %lld\n", duration.count());
+    ::printf("ooxx compile time: %lld\n", static_cast<long long int>(duration.count()));
   }
 
   v8::V8::Dispose();
