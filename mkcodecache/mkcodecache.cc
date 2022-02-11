@@ -74,7 +74,8 @@ int main(int argc, char** argv) {
     v8::ScriptOrigin origin(isolate, sourceURLValue.ToLocalChecked());
 
     v8::ScriptCompiler::Source scriptSource(source, origin);
-    v8::Local<v8::UnboundScript> unboundScript = v8::ScriptCompiler::CompileUnboundScript(isolate, &scriptSource, v8::ScriptCompiler::kEagerCompile).ToLocalChecked();
+    // v8::Local<v8::UnboundScript> unboundScript = v8::ScriptCompiler::CompileUnboundScript(isolate, &scriptSource, v8::ScriptCompiler::kEagerCompile).ToLocalChecked();
+    v8::Local<v8::UnboundScript> unboundScript = v8::ScriptCompiler::CompileUnboundScript(isolate, &scriptSource, v8::ScriptCompiler::kNoCompileOptions).ToLocalChecked();
     v8::ScriptCompiler::CachedData *cachedData = v8::ScriptCompiler::CreateCodeCache(unboundScript);
     ::printf("cache data size %d\n", cachedData->length);
 
