@@ -93,7 +93,9 @@ int main(int argc, char** argv) {
       uint8_t *buffer = new uint8_t[size];
       rewind(file);
 
-      fread(buffer, size, 1, file);
+      if (fread(buffer, 1, size, file) != size) {
+        ::printf("ooxx fread error\n");
+      }
       v8::base::Fclose(file);
 
       cachedData = std::make_unique<v8::ScriptCompiler::CachedData>(
