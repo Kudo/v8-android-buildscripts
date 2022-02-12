@@ -11,7 +11,7 @@ GN_ARGS_BASE="
   is_component_build=false
   use_custom_libcxx=false
   icu_use_data_file=false
-  v8_use_external_startup_data=true
+  v8_use_external_startup_data=false
 "
 
 if [[ ${PLATFORM} = "ios" ]]; then
@@ -24,10 +24,6 @@ fi
 
 if [[ ${NO_JIT} = "true" ]]; then
   GN_ARGS_BASE="${GN_ARGS_BASE} v8_enable_lite_mode=true"
-fi
-
-if [[ ${MKSNAPSHOT_ONLY} = "1" ]]; then
-  GN_ARGS_BASE="${GN_ARGS_BASE} v8_multi_arch_build=true"
 fi
 
 if [[ "$BUILD_TYPE" = "Debug" ]]
@@ -107,9 +103,6 @@ function build_arch()
     mkdir -p "${BUILD_DIR}/lib/${platform_arch}"
     cp -f "out.v8.${arch}/${target}${target_ext}" "${BUILD_DIR}/lib/${platform_arch}/${target}${target_ext}"
 
-    echo "ooxx list out.v8.${arch}"
-    find "out.v8.${arch}"
-
     if [[ -d "out.v8.${arch}/lib.unstripped" ]]; then
       mkdir -p "${BUILD_DIR}/lib.unstripped/${platform_arch}"
       cp -f "out.v8.${arch}/lib.unstripped/${target}${target_ext}" "${BUILD_DIR}/lib.unstripped/${platform_arch}/${target}${target_ext}"
@@ -118,10 +111,13 @@ function build_arch()
 
   mkdir -p "${BUILD_DIR}/tools/${platform_arch}"
   cp -f out.v8.${arch}/clang_*/mksnapshot "${BUILD_DIR}/tools/${platform_arch}/mksnapshot"
-  cp -f out.v8.${arch}/clang_*/mkcodecache "${BUILD_DIR}/tools/${platform_arch}/mkcodecache"
 
   mkdir -p "${BUILD_DIR}/snapshot_blob/${platform_arch}"
   cp -f out.v8.${arch}/snapshot_blob.bin "${BUILD_DIR}/snapshot_blob/${platform_arch}/snapshot_blob.bin"
+
+  if [[ ${MKSNAPSHOT_ONLY} = "1" ]]; then
+    cp -f out.v8.${arch}/clang_*/mkcodecache "${BUILD_DIR}/tools/${platform_arch}/mkcodecache"
+  fi
 }
 
 if [[ ${ARCH} ]]; then

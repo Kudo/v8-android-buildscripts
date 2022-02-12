@@ -65,13 +65,7 @@ int main(int argc, char** argv) {
   v8::Local<v8::String> source = v8::ReadFile(isolate, argv[1], false);
 
   if (argc == 2) {
-    std::string sourceURL = "index.android.bundle";
-    v8::MaybeLocal<v8::String> sourceURLValue = v8::String::NewFromUtf8(
-      isolate,
-      sourceURL.c_str(),
-      v8::NewStringType::kNormal,
-      static_cast<int>(sourceURL.length()));
-    v8::ScriptOrigin origin(isolate, sourceURLValue.ToLocalChecked());
+   v8::ScriptOrigin origin = v8::ScriptOrigin(isolate, v8::String::NewFromUtf8Literal(isolate, "(mkcodecache)"));
 
     v8::ScriptCompiler::Source scriptSource(source, origin);
     // v8::Local<v8::UnboundScript> unboundScript = v8::ScriptCompiler::CompileUnboundScript(isolate, &scriptSource, v8::ScriptCompiler::kEagerCompile).ToLocalChecked();
@@ -85,7 +79,7 @@ int main(int argc, char** argv) {
       v8::base::Fclose(file);
     }
   } else {
-    v8::ScriptOrigin origin = v8::ScriptOrigin(isolate, v8::String::NewFromUtf8Literal(isolate, "(mkcodecache2)"));
+    v8::ScriptOrigin origin = v8::ScriptOrigin(isolate, v8::String::NewFromUtf8Literal(isolate, "(mkcodecache)"));
     std::unique_ptr<v8::ScriptCompiler::CachedData> cachedData;
     FILE* file = v8::base::Fopen("codecache.bin", "rb");
     if (file) {
