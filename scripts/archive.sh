@@ -60,9 +60,11 @@ function copyTools() {
   cp -Rf "${BUILD_DIR}/tools" "${DIST_PACKAGE_DIR}/tools"
 }
 
-function copySnapshotBlob() {
-  printf "\n\n\t\t===================== adding snapshot_blob to ${DIST_PACKAGE_DIR}/snapshot_blob =====================\n\n"
-  cp -Rf "${BUILD_DIR}/snapshot_blob" "${DIST_PACKAGE_DIR}/snapshot_blob"
+function copySnapshotBlobIfNeeded() {
+  if [[ ${EXTERNAL_STARTUP_DATA} = "true" || ${MKSNAPSHOT_ONLY} = 1 ]]; then
+    printf "\n\n\t\t===================== adding snapshot_blob to ${DIST_PACKAGE_DIR}/snapshot_blob =====================\n\n"
+    cp -Rf "${BUILD_DIR}/snapshot_blob" "${DIST_PACKAGE_DIR}/snapshot_blob"
+  fi
 }
 
 
@@ -83,11 +85,11 @@ if [[ ${PLATFORM} = "android" ]]; then
   createUnstrippedLibs
   copyHeaders
   copyTools
-  copySnapshotBlob
+  copySnapshotBlobIfNeeded
 elif [[ ${PLATFORM} = "ios" ]]; then
   createUniversalDylib
   copyDylib
   copyHeaders
   copyTools
-  copySnapshotBlob
+  copySnapshotBlobIfNeeded
 fi

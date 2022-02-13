@@ -11,7 +11,6 @@ GN_ARGS_BASE="
   is_component_build=false
   use_custom_libcxx=false
   icu_use_data_file=false
-  v8_use_external_startup_data=false
 "
 
 if [[ ${PLATFORM} = "ios" ]]; then
@@ -24,6 +23,12 @@ fi
 
 if [[ ${NO_JIT} = "true" ]]; then
   GN_ARGS_BASE="${GN_ARGS_BASE} v8_enable_lite_mode=true"
+fi
+
+if [[ ${EXTERNAL_STARTUP_DATA} = "true" || ${MKSNAPSHOT_ONLY} = 1 ]]; then
+  GN_ARGS_BASE="${GN_ARGS_BASE} v8_use_external_startup_data=true"
+else
+  GN_ARGS_BASE="${GN_ARGS_BASE} v8_use_external_startup_data=false"
 fi
 
 if [[ "$BUILD_TYPE" = "Debug" ]]
@@ -112,11 +117,13 @@ function build_arch()
   mkdir -p "${BUILD_DIR}/tools/${platform_arch}"
   cp -f out.v8.${arch}/clang_*/mksnapshot "${BUILD_DIR}/tools/${platform_arch}/mksnapshot"
 
-  mkdir -p "${BUILD_DIR}/snapshot_blob/${platform_arch}"
-  cp -f out.v8.${arch}/snapshot_blob.bin "${BUILD_DIR}/snapshot_blob/${platform_arch}/snapshot_blob.bin"
-
   if [[ ${MKSNAPSHOT_ONLY} = "1" ]]; then
     cp -f out.v8.${arch}/clang_*/mkcodecache "${BUILD_DIR}/tools/${platform_arch}/mkcodecache"
+  fi
+
+  if [[ ${EXTERNAL_STARTUP_DATA} = "true" || ${MKSNAPSHOT_ONLY} = 1 ]]; then
+    mkdir -p "${BUILD_DIR}/snapshot_blob/${platform_arch}"
+    cp -f out.v8.${arch}/snapshot_blob.bin "${BUILD_DIR}/snapshot_blob/${platform_arch}/snapshot_blob.bin"
   fi
 }
 
