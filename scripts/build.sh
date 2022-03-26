@@ -10,6 +10,7 @@ GN_ARGS_BASE="
   is_component_build=false
   use_custom_libcxx=false
   icu_use_data_file=false
+  treat_warnings_as_errors=false
 "
 
 if [[ ${PLATFORM} = "macos_android" ]]; then
@@ -20,6 +21,9 @@ fi
 
 if [[ ${PLATFORM} = "ios" ]]; then
   GN_ARGS_BASE="${GN_ARGS_BASE} enable_ios_bitcode=false use_xcode_clang=true ios_enable_code_signing=false v8_enable_pointer_compression=false ios_deployment_target=${IOS_DEPLOYMENT_TARGET}"
+elif [[ ${PLATFORM} = "android" ]]; then
+  # Workaround v8 sysroot build issues with custom ndk
+  GN_ARGS_BASE="${GN_ARGS_BASE} use_sysroot=false"
 fi
 
 if [[ ${NO_INTL} = "true" ]]; then
