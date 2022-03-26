@@ -1,7 +1,6 @@
 name: mkcodecache macos builder
 
-on:
-  workflow_dispatch:
+on: [push]
 
 env:
   CACHE_KEY_SUFFIX: v2
