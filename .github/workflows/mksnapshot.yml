@@ -1,6 +1,7 @@
 name: mksnapshot builder
 
-on: [push]
+on:
+  workflow_dispatch:
 
 env:
   CACHE_KEY_SUFFIX: v2
@@ -20,7 +21,7 @@ jobs:
         TZ: UTC
         NO_INTL: ${{ contains(matrix.variant, 'nointl') }}
         NO_JIT: ${{ !contains(matrix.variant, 'jit') }}
-        MKSNAPSHOT_ONLY: 1
+        MKSNAPSHOT_ONLY: true
 
     steps:
       - name: Setup docker workspace

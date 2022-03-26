@@ -2,7 +2,7 @@
 source $(dirname $0)/env.sh
 
 function makeDistPackageDir() {
-  if [[ ${MKSNAPSHOT_ONLY} = "1" ]]; then
+  if [[ ${MKSNAPSHOT_ONLY} = "true" ]]; then
     echo "${DIST_DIR}/packages/v8-${PLATFORM}-tools"
     return 0
   fi
@@ -57,18 +57,18 @@ function copyHeaders() {
 
 function copyTools() {
   printf "\n\n\t\t===================== adding tools to ${DIST_PACKAGE_DIR}/tools =====================\n\n"
-  cp -Rf "${BUILD_DIR}/tools" "${DIST_PACKAGE_DIR}/tools"
+  cp -Rf "${BUILD_DIR}/tools" "${DIST_PACKAGE_DIR}/"
 }
 
 function copySnapshotBlobIfNeeded() {
-  if [[ ${EXTERNAL_STARTUP_DATA} = "true" || ${MKSNAPSHOT_ONLY} = 1 ]]; then
+  if [[ ${EXTERNAL_STARTUP_DATA} = "true" || ${MKSNAPSHOT_ONLY} = "true" ]]; then
     printf "\n\n\t\t===================== adding snapshot_blob to ${DIST_PACKAGE_DIR}/snapshot_blob =====================\n\n"
-    cp -Rf "${BUILD_DIR}/snapshot_blob" "${DIST_PACKAGE_DIR}/snapshot_blob"
+    cp -Rf "${BUILD_DIR}/snapshot_blob" "${DIST_PACKAGE_DIR}/"
   fi
 }
 
 
-if [[ ${MKSNAPSHOT_ONLY} = "1" ]]; then
+if [[ ${MKSNAPSHOT_ONLY} = "true" || ${MKCODECACHE_ONLY} = "true" ]]; then
   mkdir -p "$DIST_PACKAGE_DIR"
   copyTools
   exit 0

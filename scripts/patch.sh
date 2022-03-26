@@ -40,6 +40,11 @@ V8_PATCHSET_IOS=(
   "system_xcode_build_error.patch"
 )
 
+V8_PATCHSET_MACOS_ANDROID=(
+  # Add mkcodecache tool
+  "mkcodecache.patch"
+)
+
 ######################################################################################
 # Patchset management end
 ######################################################################################
@@ -75,4 +80,13 @@ elif [[ ${PLATFORM} = "ios" ]]; then
     printf "### Patch set: ${patch}\n"
     patch -d "${V8_DIR}" -p1 < "${PATCHES_DIR}/$patch"
   done
+elif [[ ${PLATFORM} = "macos_android" ]]; then
+  for patch in "${V8_PATCHSET_MACOS_ANDROID[@]}"
+  do
+    printf "### Patch set: ${patch}\n"
+    patch -d "${V8_DIR}" -p1 < "${PATCHES_DIR}/$patch"
+  done
+
+  setupNDK
+  setupMkCodecache
 fi

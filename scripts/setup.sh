@@ -17,11 +17,12 @@ source $(dirname $0)/env.sh
 
 # Install NDK
 function installNDK() {
+  local host_arch=$1
   pushd .
   cd "${V8_DIR}"
-  wget -q https://dl.google.com/android/repository/android-ndk-${NDK_VERSION}-linux-x86_64.zip
-  unzip -q android-ndk-${NDK_VERSION}-linux-x86_64.zip
-  rm -f android-ndk-${NDK_VERSION}-linux-x86_64.zip
+  wget -q https://dl.google.com/android/repository/android-ndk-${NDK_VERSION}-${host_arch}-x86_64.zip
+  unzip -q android-ndk-${NDK_VERSION}-${host_arch}-x86_64.zip
+  rm -f android-ndk-${NDK_VERSION}-${host_arch}-x86_64.zip
   popd
 }
 
@@ -53,6 +54,12 @@ if [[ ${PLATFORM} = "android" ]]; then
   # Workaround to install missing android_sdk tools
   gclient sync --deps=android ${GCLIENT_SYNC_ARGS}
 
-  installNDK
+  installNDK "linux"
+  exit 0
+fi
+
+if [[ ${PLATFORM} = "macos_android" ]]; then
+  gclient sync --deps=android ${GCLIENT_SYNC_ARGS}
+  installNDK "darwin"
   exit 0
 fi

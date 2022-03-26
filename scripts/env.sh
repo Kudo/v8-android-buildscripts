@@ -17,7 +17,7 @@ function abs_path()
 function verify_platform()
 {
   local arg=$1
-  SUPPORTED_PLATFORMS=(android ios)
+  SUPPORTED_PLATFORMS=(android ios macos_android)
   local valid_platform=
   for platform in ${SUPPORTED_PLATFORMS[@]}
   do
