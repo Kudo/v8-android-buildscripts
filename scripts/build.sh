@@ -118,7 +118,7 @@ function buildArch()
     date ; ninja ${NINJA_PARAMS} -C "out.v8.${arch}" mkcodecache_group ; date
     copyMkcodecache $arch
   else
-    date ; ninja ${NINJA_PARAMS} -C "out.v8.${arch}" ${target} run_mksnapshot_default ; date
+    date ; ninja ${NINJA_PARAMS} -C "out.v8.${arch}" ${target} run_mksnapshot_default mkcodecache_group ; date
     copyLib $arch
     copySnapshot $arch
     copyMkcodecache $arch
