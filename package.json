@@ -16,6 +16,6 @@
     "start_mkcodecache_macos_android": "bash -c '. ./scripts/export_npm_env.sh && MKCODECACHE_ONLY=true ./scripts/start.sh macos_android'"
   },
   "config": {
-    "V8": "10.0.139.6"
+    "V8": "10.0.139.9"
   }
 }
