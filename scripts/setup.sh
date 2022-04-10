@@ -44,6 +44,7 @@ if [[ ${PLATFORM} = "android" ]]; then
   patch -d "${V8_DIR}" -p1 < "${PATCHES_DIR}/prebuild_no_snapd.patch"
 
   sudo bash -c 'v8/build/install-build-deps-android.sh'
+  sudo apt-get -y install libgcc-10-dev-armhf-cross
 
   # Reset changes after installation
   patch -d "${V8_DIR}" -p1 -R < "${PATCHES_DIR}/prebuild_no_snapd.patch"
