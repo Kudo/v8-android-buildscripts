@@ -1,8 +1,8 @@
 diff --git a/build/config/android/BUILD.gn b/build/config/android/BUILD.gn
-index 1f2c2e5c0..aefbae31b 100644
+index 4fc5565e2..c48c53536 100644
 --- a/build/config/android/BUILD.gn
 +++ b/build/config/android/BUILD.gn
-@@ -41,22 +41,24 @@ config("compiler") {
+@@ -41,12 +41,18 @@ config("compiler") {
    }
  
    ldflags = [
@@ -21,6 +21,7 @@ index 1f2c2e5c0..aefbae31b 100644
    if (current_cpu == "arm64") {
      if (arm_control_flow_integrity == "standard") {
        cflags += [ "-mbranch-protection=standard" ]
+@@ -55,10 +61,6 @@ config("compiler") {
      }
    }
  
@@ -31,7 +32,7 @@ index 1f2c2e5c0..aefbae31b 100644
    # $compile_api_level corresponds to the API level used for the sysroot path
    # calculation in //build/config/android/config.gni
    if (android_64bit_target_cpu) {
-@@ -78,8 +80,11 @@ config("compiler") {
+@@ -80,8 +82,11 @@ config("compiler") {
  # that is Android-only. Please see that target for advice on what should go in
  # :runtime_library vs. :compiler.
  config("runtime_library") {
