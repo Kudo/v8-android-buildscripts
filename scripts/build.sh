@@ -2,6 +2,7 @@
 source $(dirname $0)/env.sh
 BUILD_TYPE="Release"
 # BUILD_TYPE="Debug"
+EXTERNAL_STARTUP_DATA="true"
 
 # $1 is ${PLATFORM} which parse commonly from env.sh
 ARCH=$2
