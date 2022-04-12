@@ -158,7 +158,6 @@ function copySnapshot()
 
   mkdir -p "${BUILD_DIR}/tools/${PLATFORM}/${platform_arch}"
   cp -f out.v8.${arch}/clang_*/mksnapshot "${BUILD_DIR}/tools/${PLATFORM}/${platform_arch}/mksnapshot"
-  chmod 755 "${BUILD_DIR}/tools/${PLATFORM}/${platform_arch}/mksnapshot"
 
   if [[ ${EXTERNAL_STARTUP_DATA} = "true" || ${MKSNAPSHOT_ONLY} = "true" ]]; then
     mkdir -p "${BUILD_DIR}/snapshot_blob/${platform_arch}"
@@ -173,7 +172,6 @@ function copyMkcodecache()
 
   mkdir -p "${BUILD_DIR}/tools/${PLATFORM}/${platform_arch}"
   cp -f out.v8.${arch}/clang_*/mkcodecache "${BUILD_DIR}/tools/${PLATFORM}/${platform_arch}/mkcodecache"
-  chmod 755 "${BUILD_DIR}/tools/${PLATFORM}/${platform_arch}/mkcodecache"
 
   if [[ ${EXTERNAL_STARTUP_DATA} = "true" || ${MKCODECACHE_ONLY} = "true" ]]; then
     cp -f out.v8.${arch}/clang_*/snapshot_blob.bin "${BUILD_DIR}/tools/${PLATFORM}/${platform_arch}/snapshot_blob.bin"
