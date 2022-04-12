@@ -39,7 +39,7 @@ function createUniversalDylib() {
 function copyDylib() {
   printf "\n\n\t\t===================== copy dylib =====================\n\n"
   mkdir -p "${DIST_PACKAGE_DIR}"
-  cp -Rfp "${BUILD_DIR}/lib" "${DIST_PACKAGE_DIR}/"
+  cp -Rf "${BUILD_DIR}/lib" "${DIST_PACKAGE_DIR}/"
 }
 
 function createUnstrippedLibs() {
@@ -52,18 +52,18 @@ function createUnstrippedLibs() {
 
 function copyHeaders() {
   printf "\n\n\t\t===================== adding headers to ${DIST_PACKAGE_DIR}/include =====================\n\n"
-  cp -Rfp "${V8_DIR}/include" "${DIST_PACKAGE_DIR}/include"
+  cp -Rf "${V8_DIR}/include" "${DIST_PACKAGE_DIR}/include"
 }
 
 function copyTools() {
   printf "\n\n\t\t===================== adding tools to ${DIST_PACKAGE_DIR}/tools =====================\n\n"
-  cp -Rfp "${BUILD_DIR}/tools" "${DIST_PACKAGE_DIR}/"
+  cp -Rf "${BUILD_DIR}/tools" "${DIST_PACKAGE_DIR}/"
 }
 
 function copySnapshotBlobIfNeeded() {
   if [[ ${EXTERNAL_STARTUP_DATA} = "true" || ${MKSNAPSHOT_ONLY} = "true" ]]; then
     printf "\n\n\t\t===================== adding snapshot_blob to ${DIST_PACKAGE_DIR}/snapshot_blob =====================\n\n"
-    cp -Rfp "${BUILD_DIR}/snapshot_blob" "${DIST_PACKAGE_DIR}/"
+    cp -Rf "${BUILD_DIR}/snapshot_blob" "${DIST_PACKAGE_DIR}/"
   fi
 }
 
