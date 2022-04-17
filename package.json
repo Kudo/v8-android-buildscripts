@@ -12,8 +12,7 @@
     "setup_macos_android": "bash -c '. ./scripts/export_npm_env.sh && ./scripts/setup.sh macos_android'",
     "start": "bash -c '. ./scripts/export_npm_env.sh && ./scripts/start.sh android'",
     "start_ios": "bash -c '. ./scripts/export_npm_env.sh && ./scripts/start.sh ios'",
-    "start_mksnapshot": "bash -c '. ./scripts/export_npm_env.sh && MKSNAPSHOT_ONLY=true ./scripts/start.sh android'",
-    "start_mkcodecache_macos_android": "bash -c '. ./scripts/export_npm_env.sh && MKCODECACHE_ONLY=true ./scripts/start.sh macos_android'"
+    "start_tools_macos_android": "bash -c '. ./scripts/export_npm_env.sh && TOOLS_ONLY=true ./scripts/start.sh macos_android'"
   },
   "config": {
     "V8": "10.0.139.9"

@@ -34,7 +34,7 @@ if [[ ${NO_JIT} = "true" ]]; then
   GN_ARGS_BASE="${GN_ARGS_BASE} v8_enable_lite_mode=true"
 fi
 
-if [[ ${EXTERNAL_STARTUP_DATA} = "true" || ${MKSNAPSHOT_ONLY} = "true" || ${MKCODECACHE_ONLY} = "true" ]]; then
+if [[ ${EXTERNAL_STARTUP_DATA} = "true" || ${TOOLS_ONLY} = "true" ]]; then
   GN_ARGS_BASE="${GN_ARGS_BASE} v8_use_external_startup_data=true"
 else
   GN_ARGS_BASE="${GN_ARGS_BASE} v8_use_external_startup_data=false"
@@ -111,13 +111,11 @@ function buildArch()
   echo "Build v8 ${arch} variant NO_INTL=${NO_INTL} NO_JIT=${NO_JIT}"
   gn gen --args="${GN_ARGS_BASE} ${GN_ARGS_BUILD_TYPE} target_cpu=\"${arch}\"" "out.v8.${arch}"
 
-  if [[ ${MKSNAPSHOT_ONLY} = "true" ]]; then
+  if [[ ${TOOLS_ONLY} = "true" ]]; then
     date ; ninja ${NINJA_PARAMS} -C "out.v8.${arch}" run_mksnapshot_default mkcodecache_group ; date
     copySnapshot $arch
-  elif [[ ${MKCODECACHE_ONLY} = "true" ]]; then
-    date ; ninja ${NINJA_PARAMS} -C "out.v8.${arch}" mkcodecache_group ; date
     copyMkcodecache $arch
-  else
+ else
     date ; ninja ${NINJA_PARAMS} -C "out.v8.${arch}" ${target} run_mksnapshot_default mkcodecache_group ; date
     copyLib $arch
     copySnapshot $arch
@@ -159,7 +157,7 @@ function copySnapshot()
   mkdir -p "${BUILD_DIR}/tools/${PLATFORM}/${platform_arch}"
   cp -f out.v8.${arch}/clang_*/mksnapshot "${BUILD_DIR}/tools/${PLATFORM}/${platform_arch}/mksnapshot"
 
-  if [[ ${EXTERNAL_STARTUP_DATA} = "true" || ${MKSNAPSHOT_ONLY} = "true" ]]; then
+  if [[ ${EXTERNAL_STARTUP_DATA} = "true" || ${TOOLS_ONLY} = "true" ]]; then
     mkdir -p "${BUILD_DIR}/snapshot_blob/${platform_arch}"
     cp -f out.v8.${arch}/snapshot_blob.bin "${BUILD_DIR}/snapshot_blob/${platform_arch}/snapshot_blob.bin"
   fi
@@ -173,7 +171,7 @@ function copyMkcodecache()
   mkdir -p "${BUILD_DIR}/tools/${PLATFORM}/${platform_arch}"
   cp -f out.v8.${arch}/clang_*/mkcodecache "${BUILD_DIR}/tools/${PLATFORM}/${platform_arch}/mkcodecache"
 
-  if [[ ${EXTERNAL_STARTUP_DATA} = "true" || ${MKCODECACHE_ONLY} = "true" ]]; then
+  if [[ ${EXTERNAL_STARTUP_DATA} = "true" || ${TOOLS_ONLY} = "true" ]]; then
     cp -f out.v8.${arch}/clang_*/snapshot_blob.bin "${BUILD_DIR}/tools/${PLATFORM}/${platform_arch}/snapshot_blob.bin"
   fi
 }

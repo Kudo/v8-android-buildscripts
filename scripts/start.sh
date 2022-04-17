@@ -21,7 +21,7 @@ scripts/patch.sh ${PLATFORM}
 scripts/build.sh ${PLATFORM}
 scripts/archive.sh ${PLATFORM}
 
-if [[ ${MKCODECACHE_ONLY} != "true" ]]; then
+if [[ ${TOOLS_ONLY} != "true" ]]; then
   NO_INTL=1 scripts/build.sh ${PLATFORM}
   NO_INTL=1 scripts/archive.sh ${PLATFORM}
 fi
