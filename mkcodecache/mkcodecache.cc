@@ -74,7 +74,7 @@ int main(int argc, char** argv) {
     v8::ScriptCompiler::CachedData *cachedData = v8::ScriptCompiler::CreateCodeCache(unboundScript);
     ::printf("cache data size %d\n", cachedData->length);
 
-    FILE* file = v8::base::Fopen("codecache.bin", "wb");
+    FILE* file = v8::base::Fopen("v8codecache.bin", "wb");
     if (file) {
       fwrite(cachedData->data, 1, cachedData->length, file);
       v8::base::Fclose(file);
@@ -82,7 +82,7 @@ int main(int argc, char** argv) {
   } else {
     v8::ScriptOrigin origin = v8::ScriptOrigin(isolate, v8::String::NewFromUtf8Literal(isolate, "(mkcodecache)"));
     std::unique_ptr<v8::ScriptCompiler::CachedData> cachedData;
-    FILE* file = v8::base::Fopen("codecache.bin", "rb");
+    FILE* file = v8::base::Fopen("v8codecache.bin", "rb");
     if (file) {
       fseek(file, 0, SEEK_END);
       size_t size = ftell(file);
