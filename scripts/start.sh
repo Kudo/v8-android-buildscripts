@@ -22,6 +22,6 @@ scripts/build.sh ${PLATFORM}
 scripts/archive.sh ${PLATFORM}
 
 if [[ ${TOOLS_ONLY} != "true" ]]; then
-  NO_INTL=1 scripts/build.sh ${PLATFORM}
-  NO_INTL=1 scripts/archive.sh ${PLATFORM}
+  NO_INTL=true scripts/build.sh ${PLATFORM}
+  NO_INTL=true scripts/archive.sh ${PLATFORM}
 fi
