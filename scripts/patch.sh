@@ -24,6 +24,10 @@ V8_PATCHSET_ANDROID=(
 
   # Add mkcodecache tool
   "mkcodecache.patch"
+
+  # Fix for [react-native-bottom-sheet](https://github.com/gorhom/react-native-bottom-sheet) not working
+  # revert https://chromium-review.googlesource.com/c/v8/v8/+/3548458
+  "fix_for_bottom_sheet.patch"
 )
 
 V8_PATCHSET_IOS=(
@@ -41,6 +45,10 @@ V8_PATCHSET_IOS=(
 
   # Add mkcodecache tool
   "mkcodecache.patch"
+
+  # Fix for [react-native-bottom-sheet](https://github.com/gorhom/react-native-bottom-sheet) not working
+  # revert https://chromium-review.googlesource.com/c/v8/v8/+/3548458
+  "fix_for_bottom_sheet.patch"
 )
 
 V8_PATCHSET_MACOS_ANDROID=(
