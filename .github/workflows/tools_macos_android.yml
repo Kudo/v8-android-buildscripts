@@ -55,5 +55,5 @@ jobs:
 
       - uses: actions/upload-artifact@v3
         with:
-          name: dist-${{ matrix.variant }}
+          name: macos-tools-${{ matrix.variant }}
           path: dist.tar

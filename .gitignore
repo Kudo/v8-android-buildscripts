@@ -448,3 +448,9 @@ gradle-app.setting
 .cipd/*
 .gclient
 .gclient_entries
+
+# publish archives
+mkcodecache
+mksnapshot
+*.bin
+*.zip
