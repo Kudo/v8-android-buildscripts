@@ -10,7 +10,7 @@ jobs:
       NO_JIT: true
 
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v3
 
     - name: Export settings from npm package
       run: |
@@ -29,8 +29,9 @@ jobs:
       run: |
         scripts/build.sh ios
         scripts/archive.sh ios
+        tar -cvf dist.tar dist
 
-    - uses: actions/upload-artifact@master
+    - uses: actions/upload-artifact@v3
       with:
         name: dist
-        path: dist
+        path: dist.tar

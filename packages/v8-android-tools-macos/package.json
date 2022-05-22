@@ -1,16 +1,17 @@
 {
-  "name": "v8-android-jit",
+  "name": "v8-android-tools-macos",
   "version": "10.100.0",
-  "description": "Pre-build version of V8 to be used by React Native apps",
+  "description": "Tools for v8-android",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Kudo/v8-android-buildscripts.git",
-    "directory": "packages/v8-android-jit"
+    "directory": "packages/v8-android-tools-macos"
   },
   "keywords": [
     "react-native",
     "android",
-    "v8"
+    "v8",
+    "tools"
   ],
   "license": "BSD-2-Clause",
   "bugs": {
@@ -18,6 +19,6 @@
   },
   "homepage": "https://github.com/Kudo/v8-android-buildscripts#readme",
   "files": [
-    "dist/"
+    "v8-android*"
   ]
 }

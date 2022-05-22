@@ -17,11 +17,12 @@ source $(dirname $0)/env.sh
 
 # Install NDK
 function installNDK() {
+  local host_arch=$1
   pushd .
   cd "${V8_DIR}"
-  wget -q https://dl.google.com/android/repository/android-ndk-${NDK_VERSION}-linux-x86_64.zip
-  unzip -q android-ndk-${NDK_VERSION}-linux-x86_64.zip
-  rm -f android-ndk-${NDK_VERSION}-linux-x86_64.zip
+  wget -q https://dl.google.com/android/repository/android-ndk-${NDK_VERSION}-${host_arch}-x86_64.zip
+  unzip -q android-ndk-${NDK_VERSION}-${host_arch}-x86_64.zip
+  rm -f android-ndk-${NDK_VERSION}-${host_arch}-x86_64.zip
   popd
 }
 
@@ -30,11 +31,6 @@ if [[ ! -d "${DEPOT_TOOLS_DIR}" || ! -f "${DEPOT_TOOLS_DIR}/gclient" ]]; then
 fi
 
 gclient config --name v8 --unmanaged "https://chromium.googlesource.com/v8/v8.git"
-
-if [[ ${MKSNAPSHOT_ONLY} = "1" ]]; then
-  gclient sync ${GCLIENT_SYNC_ARGS}
-  exit 0
-fi
 
 if [[ ${PLATFORM} = "ios" ]]; then
   gclient sync --deps=ios ${GCLIENT_SYNC_ARGS}
@@ -48,6 +44,20 @@ if [[ ${PLATFORM} = "android" ]]; then
   patch -d "${V8_DIR}" -p1 < "${PATCHES_DIR}/prebuild_no_snapd.patch"
 
   sudo bash -c 'v8/build/install-build-deps-android.sh'
+  sudo apt-get -y install \
+      libc6-dev \
+      libc6-dev-i386 \
+      libc6-dev-armel-cross \
+      libc6-dev-armhf-cross \
+      libc6-dev-arm64-cross \
+      libc6-dev-armel-armhf-cross \
+      libgcc-10-dev-armhf-cross \
+      libstdc++-9-dev \
+      lib32stdc++-9-dev \
+      libx32stdc++-9-dev \
+      libstdc++-10-dev-armhf-cross \
+      libstdc++-9-dev-armhf-cross \
+      libsfstdc++-10-dev-armhf-cross
 
   # Reset changes after installation
   patch -d "${V8_DIR}" -p1 -R < "${PATCHES_DIR}/prebuild_no_snapd.patch"
@@ -58,6 +68,12 @@ if [[ ${PLATFORM} = "android" ]]; then
   # Workaround to install missing android_sdk tools
   gclient sync --deps=android ${GCLIENT_SYNC_ARGS}
 
-  installNDK
+  installNDK "linux"
+  exit 0
+fi
+
+if [[ ${PLATFORM} = "macos_android" ]]; then
+  gclient sync --deps=android ${GCLIENT_SYNC_ARGS}
+  installNDK "darwin"
   exit 0
 fi

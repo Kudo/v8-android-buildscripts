@@ -1,8 +1,8 @@
-diff --git a/include/v8.h b/include/v8.h
-index 692e53b809..935db182de 100644
---- a/include/v8.h
-+++ b/include/v8.h
-@@ -9207,7 +9207,7 @@ class V8_EXPORT Isolate {
+diff --git a/include/v8-isolate.h b/include/v8-isolate.h
+index 32b53f1b42..1ad04ba308 100644
+--- a/include/v8-isolate.h
++++ b/include/v8-isolate.h
+@@ -1601,7 +1601,7 @@ class V8_EXPORT Isolate {
     * sandbox, the host time zone has to be detected outside the sandbox before
     * calling DateTimeConfigurationChangeNotification function.
     */
@@ -11,7 +11,7 @@ index 692e53b809..935db182de 100644
  
    /**
     * Notification that the embedder has changed the time zone, daylight savings
-@@ -9220,7 +9220,8 @@ class V8_EXPORT Isolate {
+@@ -1614,7 +1614,8 @@ class V8_EXPORT Isolate {
     * the performance of date operations.
     */
    void DateTimeConfigurationChangeNotification(
@@ -195,4 +195,3 @@ index 9b8ad9fc95..4778408edd 100644
 +    }
    }
  }
- 

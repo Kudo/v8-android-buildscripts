@@ -29,7 +29,7 @@ jobs:
             # sudo sh -c "chmod 777 $GITHUB_WORKSPACE/../../_temp"
             sudo sh -c "chmod 777 /home"
 
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Setup Ubuntu environment
         run: |
@@ -41,7 +41,7 @@ jobs:
       - name: Export settings from npm package
         run: npm run export_npm_env
 
-      # - uses: actions/cache@v2
+      # - uses: actions/cache@v3
       #   with:
       #     path: v8
       #     key: android-v8-${{ env.V8_VERSION }}-${{ env.CACHE_KEY_SUFFIX }}
@@ -73,11 +73,12 @@ jobs:
       - name: Archive
         run: |
           scripts/archive.sh android
+          tar -cvf dist.tar dist
 
-      - uses: actions/upload-artifact@master
+      - uses: actions/upload-artifact@v3
         with:
           name: dist-${{ matrix.variant }}
-          path: dist
+          path: dist.tar
 
 
 ###############################################################
@@ -108,7 +109,7 @@ jobs:
 #             sudo sh -c "chmod 777 $GITHUB_WORKSPACE/../../_temp"
 #             sudo sh -c "chmod 777 /home"
 #
-#       - uses: actions/checkout@v2
+#       - uses: actions/checkout@v3
 #
 #       - name: Setup Ubuntu environment
 #         run: |
@@ -120,7 +121,7 @@ jobs:
 #       - name: Export settings from npm package
 #         run: npm run export_npm_env
 #
-#       # - uses: actions/cache@v1
+#       # - uses: actions/cache@v3
 #       #   id: v8-source-cache
 #       #   with:
 #       #     path: v8
@@ -140,7 +141,7 @@ jobs:
 #         run: |
 #           scripts/build.sh android arm
 #
-#       - uses: actions/upload-artifact@master
+#       - uses: actions/upload-artifact@v3
 #         with:
 #           name: build-intl-arm
 #           path: build
@@ -174,7 +175,7 @@ jobs:
 #             sudo sh -c "chmod 777 $GITHUB_WORKSPACE/../../_temp"
 #             sudo sh -c "chmod 777 /home"
 #
-#       - uses: actions/checkout@v2
+#       - uses: actions/checkout@v3
 #
 #       - name: Setup Ubuntu environment
 #         run: |
@@ -186,7 +187,7 @@ jobs:
 #       - name: Export settings from npm package
 #         run: npm run export_npm_env
 #
-#       # - uses: actions/cache@v1
+#       # - uses: actions/cache@v3
 #       #   id: v8-source-cache
 #       #   with:
 #       #     path: v8
@@ -206,7 +207,7 @@ jobs:
 #         run: |
 #           scripts/build.sh android ${{ env.arch }}
 #
-#       - uses: actions/upload-artifact@master
+#       - uses: actions/upload-artifact@v3
 #         with:
 #           name: build-${{ matrix.variant }}-${{ matrix.arch }}
 #           path: build

@@ -17,7 +17,7 @@ function abs_path()
 function verify_platform()
 {
   local arg=$1
-  SUPPORTED_PLATFORMS=(android ios)
+  SUPPORTED_PLATFORMS=(android ios macos_android)
   local valid_platform=
   for platform in ${SUPPORTED_PLATFORMS[@]}
   do
@@ -42,8 +42,9 @@ V8_DIR="${ROOT_DIR}/v8"
 DIST_DIR="${ROOT_DIR}/dist"
 PATCHES_DIR="${ROOT_DIR}/patches"
 
-NDK_VERSION="r19c"
+NDK_VERSION="r21e"
 IOS_DEPLOYMENT_TARGET="9"
+EXTERNAL_STARTUP_DATA="true"
 
 export PATH="$DEPOT_TOOLS_DIR:$PATH"
 PLATFORM=$(verify_platform $1)

@@ -1,6 +1,6 @@
 {
   "private": true,
-  "version": "9.93.0",
+  "version": "10.100.0",
   "workspaces": [
     "packages/*"
   ],
@@ -8,13 +8,13 @@
     "clean": "rm -rf dist; rm -rf build; rm -rf v8/out.v8.*",
     "export_npm_env": "./scripts/export_npm_env.sh",
     "setup": "bash -c '. ./scripts/export_npm_env.sh && ./scripts/setup.sh android'",
-    "start": "bash -c '. ./scripts/export_npm_env.sh && ./scripts/start.sh android'",
-    "setup_mksnapshot": "bash -c '. ./scripts/export_npm_env.sh && MKSNAPSHOT_ONLY=1 ./scripts/setup.sh android'",
-    "start_mksnapshot": "bash -c '. ./scripts/export_npm_env.sh && MKSNAPSHOT_ONLY=1 ./scripts/start.sh android'",
     "setup_ios": "bash -c '. ./scripts/export_npm_env.sh && ./scripts/setup.sh ios'",
-    "start_ios": "bash -c '. ./scripts/export_npm_env.sh && ./scripts/start.sh ios'"
+    "setup_macos_android": "bash -c '. ./scripts/export_npm_env.sh && ./scripts/setup.sh macos_android'",
+    "start": "bash -c '. ./scripts/export_npm_env.sh && ./scripts/start.sh android'",
+    "start_ios": "bash -c '. ./scripts/export_npm_env.sh && ./scripts/start.sh ios'",
+    "start_tools_macos_android": "bash -c '. ./scripts/export_npm_env.sh && TOOLS_ONLY=true ./scripts/start.sh macos_android'"
   },
   "config": {
-    "V8": "9.3.345.16"
+    "V8": "10.0.139.9"
   }
 }

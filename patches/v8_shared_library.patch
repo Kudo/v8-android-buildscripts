@@ -1,28 +1,28 @@
 diff --git a/BUILD.gn b/BUILD.gn
-index c486f1a..6aeb762 100644
+index bca5b5356b..6e24a30cd3 100644
 --- a/BUILD.gn
 +++ b/BUILD.gn
-@@ -284,9 +284,7 @@ config("internal_config") {
-     ":v8_header_features",
+@@ -585,9 +585,7 @@ config("internal_config") {
+     ":cppgc_header_features",
    ]
  
 -  if (is_component_build) {
 -    defines += [ "BUILDING_V8_SHARED" ]
 -  }
 +  defines += [ "BUILDING_V8_SHARED" ]
- }
  
- # This config should be applied to code using the libplatform.
-@@ -3480,7 +3478,7 @@ v8_source_set("torque_ls_base") {
+   if (v8_current_cpu == "riscv64") {
+     libs = [ "atomic" ]
+@@ -4956,7 +4954,7 @@ v8_source_set("torque_ls_base") {
    }
  }
  
 -v8_component("v8_libbase") {
 +v8_source_set("v8_libbase") {
    sources = [
-     "src/base/adapters.h",
      "src/base/address-region.h",
-@@ -3569,11 +3567,7 @@ v8_component("v8_libbase") {
+     "src/base/atomic-utils.h",
+@@ -5071,11 +5069,7 @@ v8_component("v8_libbase") {
  
    data_deps = []
  
@@ -35,7 +35,7 @@ index c486f1a..6aeb762 100644
  
    if (is_posix || is_fuchsia) {
      sources += [
-@@ -3675,7 +3669,7 @@ v8_component("v8_libbase") {
+@@ -5194,7 +5188,7 @@ v8_component("v8_libbase") {
    # TODO(jochen): Add support for qnx, freebsd, openbsd, netbsd, and solaris.
  }
  
@@ -44,7 +44,7 @@ index c486f1a..6aeb762 100644
    sources = [
      "//base/trace_event/common/trace_event_common.h",
      "include/libplatform/libplatform-export.h",
-@@ -3704,9 +3698,7 @@ v8_component("v8_libplatform") {
+@@ -5225,9 +5219,7 @@ v8_component("v8_libplatform") {
  
    configs = [ ":internal_config_base" ]
  
@@ -55,10 +55,10 @@ index c486f1a..6aeb762 100644
  
    public_configs = [ ":libplatform_config" ]
  
-@@ -3813,6 +3805,23 @@ v8_static_library("wee8") {
-   ]
+@@ -5637,6 +5629,23 @@ if (v8_enable_webassembly) {
+   }
  }
-
+ 
 +v8_loadable_module("libv8android") {
 +  defines = [ "BUILDING_V8_SHARED" ]
 +
@@ -80,10 +80,10 @@ index c486f1a..6aeb762 100644
  # Executables
  #
 diff --git a/gni/v8.gni b/gni/v8.gni
-index e55c4cf..a97111b 100644
+index fe445307f9..b07fb80222 100644
 --- a/gni/v8.gni
 +++ b/gni/v8.gni
-@@ -230,3 +230,12 @@ template("v8_static_library") {
+@@ -303,3 +303,12 @@ template("v8_static_library") {
      configs += invoker.configs
    }
  }

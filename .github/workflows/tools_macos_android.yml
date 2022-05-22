@@ -1,0 +1,59 @@
+name: v8-android tools builder for macos host
+
+on: [push]
+
+env:
+  CACHE_KEY_SUFFIX: v2
+
+jobs:
+  macos:
+    runs-on: macOS-latest
+
+    strategy:
+      matrix:
+        variant: [intl, nointl, jit-intl, jit-nointl]
+
+    env:
+      NO_INTL: ${{ contains(matrix.variant, 'nointl') }}
+      NO_JIT: ${{ !contains(matrix.variant, 'jit') }}
+      TOOLS_ONLY: true
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Export settings from npm package
+        run: npm run export_npm_env
+
+      - name: Setup V8 build environment
+        run: |
+          brew install coreutils
+          scripts/setup.sh -r ${{ env.V8_VERSION }} macos_android
+
+      - name: Patch V8
+        run: scripts/patch.sh macos_android
+
+      # - name: Build arm
+      #   run: |
+      #     scripts/build.sh macos_android arm
+      #
+      # - name: Build x86
+      #   run: |
+      #     scripts/build.sh macos_android x86
+
+      - name: Build arm64
+        run: |
+          scripts/build.sh macos_android arm64
+
+      - name: Build x64
+        run: |
+          scripts/build.sh macos_android x64
+
+      - name: Archive
+        run: |
+          scripts/archive.sh macos_android
+          tar -cvf dist.tar dist
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: macos-tools-${{ matrix.variant }}
+          path: dist.tar
