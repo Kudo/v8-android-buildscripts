@@ -66,9 +66,14 @@ jobs:
         run: |
           scripts/build.sh android arm64
 
-      - name: Build V8 x64
-        run: |
-          scripts/build.sh android x64
+      ###############################################################
+      # FIXME
+      # ld.lld: error: cannot open ../third_party/llvm-build/Release+Asserts/lib/clang/15.0.0/lib/linux/libclang_rt.asan-x86_64-android.so: No such file or directory
+      # ld.lld: error: cannot open ../third_party/llvm-build/Release+Asserts/lib/clang/15.0.0/lib/linux/libclang_rt.asan_static-x86_64-android.a: No such file or directory
+      ###############################################################
+      # - name: Build V8 x64
+      #   run: |
+      #     scripts/build.sh android x64
 
       - name: Archive
         run: |
