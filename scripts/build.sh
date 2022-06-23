@@ -11,6 +11,7 @@ GN_ARGS_BASE="
   use_custom_libcxx=false
   icu_use_data_file=false
   treat_warnings_as_errors=false
+  default_min_sdk_version=21
 "
 
 if [[ ${PLATFORM} = "macos_android" ]]; then
