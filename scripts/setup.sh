@@ -39,7 +39,11 @@ fi
 
 if [[ ${PLATFORM} = "android" ]]; then
   gclient sync --deps=android ${GCLIENT_SYNC_ARGS} || true
-  sed -i "s#2c2138e811487b13020eb331482fb991fd399d4e#083aa67a0d3309ebe37eafbe7bfd96c235a019cf#g" v8/DEPS
+  cd v8
+  sed -i "s#2c2138e811487b13020eb331482fb991fd399d4e#083aa67a0d3309ebe37eafbe7bfd96c235a019cf#g" DEPS
+  git add DEPS
+  git commit -m "workaround requests.git not found"
+  cd ..
   gclient sync --deps=android
 
   # Patch build-deps installer for snapd not available in docker
