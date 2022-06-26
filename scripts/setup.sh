@@ -39,7 +39,7 @@ fi
 
 if [[ ${PLATFORM} = "android" ]]; then
   gclient sync --deps=android ${GCLIENT_SYNC_ARGS} || true
-  sed -i "s#Var.*requests\.git#'https://github.com/kennethreitz/requests.git#g" DEPS
+  sed -i "s#Var.*requests\.git#'https://github.com/kennethreitz/requests.git#g" v8/DEPS
   gclient sync --deps=android
 
   # Patch build-deps installer for snapd not available in docker
