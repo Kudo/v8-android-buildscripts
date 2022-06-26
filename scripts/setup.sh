@@ -38,7 +38,9 @@ if [[ ${PLATFORM} = "ios" ]]; then
 fi
 
 if [[ ${PLATFORM} = "android" ]]; then
-  gclient sync --deps=android ${GCLIENT_SYNC_ARGS}
+  gclient sync --deps=android ${GCLIENT_SYNC_ARGS} || true
+  sed -i "s#Var.*requests\.git#'https://github.com/kennethreitz/requests.git#g" DEPS
+  gclient sync --deps=android
 
   # Patch build-deps installer for snapd not available in docker
   patch -d "${V8_DIR}" -p1 < "${PATCHES_DIR}/prebuild_no_snapd.patch"
