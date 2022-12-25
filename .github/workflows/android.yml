@@ -7,7 +7,7 @@ env:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
 
     strategy:
       matrix:
@@ -22,13 +22,6 @@ jobs:
         NO_JIT: ${{ !contains(matrix.variant, 'jit') }}
 
     steps:
-      - name: Setup docker workspace
-        run: |
-            sudo sh -c "chown -R ubuntu $HOME"
-            sudo sh -c "chmod 777 $GITHUB_WORKSPACE"
-            # sudo sh -c "chmod 777 $GITHUB_WORKSPACE/../../_temp"
-            sudo sh -c "chmod 777 /home"
-
       - uses: actions/checkout@v3
 
       - name: Setup Ubuntu environment
