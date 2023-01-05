@@ -42,7 +42,7 @@ jobs:
       - name: Setup V8 build environment
         run: |
           scripts/setup.sh -r ${{ env.V8_VERSION }} android
-          # sudo apt-get install -y libatomic1-i386-cross && sudo sh -c 'echo "/usr/i686-linux-gnu/lib" >> /etc/ld.so.conf.d/i386-linux-gnu.conf' && sudo ldconfig
+          sudo apt-get install -y libatomic1-i386-cross && sudo sh -c 'echo "/usr/i686-linux-gnu/lib" >> /etc/ld.so.conf.d/i386-linux-gnu.conf' && sudo ldconfig
 
       - name: Patch V8
         run: scripts/patch.sh android
