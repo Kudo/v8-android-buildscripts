@@ -8,6 +8,9 @@ V8_PATCHSET_ANDROID=(
   # V8 shared library support
   "v8_shared_library.patch"
 
+  # Use -Oz optimization to reduce size
+  "v8_compiler_optimize.patch"
+ 
   # https://github.com/Kudo/react-native-v8/issues/27
   "workaround_jsi_object_freeze.patch"
 
@@ -33,6 +36,9 @@ V8_PATCHSET_ANDROID=(
 V8_PATCHSET_IOS=(
   # V8 shared library support
   "v8_shared_library_ios.patch"
+
+  # Use -Oz optimization to reduce size
+  "v8_compiler_optimize.patch"
 
   # https://github.com/Kudo/react-native-v8/issues/27
   "workaround_jsi_object_freeze.patch"
