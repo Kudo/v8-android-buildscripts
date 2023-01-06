@@ -1,6 +1,6 @@
 {
   "name": "v8-android",
-  "version": "10.100.1",
+  "version": "11.110.0",
   "description": "Pre-build version of V8 to be used by React Native apps",
   "repository": {
     "type": "git",
