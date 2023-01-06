@@ -12,6 +12,7 @@ GN_ARGS_BASE="
   icu_use_data_file=false
   treat_warnings_as_errors=false
   default_min_sdk_version=21
+  optimize_for_size=true
 "
 
 if [[ ${PLATFORM} = "macos_android" ]]; then
