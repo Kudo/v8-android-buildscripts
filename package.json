@@ -15,6 +15,6 @@
     "start_tools_macos_android": "bash -c '. ./scripts/export_npm_env.sh && TOOLS_ONLY=true ./scripts/start.sh macos_android'"
   },
   "config": {
-    "V8": "11.0.215"
+    "V8": "11.0.226.9"
   }
 }
