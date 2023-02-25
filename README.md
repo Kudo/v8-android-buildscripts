@@ -28,7 +28,7 @@ To integrate with React Native, please check [react-native-v8](https://github.co
 1. Single libv8android.so (or libv8.so on iOS) file.
 2. Support i18n and JavaScript [Intl](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl).
 3. V8 Lite mode (JIT-less mode) https://v8.dev/blog/v8-lite
-4. Build by Android official NDK r21e which prevent potential ABI incompatible issue to integrate with React Native.
+4. Build by Android official NDK r23c which prevent potential ABI incompatible issue to integrate with React Native.
 
 ## Build Guides
 

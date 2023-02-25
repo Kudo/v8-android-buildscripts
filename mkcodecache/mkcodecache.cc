@@ -7,6 +7,7 @@
 #include "include/v8-message.h"
 #include "include/v8-script.h"
 #include "src/base/platform/platform.h"
+#include "src/base/platform/wrappers.h"
 
 #include <chrono>
 

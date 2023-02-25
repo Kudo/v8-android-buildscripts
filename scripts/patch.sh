@@ -18,9 +18,9 @@ V8_PATCHSET_ANDROID=(
   # Fix v8 9.7 build error
   "v8_97_android_build_error.patch"
 
-  # Fix v8 9.7 libunwind link error
-  # revert https://chromium.googlesource.com/chromium/src/build/+/7bb5f36104
-  "v8_97_android_unwind_link_error.patch"
+  # Fix v8 libunwind link error
+  # link the libunwind from official ndk rather than the chromium's builtin toolchain
+  "v8_android_unwind_link_error.patch"
 
   # Add mkcodecache tool
   "mkcodecache.patch"

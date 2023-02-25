@@ -33,14 +33,14 @@ index f64538ec1c..8460c610c6 100644
  #undef TIME_ZONE_DETECTION_ASSERT_EQ
  
  MaybeLocal<v8::RegExp> v8::RegExp::New(Local<Context> context,
-@@ -9046,12 +9047,13 @@ void Isolate::SetAllowAtomicsWait(bool allow) {
+@@ -9869,12 +9870,13 @@ void Isolate::SetAllowAtomicsWait(bool allow) {
  }
  
  void v8::Isolate::DateTimeConfigurationChangeNotification(
 -    TimeZoneDetection time_zone_detection) {
 +    TimeZoneDetection time_zone_detection, const char* custom_timezone_id) {
    i::Isolate* i_isolate = reinterpret_cast<i::Isolate*>(this);
-   LOG_API(i_isolate, Isolate, DateTimeConfigurationChangeNotification);
+   API_RCS_SCOPE(i_isolate, Isolate, DateTimeConfigurationChangeNotification);
    ENTER_V8_NO_SCRIPT_NO_EXCEPTION(i_isolate);
    i_isolate->date_cache()->ResetDateCache(
 -      static_cast<base::TimezoneCache::TimeZoneDetection>(time_zone_detection));

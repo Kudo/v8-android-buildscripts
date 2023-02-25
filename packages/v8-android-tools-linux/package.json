@@ -1,6 +1,6 @@
 {
   "name": "v8-android-tools-linux",
-  "version": "10.100.1",
+  "version": "11.110.0",
   "description": "Tools for v8-android",
   "repository": {
     "type": "git",
