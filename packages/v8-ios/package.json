@@ -1,6 +1,6 @@
 {
   "name": "v8-ios",
-  "version": "11.110.0",
+  "version": "11.110.1",
   "description": "Pre-build version of V8 to be used by React Native apps",
   "repository": {
     "type": "git",
@@ -12,6 +12,7 @@
     "ios",
     "v8"
   ],
+  "author": "Kudo Chien",
   "license": "BSD-2-Clause",
   "bugs": {
     "url": "https://github.com/Kudo/v8-android-buildscripts/issues"
@@ -20,7 +21,7 @@
   "files": [
     "v8-ios.podspec",
     "include/",
-    "v8.xcframework/",
+    "v8.xcframework/**/*",
     "tools/"
   ]
 }
