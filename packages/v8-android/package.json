@@ -1,6 +1,6 @@
 {
   "name": "v8-android",
-  "version": "11.110.1",
+  "version": "11.110.3",
   "description": "Pre-build version of V8 to be used by React Native apps",
   "repository": {
     "type": "git",
@@ -18,6 +18,6 @@
   },
   "homepage": "https://github.com/Kudo/v8-android-buildscripts#readme",
   "files": [
-    "dist/"
+    "dist/**/*"
   ]
 }

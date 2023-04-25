@@ -200,7 +200,7 @@ def main():
     args = parse_args()
     workdir = os.path.join(ROOT_DIR, "build", "publish")
     publish_engines(args, workdir)
-    publish_tools_macos(args, workdir)
+    # publish_tools_macos(args, workdir)
 
     create_engines_zip(args, workdir)
     create_tools_zip_macos(args, workdir)
