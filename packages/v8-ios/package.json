@@ -1,23 +1,27 @@
 {
-  "name": "v8-android-jit",
-  "version": "11.1000.3",
+  "name": "v8-ios",
+  "version": "11.110.0",
   "description": "Pre-build version of V8 to be used by React Native apps",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Kudo/v8-android-buildscripts.git",
-    "directory": "packages/v8-android-jit"
+    "directory": "packages/v8-ios"
   },
   "keywords": [
     "react-native",
-    "android",
+    "ios",
     "v8"
   ],
+  "author": "Kudo Chien",
   "license": "BSD-2-Clause",
   "bugs": {
     "url": "https://github.com/Kudo/v8-android-buildscripts/issues"
   },
   "homepage": "https://github.com/Kudo/v8-android-buildscripts#readme",
   "files": [
-    "dist/**/*"
+    "v8-ios.podspec",
+    "include/",
+    "v8.xcframework/**/*",
+    "tools/"
   ]
 }

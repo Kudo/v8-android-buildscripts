@@ -1,6 +1,8 @@
 name: Build for Android
 
-on: [push]
+on:
+  push:
+  workflow_dispatch:
 
 env:
   CACHE_KEY_SUFFIX: v2

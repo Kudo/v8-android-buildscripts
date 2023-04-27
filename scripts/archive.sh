@@ -21,6 +21,7 @@ function makeDistPackageDir() {
 }
 
 DIST_PACKAGE_DIR=$(makeDistPackageDir)
+mkdir -p "${DIST_PACKAGE_DIR}"
 
 function createAAR() {
   printf "\n\n\t\t===================== create aar =====================\n\n"
@@ -30,16 +31,45 @@ function createAAR() {
   popd
 }
 
-function createUniversalDylib() {
-  printf "\n\n\t\t===================== create universal dylib =====================\n\n"
-  mkdir -p "${BUILD_DIR}/lib/universal"
-  lipo "${BUILD_DIR}/lib/arm64/libv8.dylib" "${BUILD_DIR}/lib/x64/libv8.dylib" -output "${BUILD_DIR}/lib/universal/libv8.dylib" -create
-}
+function createXcframework() {
+  plist=$(cat << EOF
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>CFBundleDevelopmentRegion</key>
+  <string>en</string>
+  <key>CFBundleExecutable</key>
+  <string>v8</string>
+  <key>CFBundleIdentifier</key>
+  <string>io.csie.kudo.v8.framework</string>
+  <key>CFBundleInfoDictionaryVersion</key>
+  <string>6.0</string>
+  <key>CFBundlePackageType</key>
+  <string>FMWK</string>
+  <key>CFBundleSignature</key>
+  <string>????</string>
+</dict>
+</plist>
+EOF
+)
+  printf "\n\n\t\t===================== create ios device framework =====================\n\n"
+  mkdir -p "${BUILD_DIR}/ios-arm64/v8.framework"
+  echo "${plist}" > "${BUILD_DIR}/ios-arm64/v8.framework/Info.plist"
+  cp -f "${BUILD_DIR}/lib/device/arm64/libv8.dylib" "${BUILD_DIR}/ios-arm64/v8.framework/v8"
+  install_name_tool -id "@rpath/v8.framework/v8" "${BUILD_DIR}/ios-arm64/v8.framework/v8"
 
-function copyDylib() {
-  printf "\n\n\t\t===================== copy dylib =====================\n\n"
-  mkdir -p "${DIST_PACKAGE_DIR}"
-  cp -Rf "${BUILD_DIR}/lib" "${DIST_PACKAGE_DIR}/"
+  printf "\n\n\t\t===================== create ios simulator framework =====================\n\n"
+  mkdir -p "${BUILD_DIR}/ios-arm64_x86_64-simulator/v8.framework"
+  echo "${plist}" > "${BUILD_DIR}/ios-arm64_x86_64-simulator/v8.framework/Info.plist"
+  lipo "${BUILD_DIR}/lib/simulator/arm64/libv8.dylib" "${BUILD_DIR}/lib/simulator/x64/libv8.dylib" -output "${BUILD_DIR}/ios-arm64_x86_64-simulator/v8.framework/v8" -create
+  install_name_tool -id "@rpath/v8.framework/v8" "${BUILD_DIR}/ios-arm64_x86_64-simulator/v8.framework/v8"
+
+  printf "\n\n\t\t===================== create ios xcframework =====================\n\n"
+  rm -rf "${BUILD_DIR}/v8.xcframework"
+  xcodebuild -create-xcframework -framework "${BUILD_DIR}/ios-arm64/v8.framework" -framework "${BUILD_DIR}/ios-arm64_x86_64-simulator/v8.framework" -output "${BUILD_DIR}/v8.xcframework"
+
+  cp -Rf "${BUILD_DIR}/v8.xcframework" "${DIST_PACKAGE_DIR}/v8.xcframework"
 }
 
 function createUnstrippedLibs() {
@@ -87,8 +117,7 @@ if [[ ${PLATFORM} = "android" ]]; then
   copyTools
   copySnapshotBlobIfNeeded
 elif [[ ${PLATFORM} = "ios" ]]; then
-  createUniversalDylib
-  copyDylib
+  createXcframework
   copyHeaders
   copyTools
   copySnapshotBlobIfNeeded

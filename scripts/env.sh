@@ -43,8 +43,14 @@ DIST_DIR="${ROOT_DIR}/dist"
 PATCHES_DIR="${ROOT_DIR}/patches"
 
 NDK_VERSION="r21e"
-IOS_DEPLOYMENT_TARGET="9"
-EXTERNAL_STARTUP_DATA="true"
+IOS_DEPLOYMENT_TARGET="12.0"
 
 export PATH="$DEPOT_TOOLS_DIR:$PATH"
 PLATFORM=$(verify_platform $1)
+
+if [[ ${PLATFORM} = "android" ]]; then
+  EXTERNAL_STARTUP_DATA="true"
+else
+  EXTERNAL_STARTUP_DATA="false"
+  NO_JIT="true"
+fi
