@@ -23,7 +23,7 @@ jobs:
 
     - name: Setup V8 build environment
       run: |
-        brew install coreutils
+        brew install coreutils ninja
         scripts/setup.sh -r ${V8_VERSION} ios
 
     - name: Patch V8

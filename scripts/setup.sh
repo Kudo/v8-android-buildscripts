@@ -46,13 +46,11 @@ if [[ ${PLATFORM} = "android" ]]; then
   gclient sync --deps=android
 
   # Patch build-deps installer for snapd not available in docker
-  echo "ooxx setup patch prebuild_no_snapd"
   patch -d "${V8_DIR}" -p1 < "${PATCHES_DIR}/prebuild_no_snapd.patch"
 
-  echo "ooxx install-build-deps-android"
   sudo bash -c 'v8/build/install-build-deps-android.sh'
-  echo "ooxx install apt-get"
   sudo apt-get -y install \
+      ninja-build \
       libc6-dev \
       libc6-dev-i386 \
       libc6-dev-armel-cross \
@@ -68,18 +66,14 @@ if [[ ${PLATFORM} = "android" ]]; then
       libsfstdc++-10-dev-armhf-cross
 
   # Reset changes after installation
-  echo "ooxx setup revert prebuild_no_snapd"
   patch -d "${V8_DIR}" -p1 -R < "${PATCHES_DIR}/prebuild_no_snapd.patch"
 
   # Workaround to install missing sysroot
-  echo "ooxx gclient sync#1"
   gclient sync
 
   # Workaround to install missing android_sdk tools
-  echo "ooxx gclient sync#2"
   gclient sync --deps=android
 
-  echo "ooxx install ndk"
   installNDK "linux"
   exit 0
 fi
