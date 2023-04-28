@@ -17,7 +17,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
-    - uses: Use Xcode 13
+    - name: Use Xcode 13
       run: sudo xcode-select --switch /Applications/Xcode_13.2.1.app
 
     - name: Export settings from npm package
