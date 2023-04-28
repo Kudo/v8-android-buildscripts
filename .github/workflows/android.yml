@@ -22,6 +22,7 @@ jobs:
         TZ: UTC
         NO_INTL: ${{ contains(matrix.variant, 'nointl') }}
         NO_JIT: ${{ !contains(matrix.variant, 'jit') }}
+        DEPOT_TOOLS_UPDATE: 0
 
     steps:
       - name: Setup docker workspace

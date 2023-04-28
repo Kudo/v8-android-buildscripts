@@ -5,6 +5,7 @@ on:
 
 env:
   CACHE_KEY_SUFFIX: v2
+  DEPOT_TOOLS_UPDATE: 0
 
 jobs:
   macos:
