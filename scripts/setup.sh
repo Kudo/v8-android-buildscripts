@@ -20,9 +20,9 @@ function installNDK() {
   local host_arch=$1
   pushd .
   cd "${V8_DIR}"
-  wget -q https://dl.google.com/android/repository/android-ndk-${NDK_VERSION}-${host_arch}.zip
-  unzip -q android-ndk-${NDK_VERSION}-${host_arch}.zip
-  rm -f android-ndk-${NDK_VERSION}-${host_arch}.zip
+  wget -q https://dl.google.com/android/repository/android-ndk-${NDK_VERSION}-${host_arch}-x86_64.zip
+  unzip -q android-ndk-${NDK_VERSION}-${host_arch}-x86_64.zip
+  rm -f android-ndk-${NDK_VERSION}-${host_arch}-x86_64.zip
   popd
 }
 
