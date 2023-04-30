@@ -11,34 +11,20 @@ index bc3de06d0..1e96de22c 100644
        # TODO(https://crbug.com/1231236): Use -ffile-compilation-dir= here.
        cflags += [
          "-Xclang",
-diff --git a/config/ios/BUILD.gn b/config/ios/BUILD.gn
-index 0ec875e9c..104fa9275 100644
---- a/build/config/ios/BUILD.gn
-+++ b/build/config/ios/BUILD.gn
-@@ -126,16 +126,16 @@ config("runtime_library") {
-   # TODO(crbug.com/1223481): Temporarily use a different
-   # libclang_rt.iossim.a for arm64 simulator builds. This can be
-   # removed when an arm64 slice is added to upstream Clang.
--  if (target_environment == "simulator" && current_cpu == "arm64") {
--    assert(1300 <= xcode_version_int && xcode_version_int <= 1321)
--    ldflags += [
--      "-lSystem",
--      rebase_path("$ios_toolchains_path/usr/lib/clang/13.0.0/" +
--                      "lib/darwin/libclang_rt.iossim.a",
--                  root_build_dir),
--      "-nodefaultlibs",
--    ]
--  }
-+  # if (target_environment == "simulator" && current_cpu == "arm64") {
-+  #   assert(1300 <= xcode_version_int && xcode_version_int <= 1321)
-+  #   ldflags += [
-+  #     "-lSystem",
-+  #     rebase_path("$ios_toolchains_path/usr/lib/clang/13.0.0/" +
-+  #                     "lib/darwin/libclang_rt.iossim.a",
-+  #                 root_build_dir),
-+  #     "-nodefaultlibs",
-+  #   ]
-+  # }
+diff --git a/config/c++/BUILD.gn b/config/c++/BUILD.gn
+index e7ed69ec8..cf73e4490 100644
+--- a/config/c++/BUILD.gn
++++ b/config/c++/BUILD.gn
+@@ -121,7 +121,11 @@ config("runtime_library") {
  
-   # TODO(crbug.com/1259122): Temporarily use a different libclang_rt.osx.a
-   # for catalyst build. This can be removed when a catalyst slice is added
+     # Make sure we don't link against the system libstdc++ or libc++.
+     if (is_clang) {
+-      ldflags += [ "-nostdlib++" ]
++      if (target_environment == "simulator" && current_cpu == "arm64") {
++        // noop
++      } else {
++        ldflags += [ "-nostdlib++" ]
++      }
+     } else {
+       # Gcc has a built-in abs() definition with default visibility.
+       # If it was not disabled, it would conflict with libc++'s abs()
