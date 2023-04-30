@@ -13,8 +13,8 @@ index bc3de06d0..1e96de22c 100644
          "-Xclang",
 diff --git a/config/c++/BUILD.gn b/config/c++/BUILD.gn
 index e7ed69ec8..cf73e4490 100644
---- a/config/c++/BUILD.gn
-+++ b/config/c++/BUILD.gn
+--- a/build/config/c++/BUILD.gn
++++ b/build/config/c++/BUILD.gn
 @@ -121,7 +121,11 @@ config("runtime_library") {
  
      # Make sure we don't link against the system libstdc++ or libc++.
