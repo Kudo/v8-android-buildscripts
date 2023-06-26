@@ -33,6 +33,12 @@ jobs:
           sudo apt-get upgrade -y
           sudo apt-get install -y apt-utils sudo lsb-core git python nodejs npm wget openjdk-8-jre openjdk-8-jdk
 
+      - name: Use JDK 11
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '11'
+
       - name: Export settings from npm package
         run: npm run export_npm_env
 
