@@ -41,6 +41,7 @@ if [[ ${PLATFORM} = "android" ]]; then
   gclient sync --deps=android ${GCLIENT_SYNC_ARGS}
 
   sudo apt-get -y install \
+      unzip \
       libc6-dev \
       libc6-dev-i386 \
       libc6-dev-armel-cross \
