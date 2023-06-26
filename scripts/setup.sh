@@ -40,7 +40,6 @@ fi
 if [[ ${PLATFORM} = "android" ]]; then
   gclient sync --deps=android ${GCLIENT_SYNC_ARGS}
 
-  sudo bash -c 'v8/build/install-build-deps-android.sh'
   sudo apt-get -y install \
       libc6-dev \
       libc6-dev-i386 \
