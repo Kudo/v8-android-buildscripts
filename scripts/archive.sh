@@ -9,15 +9,18 @@ function makeDistPackageDir() {
 
   local jit_suffix=""
   local intl_suffix=""
+  local extra_suffix=""
   if [[ ${NO_JIT} != "true" ]]; then
     jit_suffix="-jit"
   fi
-
   if [[ ${NO_INTL} = "true" ]]; then
     intl_suffix="-nointl"
   fi
+  if [[ ${PLATFORM} = "android" && ${EXTERNAL_STARTUP_DATA} = "false" ]]; then
+    extra_suffix="-nosnapshot"
+  fi
 
-  echo "${DIST_DIR}/packages/v8-${PLATFORM}${jit_suffix}${intl_suffix}"
+  echo "${DIST_DIR}/packages/v8-${PLATFORM}${jit_suffix}${intl_suffix}${extra_suffix}"
 }
 
 DIST_PACKAGE_DIR=$(makeDistPackageDir)
