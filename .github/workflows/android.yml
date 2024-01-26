@@ -14,6 +14,10 @@ jobs:
     strategy:
       matrix:
         variant: [intl, nointl, jit-intl, jit-nointl]
+        external-startup-data: ['snapshot']
+        include:
+          - variant: jit-nointl
+            external-startup-data: 'nosnapshot'
 
     container:
       image: kudo/ubuntu-nonroot:20.04
@@ -22,6 +26,7 @@ jobs:
         TZ: UTC
         NO_INTL: ${{ contains(matrix.variant, 'nointl') }}
         NO_JIT: ${{ !contains(matrix.variant, 'jit') }}
+        EXTERNAL_STARTUP_DATA: ${{ matrix.external-startup-data == 'snapshot' }}
         DEPOT_TOOLS_UPDATE: 0
 
     steps:
@@ -80,7 +85,7 @@ jobs:
 
       - uses: actions/upload-artifact@v3
         with:
-          name: dist-${{ matrix.variant }}
+          name: dist-${{ matrix.variant }}-${{ matrix.external-startup-data }}
           path: dist.tar
 
 

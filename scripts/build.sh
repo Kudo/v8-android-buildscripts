@@ -113,11 +113,11 @@ function buildArch()
 
   local output_dir=''
   if [[ ${PLATFORM} = "ios" ]]; then
-    echo "Build v8 ${ios_env} ${arch} variant NO_INTL=${NO_INTL}"
+    echo "Build v8 ${ios_env} ${arch} variant NO_INTL=${NO_INTL} EXTERNAL_STARTUP_DATA=${EXTERNAL_STARTUP_DATA}"
     output_dir="out.v8.ios.${ios_env}.${arch}"
     gn gen --args="${GN_ARGS_BASE} ${GN_ARGS_BUILD_TYPE} target_cpu=\"${arch}\" target_environment=\"${ios_env}\"" "${output_dir}"
   else
-    echo "Build v8 ${arch} variant NO_INTL=${NO_INTL} NO_JIT=${NO_JIT}"
+    echo "Build v8 ${arch} variant NO_INTL=${NO_INTL} NO_JIT=${NO_JIT} EXTERNAL_STARTUP_DATA=${EXTERNAL_STARTUP_DATA}"
     output_dir="out.v8.${arch}"
     gn gen --args="${GN_ARGS_BASE} ${GN_ARGS_BUILD_TYPE} target_cpu=\"${arch}\"" "${output_dir}"
   fi
