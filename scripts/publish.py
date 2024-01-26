@@ -7,10 +7,11 @@ import sys
 
 ROOT_DIR = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
 PACKAGE_MAP = {
-    "v8-android": "dist-intl.zip",
-    "v8-android-nointl": "dist-nointl.zip",
-    "v8-android-jit": "dist-jit-intl.zip",
-    "v8-android-jit-nointl": "dist-jit-nointl.zip",
+    "v8-android": "dist-intl-snapshot.zip",
+    "v8-android-nointl": "dist-nointl-snapshot.zip",
+    "v8-android-jit": "dist-jit-intl-snapshot.zip",
+    "v8-android-jit-nointl": "dist-jit-nointl-snapshot.zip",
+    "v8-android-jit-nointl-nosnapshot": "dist-jit-nointl-nosnapshot.zip",
 }
 
 MACOS_TOOLS_DIST_MAP = {
